@@ -14,6 +14,7 @@ export const messages = {
     search: 'Søg',
     account: 'Konto',
     cart: 'Kurv',
+    menu: 'Menu',
     openMenu: 'Åbn menu',
     closeMenu: 'Luk menu',
     searchPlaceholder: 'Søg efter produkter…',
@@ -49,13 +50,16 @@ export const messages = {
     chooseSize: 'Vælg størrelse',
     selectedColor: 'Valgt farve',
     quantity: 'Antal',
+    decreaseQuantity: 'Reducer antal',
+    increaseQuantity: 'Øg antal',
+    notFoundBody: 'Vi kunne ikke finde det produkt.',
     inStock: 'På lager',
     outOfStock: 'Ikke på lager',
     limitedStock: 'Begrænset lager',
     sku: 'SKU',
     newBadge: 'Nyhed',
     saleBadge: 'Tilbud',
-    bestsellerBadge: 'Bestseller',
+    bestsellerBadge: 'Mest solgte',
     youSave: 'Du sparer',
     details: 'Produktdetaljer',
     materialSafety: 'Materiale og sikkerhed',
@@ -68,6 +72,7 @@ export const messages = {
     addedToCart: 'Lagt i kurven.',
   },
   catalog: {
+    allProducts: 'Alle produkter',
     all3d: 'Alle 3D-produkter',
     filters: 'Filtre',
     categories: 'Kategorier',
@@ -97,14 +102,14 @@ export const messages = {
     emptyHint: 'Når du finder noget, du kan lide, lander det her.',
     subtotal: 'Subtotal',
     shipping: 'Fragt',
-    shippingPlaceholder: 'Beregnes ved checkout',
+    shippingPlaceholder: 'Beregnes ved kassen',
     total: 'I alt',
     lineTotal: 'Linjetotal',
     unitPrice: 'Stykpris',
     prototypeNote:
-      'Kurven gemmes lokalt i denne browser. Priser og lager skal bekræftes af et rigtigt checkout-system, før en ordre kan gennemføres.',
+      'Kurven gemmes lokalt i denne browser. Priser og lager skal bekræftes af et rigtigt kassesystem, før en ordre kan gennemføres.',
     checkoutUnavailable:
-      'Checkout er ikke tilgængelig endnu. Ingen betaling er gennemført.',
+      'Kassen er ikke tilgængelig endnu. Ingen betaling er gennemført.',
     cannotCheckout:
       'Nogle varer er ikke på lager og kan ikke sendes til kassen.',
   },
@@ -122,11 +127,11 @@ export const messages = {
   },
   account: {
     title: 'Konto',
-    body: 'KundeKonto er ikke tilgængelig i denne prototype. Du kan stadig browse, gemme ønskeliste og lægge varer i kurven som gæst.',
+    body: 'Kundekonto er ikke tilgængelig i denne prototyp. Du kan stadig handle i shoppen, gemme produkter på ønskelisten og lægge varer i kurven som gæst.',
   },
   checkout: {
     title: 'Kasse',
-    body: 'Denne side er en pladsholder. Et rigtigt checkout- og betalingssystem skal tilsluttes, før ordrer kan gennemføres. Ingen betaling er blevet behandlet.',
+    body: 'Denne side er en pladsholder. Et rigtigt kasse- og betalingssystem skal tilsluttes, før ordrer kan gennemføres. Ingen betaling er blevet behandlet.',
   },
   contact: {
     eyebrow: 'Kontakt os',
@@ -139,7 +144,7 @@ export const messages = {
     formEmail: 'E-mail',
     formMessage: 'Besked',
     formHint:
-      'Formularen er et lokalt prototypefelt. Beskeden sendes ikke. Brug e-mailen, hvis du vil kontakte os.',
+      'Formularen er et lokalt prototypfelt. Beskeden sendes ikke. Brug e-mailen, hvis du vil kontakte os.',
     formSubmitted:
       'Tak. Beskeden er ikke sendt — der er endnu ikke et kontaktsystem tilkoblet. Skriv til contact@Lulu3D.dk.',
     required: 'Dette felt er påkrævet.',
@@ -172,12 +177,12 @@ export const messages = {
     socksTitle: 'Sokker med farve og personlighed',
     socksBody:
       'Mønstre, striber og farver, der løfter en almindelig dag. Et enkelt par — eller en skuffe fuld.',
-    newArrivalsTitle: 'New Arrivals',
+    newArrivalsTitle: 'Nyheder',
     benefitsTitle: 'Små ting, der føles gennemtænkte',
   },
   trust: {
     materials: 'Bæredygtige materialer',
-    materialsDetail: 'PLA og bomuld af kvalitet',
+    materialsDetail: 'PLA og bomuld af høj kvalitet',
     designs: 'Unikke designs',
     designsDetail: 'Til hverdag og gaver',
     delivery: 'Hurtig levering',
@@ -196,5 +201,5 @@ export const messages = {
     title: 'Siden findes ikke',
     body: 'Vi kunne ikke finde den side. Prøv shoppen — eller gå tilbage til forsiden.',
   },
-  imageMissing: 'Billede mangler — afventer leveret asset.',
+  imageMissing: 'Billede mangler — afventer leveret billedfil.',
 } as const;

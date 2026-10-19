@@ -1,3 +1,5 @@
+import { messages } from '../data/messages.ts';
+
 export type FieldErrors = Record<string, string>;
 
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -10,17 +12,17 @@ export function validateContactForm(input: {
   const errors: FieldErrors = {};
 
   if (!input.name.trim()) {
-    errors.name = 'Dette felt er påkrævet.';
+    errors.name = messages.contact.required;
   }
 
   if (!input.email.trim()) {
-    errors.email = 'Dette felt er påkrævet.';
+    errors.email = messages.contact.required;
   } else if (!EMAIL_PATTERN.test(input.email.trim())) {
-    errors.email = 'Skriv en gyldig e-mailadresse.';
+    errors.email = messages.contact.invalidEmail;
   }
 
   if (!input.message.trim()) {
-    errors.message = 'Dette felt er påkrævet.';
+    errors.message = messages.contact.required;
   }
 
   return errors;

@@ -47,7 +47,7 @@ export function ProductPage() {
       <div className="container" style={{ padding: '3rem 0' }}>
         <EmptyState
           title={messages.notFound.title}
-          body="Vi kunne ikke finde det produkt."
+          body={messages.product.notFoundBody}
           action={<Button to="/shop">{messages.actions.continueShopping}</Button>}
         />
       </div>

@@ -37,7 +37,7 @@ export const collections: Collection[] = [
   {
     id: 'new-arrivals',
     slug: 'new-arrivals',
-    name: 'New Arrivals',
+    name: 'Nyheder',
     description: 'Nyeste sokker i kataloget.',
     productIds: [
       'sokker-citrus',

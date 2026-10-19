@@ -11,7 +11,7 @@ export function MobileNavigation() {
   const close = () => dispatch(closeMobileNav());
 
   return (
-    <Drawer open={open} title="Menu" onClose={close} side="left">
+    <Drawer open={open} title={messages.header.menu} onClose={close} side="left">
       <nav aria-label="Mobilmenu">
         <ul style={{ listStyle: 'none', margin: 0, padding: 0, display: 'grid', gap: '1rem' }}>
           {mainNavigation.map((item) => (

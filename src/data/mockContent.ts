@@ -96,13 +96,13 @@ export const homeBenefits = [
 
 export const colorFilterOptions = [
   { id: 'beige', label: 'Beige', hex: '#E6D3B8' },
-  { id: 'pink', label: 'Pink', hex: '#E8A0B0' },
-  { id: 'green', label: 'Green', hex: '#2D5A43' },
-  { id: 'blue', label: 'Blue', hex: '#3D6FA8' },
-  { id: 'yellow', label: 'Yellow', hex: '#E3B341' },
-  { id: 'brown', label: 'Brown', hex: '#A56A43' },
-  { id: 'white', label: 'White', hex: '#F4F1EA' },
-  { id: 'black', label: 'Black', hex: '#1F1C1A' },
+  { id: 'pink', label: 'Lyserød', hex: '#E8A0B0' },
+  { id: 'green', label: 'Grøn', hex: '#2D5A43' },
+  { id: 'blue', label: 'Blå', hex: '#3D6FA8' },
+  { id: 'yellow', label: 'Gul', hex: '#E3B341' },
+  { id: 'brown', label: 'Brun', hex: '#A56A43' },
+  { id: 'white', label: 'Hvid', hex: '#F4F1EA' },
+  { id: 'black', label: 'Sort', hex: '#1F1C1A' },
 ] as const;
 
 export const materialFilterOptions = [

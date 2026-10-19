@@ -22,7 +22,7 @@ export function QuantitySelector({
       <button
         className={styles.button}
         type="button"
-        aria-label="Mindsk antal"
+        aria-label={messages.product.decreaseQuantity}
         disabled={value <= min}
         onClick={() => onChange(Math.max(min, value - 1))}
       >
@@ -35,7 +35,7 @@ export function QuantitySelector({
       <button
         className={styles.button}
         type="button"
-        aria-label="Øg antal"
+        aria-label={messages.product.increaseQuantity}
         disabled={value >= max}
         onClick={() => onChange(Math.min(max, value + 1))}
       >

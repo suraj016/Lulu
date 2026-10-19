@@ -261,7 +261,7 @@ export const products: Product[] = [
   {
     id: 'pen-holder',
     slug: 'pen-holder',
-    name: 'Pen holder',
+    name: 'Penholder',
     shortDescription: 'En enkel holder til kuglepenne og blyanter.',
     description:
       'Pen holder holder styr på skrivebordet uden at fylde. Et lille, funktionelt objekt i PLA.',
@@ -595,7 +595,7 @@ export const products: Product[] = [
   {
     id: 'fidget-cube',
     slug: 'fidget-cube',
-    name: 'Fidget cube',
+    name: 'Fidget-terning',
     shortDescription: 'En lille kube med taktile sider til hænderne.',
     description: 'Fidget cube er et kompakt objekt med enkle, taktile flader. Til skrivebordet eller lommen.',
     categoryId: 'legetoj',
@@ -809,7 +809,7 @@ export const products: Product[] = [
   {
     id: 'clips-holder',
     slug: 'clips-holder',
-    name: 'Clips holder',
+    name: 'Klipsholder',
     shortDescription: 'En lille skål til clips og elastikker.',
     description: 'Clips holder er et diskret skrivebordsobjekt i PLA.',
     categoryId: 'kontor',

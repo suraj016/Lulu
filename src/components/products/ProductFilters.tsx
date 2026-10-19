@@ -62,7 +62,7 @@ export function ProductFilters({
             />
             {query.productType === ProductType.Printed3d
               ? messages.catalog.all3d
-              : 'Alle'}
+              : messages.catalog.allProducts}
           </label>
           {shopCategories.map((category) => (
             <label className={styles.option} key={category.id}>
