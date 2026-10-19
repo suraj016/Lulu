@@ -1,0 +1,30 @@
+.item {
+  border-bottom: 1px solid var(--color-divider);
+}
+
+.trigger {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1.05rem 0;
+  text-align: left;
+  font-weight: 600;
+  color: var(--color-ink);
+}
+
+.panel {
+  padding-bottom: 1.1rem;
+  color: var(--color-body);
+}
+
+.panel p + p,
+.panel li + li {
+  margin-top: 0.45rem;
+}
+
+.panel ul {
+  margin: 0;
+  padding-left: 1.15rem;
+}

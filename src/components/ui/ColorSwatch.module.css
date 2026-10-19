@@ -1,0 +1,17 @@
+.swatch {
+  width: var(--swatch-size);
+  height: var(--swatch-size);
+  border-radius: 50%;
+  border: 1px solid rgb(23 23 23 / 0.12);
+  box-shadow: inset 0 0 0 1px rgb(255 255 255 / 0.35);
+}
+
+.swatch[data-selected='true'] {
+  outline: 2px solid var(--color-forest);
+  outline-offset: 3px;
+}
+
+.swatch:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}

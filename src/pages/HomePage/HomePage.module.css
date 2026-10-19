@@ -1,0 +1,163 @@
+.heroSection {
+  background: var(--color-surface);
+}
+
+.hero {
+  position: relative;
+  overflow: hidden;
+  min-height: clamp(22rem, 58vw, 34rem);
+}
+
+.heroImage {
+  position: absolute;
+  inset: 0 0 0 32%;
+}
+
+.heroImage img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 72% 58%;
+}
+
+.heroPanel {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  width: min(58%, 46rem);
+  min-height: inherit;
+  padding:
+    3rem 7rem 3rem
+    max(var(--gutter), calc((100vw - var(--content-max)) / 2));
+  background: var(--color-surface);
+  border-top-right-radius: 11rem 50%;
+  border-bottom-right-radius: 11rem 50%;
+}
+
+.copy {
+  display: grid;
+  gap: 1.15rem;
+  max-width: 28.5rem;
+}
+
+.copy :global(.eyebrow) {
+  color: var(--color-ink);
+}
+
+.copy h1 {
+  font-family: var(--font-sans);
+  font-weight: 700;
+  font-size: clamp(2rem, 4.4vw, 3.35rem);
+  line-height: 1.08;
+  letter-spacing: -0.035em;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.outline {
+  background: var(--color-white);
+}
+
+.trust {
+  padding: 0.35rem 0 0.5rem;
+}
+
+.section {
+  padding: 3.5rem 0;
+}
+
+.sectionHead {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: end;
+  gap: 1rem;
+  margin-bottom: 1.75rem;
+}
+
+.socks {
+  display: grid;
+  gap: 2rem;
+  align-items: center;
+  padding: 3.5rem 0;
+}
+
+.socksMedia {
+  overflow: hidden;
+  border-radius: 58% 42% 52% 48% / 42% 58% 42% 58%;
+  background: var(--color-sage);
+  aspect-ratio: 1;
+}
+
+.socksMedia img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.benefits {
+  display: grid;
+  gap: 2rem;
+  padding: 1rem 0 4.5rem;
+  align-items: center;
+}
+
+.benefitsList {
+  display: grid;
+  gap: 1.4rem;
+}
+
+.benefitsMedia {
+  overflow: hidden;
+  border-radius: 1.5rem 4rem 1.5rem 4rem;
+  background: var(--color-sage);
+  aspect-ratio: 4 / 5;
+}
+
+.benefitsMedia img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+@media (max-width: 899px) {
+  .hero {
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+  }
+
+  .heroPanel {
+    order: 1;
+    width: 100%;
+    min-height: 0;
+    margin-bottom: -2.75rem;
+    padding: 2rem var(--gutter) 3.4rem;
+    border-radius: 0 0 4.5rem 4.5rem;
+  }
+
+  .heroImage {
+    order: 2;
+    position: relative;
+    inset: auto;
+    width: 100%;
+    height: 17.5rem;
+  }
+}
+
+@media (min-width: 900px) {
+  .socks,
+  .benefits {
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+  }
+
+  .section {
+    padding: 4.5rem 0;
+  }
+}

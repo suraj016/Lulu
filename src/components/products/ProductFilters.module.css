@@ -1,0 +1,50 @@
+.panel {
+  display: grid;
+  gap: 1.6rem;
+  padding: 1.4rem;
+  background: var(--color-surface);
+  border-radius: var(--radius-xl);
+}
+
+.group {
+  display: grid;
+  gap: 0.65rem;
+}
+
+.legend {
+  font-size: 0.92rem;
+  font-weight: 700;
+  color: var(--color-ink);
+}
+
+.option {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+}
+
+.swatches {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.55rem;
+}
+
+.range {
+  display: grid;
+  gap: 0.45rem;
+}
+
+.rangeRow {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.6rem;
+}
+
+.rangeRow input {
+  width: 100%;
+  min-height: 2.5rem;
+  padding: 0.35rem 0.6rem;
+  border: 1px solid var(--color-divider);
+  border-radius: var(--radius-sm);
+  background: var(--color-cream);
+}

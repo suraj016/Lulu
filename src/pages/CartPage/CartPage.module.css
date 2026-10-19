@@ -1,0 +1,33 @@
+.page {
+  padding: 2.5rem 0 4.5rem;
+}
+
+.layout {
+  display: grid;
+  gap: 2rem;
+  margin-top: 1.5rem;
+}
+
+.lines {
+  display: grid;
+  gap: 1rem;
+}
+
+.summary {
+  padding: 1.25rem;
+  background: var(--color-surface);
+  border-radius: var(--radius-xl);
+  align-self: start;
+}
+
+.actions {
+  display: grid;
+  gap: 0.7rem;
+}
+
+@media (min-width: 900px) {
+  .layout {
+    grid-template-columns: minmax(0, 1.4fr) minmax(16rem, 0.7fr);
+    align-items: start;
+  }
+}

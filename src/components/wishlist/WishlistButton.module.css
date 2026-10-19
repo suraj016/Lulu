@@ -1,0 +1,7 @@
+.button {
+  color: var(--color-ink);
+}
+
+.button[data-active='true'] {
+  color: var(--color-forest);
+}

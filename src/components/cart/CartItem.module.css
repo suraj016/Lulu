@@ -1,0 +1,44 @@
+.item {
+  display: grid;
+  grid-template-columns: 5rem 1fr;
+  gap: 0.85rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--color-divider);
+}
+
+.item img {
+  width: 5rem;
+  height: 5rem;
+  object-fit: cover;
+  border-radius: var(--radius-md);
+  background: var(--color-sage);
+}
+
+.meta {
+  display: grid;
+  gap: 0.35rem;
+}
+
+.top {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.6rem;
+}
+
+.name {
+  font-weight: 650;
+  color: var(--color-ink);
+  text-decoration: none;
+}
+
+.controls {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+
+.warning {
+  color: var(--color-error);
+  font-size: 0.85rem;
+}

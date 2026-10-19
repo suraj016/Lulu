@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 1400" width="1200" height="1400" fill="none"><rect width="1200" height="1400" fill="#E5E7DA"/>
+     <ellipse cx="860" cy="420" rx="420" ry="380" fill="#F7F2EA" opacity="0.9"/>
+     <ellipse cx="380" cy="980" rx="360" ry="300" fill="#d8dcc8" opacity="0.8"/>
+     <ellipse cx="760" cy="640" rx="300" ry="340" fill="#F7F2EA" opacity="1"/>
+     <rect x="560" y="430" width="360" height="480" rx="180" fill="#A56A43"/>
+     <circle cx="740" cy="560" r="70" fill="#E6D3B8"/>
+     <rect x="360" y="760" width="180" height="220" rx="70" fill="#2D5A43"/>
+     <text x="80" y="1320" font-family="Georgia, serif" font-size="28" fill="#2D5A43" opacity="0.55">Kontakt · afventer foto</text></svg>

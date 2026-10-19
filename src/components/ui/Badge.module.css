@@ -1,0 +1,26 @@
+.badge {
+  display: inline-flex;
+  align-items: center;
+  min-height: 1.5rem;
+  padding: 0.15rem 0.55rem;
+  border-radius: var(--radius-pill);
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.forest {
+  background: var(--color-forest);
+  color: var(--color-surface);
+}
+
+.sale {
+  background: #f3e0d6;
+  color: var(--color-sale);
+}
+
+.soft {
+  background: var(--color-sage);
+  color: var(--color-forest);
+}

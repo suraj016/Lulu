@@ -1,0 +1,58 @@
+.page {
+  padding: 1.5rem 0 4.5rem;
+}
+
+.layout {
+  display: grid;
+  gap: 2rem;
+}
+
+.summary {
+  display: grid;
+  gap: 1rem;
+  align-content: start;
+}
+
+.badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+.swatches {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.65rem;
+}
+
+.actions {
+  display: grid;
+  gap: 0.85rem;
+}
+
+.wishlistRow {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.benefits {
+  margin-top: 0.5rem;
+}
+
+.bundle {
+  margin-top: 3.5rem;
+}
+
+.fixture {
+  font-size: 0.8rem;
+  color: var(--color-muted);
+}
+
+@media (min-width: 960px) {
+  .layout {
+    grid-template-columns: 1.1fr 0.9fr;
+    gap: 3.5rem;
+    align-items: start;
+  }
+}

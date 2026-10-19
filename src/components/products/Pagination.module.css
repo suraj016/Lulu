@@ -1,0 +1,35 @@
+.nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  justify-content: center;
+  margin-top: 2.5rem;
+}
+
+.button,
+.page {
+  min-width: 2.4rem;
+  height: 2.4rem;
+  padding: 0 0.7rem;
+  border-radius: var(--radius-pill);
+  border: 1px solid var(--color-divider);
+  background: var(--color-surface);
+  color: var(--color-ink);
+}
+
+.page[data-current='true'] {
+  background: var(--color-forest);
+  border-color: var(--color-forest);
+  color: var(--color-surface);
+}
+
+.button:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.ellipsis {
+  min-width: 2.4rem;
+  text-align: center;
+  line-height: 2.4rem;
+}
