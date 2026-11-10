@@ -12,4 +12,10 @@ describe('currency', () => {
   it('keeps DKK as the default currency', () => {
     expect(formatMoney(7900, CurrencyCode.Dkk)).toContain('kr.');
   });
+
+  it('formats EUR amounts without falling back to kr.', () => {
+    const formatted = formatMoney(1499, CurrencyCode.Eur);
+    expect(formatted).toContain('14,99');
+    expect(formatted).not.toContain('kr.');
+  });
 });

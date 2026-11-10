@@ -1,5 +1,5 @@
 import { messages } from '../../data/messages.ts';
-import { selectCartView } from '../../features/cart/cartSelectors.ts';
+import { useShopifyCheckout } from '../../features/cart/useShopifyCheckout.ts';
 import { closeCart } from '../../features/ui/uiSlice.ts';
 import { useAppDispatch, useAppSelector } from '../../hooks/store.ts';
 import { Button } from '../ui/Button.tsx';
@@ -7,10 +7,11 @@ import { Drawer } from '../ui/Drawer.tsx';
 import { EmptyState } from '../ui/EmptyState.tsx';
 import { CartItem } from './CartItem.tsx';
 import { CartSummary } from './CartSummary.tsx';
+import styles from './CartDrawer.module.css';
 
 export function CartDrawer() {
   const open = useAppSelector((state) => state.ui.cartOpen);
-  const view = useAppSelector(selectCartView);
+  const { view, goToCheckout, retryCart } = useShopifyCheckout();
   const dispatch = useAppDispatch();
   const close = () => dispatch(closeCart());
 
@@ -19,27 +20,52 @@ export function CartDrawer() {
       {view.isEmpty ? (
         <EmptyState
           title={messages.cart.empty}
-          body={messages.cart.emptyHint}
+          body={
+            view.error ??
+            (view.migratedFromLegacy
+              ? messages.cart.legacyCleared
+              : messages.cart.emptyHint)
+          }
           action={
-            <Button to="/shop" onClick={close}>
-              {messages.actions.continueShopping}
-            </Button>
+            view.error && view.cartId ? (
+              <Button onClick={() => retryCart()}>{messages.cart.retry}</Button>
+            ) : (
+              <Button to="/shop" onClick={close}>
+                {messages.actions.continueShopping}
+              </Button>
+            )
           }
         />
       ) : (
-        <div style={{ display: 'grid', gap: '1rem' }}>
+        <div className={styles.stack}>
+          {view.migratedFromLegacy ? (
+            <p className={styles.note}>{messages.cart.legacyCleared}</p>
+          ) : null}
           {view.lines.map((line) => (
             <CartItem key={line.line.id} view={line} />
           ))}
-          <CartSummary subtotal={view.subtotal} />
-          <p style={{ fontSize: '0.85rem' }}>{messages.cart.prototypeNote}</p>
+          <CartSummary
+            subtotal={view.subtotal}
+            total={view.total}
+            currency={view.currency}
+          />
+          {view.hasUnavailable ? (
+            <p className={styles.note}>{messages.cart.cannotCheckout}</p>
+          ) : null}
+          {view.error ? (
+            <p className={styles.note}>{view.error}</p>
+          ) : (
+            <p className={styles.note}>{messages.cart.prototypeNote}</p>
+          )}
           <Button to="/cart" onClick={close} fullWidth>
             {messages.actions.viewCart}
           </Button>
           <Button
-            to="/kasse"
             variant="secondary"
-            onClick={close}
+            onClick={() => {
+              void goToCheckout();
+            }}
+            disabled={view.hasUnavailable || view.busy}
             fullWidth
           >
             {messages.actions.checkout}

@@ -1,5 +1,6 @@
 import { messages } from '../../data/messages.ts';
 import { SortKey } from '../../types/product.ts';
+import styles from './ProductSort.module.css';
 
 const options: Array<{ value: SortKey; label: string }> = [
   { value: SortKey.Popular, label: messages.catalog.sortPopular },
@@ -17,18 +18,12 @@ export function ProductSort({
   onChange: (value: SortKey) => void;
 }) {
   return (
-    <label style={{ display: 'flex', alignItems: 'center', gap: '0.6rem' }}>
+    <label className={styles.label}>
       <span className="visually-hidden">{messages.catalog.sort}</span>
       <select
         value={value}
         onChange={(event) => onChange(event.target.value as SortKey)}
-        style={{
-          minHeight: '2.6rem',
-          padding: '0.45rem 0.8rem',
-          borderRadius: '999px',
-          border: '1px solid var(--color-divider)',
-          background: 'var(--color-surface)',
-        }}
+        className="control"
       >
         {options.map((option) => (
           <option key={option.value} value={option.value}>

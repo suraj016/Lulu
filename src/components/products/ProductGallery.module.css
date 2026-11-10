@@ -24,18 +24,27 @@
 }
 
 .mainWrap img {
-  object-fit: contain;
+  object-fit: cover;
+  transition: transform var(--duration) var(--ease);
 }
 
 .nav {
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
-  width: 2.5rem;
-  height: 2.5rem;
+  width: 2.75rem;
+  height: 2.75rem;
   border-radius: 50%;
   background: var(--color-surface);
   color: var(--color-ink);
+  box-shadow: var(--shadow-card);
+  transition:
+    background-color var(--duration-fast) var(--ease),
+    transform var(--duration-fast) var(--ease);
+}
+
+.nav:hover {
+  background: var(--color-white);
 }
 
 .prev {
@@ -50,10 +59,11 @@
   position: absolute;
   right: 0.7rem;
   bottom: 0.7rem;
-  width: 2.5rem;
-  height: 2.5rem;
+  width: 2.75rem;
+  height: 2.75rem;
   border-radius: 50%;
   background: var(--color-surface);
+  box-shadow: var(--shadow-card);
 }
 
 .thumbs {
@@ -88,6 +98,25 @@
   max-height: 70vh;
   object-fit: contain;
   background: var(--color-cream);
+}
+
+.lightboxNav {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin-top: 1rem;
+}
+
+.lightboxNav button {
+  min-height: 2.75rem;
+  padding: 0.45rem 0.9rem;
+  border-radius: var(--radius-pill);
+  border: 1.5px solid var(--color-divider);
+  background: var(--color-surface);
+}
+
+.lightboxNav button:hover {
+  border-color: var(--color-ink);
 }
 
 @media (min-width: 900px) {

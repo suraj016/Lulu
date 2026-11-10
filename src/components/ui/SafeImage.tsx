@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { shopifyImageUrl } from '../../utils/imageUrl.ts';
 
 type SafeImageProps = {
   src: string;
@@ -8,6 +9,8 @@ type SafeImageProps = {
   className?: string;
   loading?: 'lazy' | 'eager';
   fetchPriority?: 'high' | 'low' | 'auto';
+  displayWidth?: number;
+  sizes?: string;
 };
 
 const FALLBACK = '/placeholders/products/fallback.svg';
@@ -20,9 +23,11 @@ export function SafeImage({
   className,
   loading = 'lazy',
   fetchPriority,
+  displayWidth,
+  sizes,
 }: SafeImageProps) {
   const [failed, setFailed] = useState(false);
-  const resolved = failed ? FALLBACK : src;
+  const resolved = failed ? FALLBACK : shopifyImageUrl(src, displayWidth);
 
   return (
     <img
@@ -31,8 +36,10 @@ export function SafeImage({
       alt={failed ? `${alt} (pladsholder)` : alt}
       width={width}
       height={height}
+      sizes={sizes}
       loading={loading}
       fetchPriority={fetchPriority}
+      decoding={loading === 'eager' ? 'sync' : 'async'}
       onError={() => setFailed(true)}
     />
   );

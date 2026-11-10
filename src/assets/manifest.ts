@@ -1,4 +1,4 @@
-import heroHomePhoto from './Forside/image00001.png';
+import heroHomePhoto from './Forside/image00001.webp';
 
 /**
  * Central mapping between UI slots and image files.
@@ -50,9 +50,9 @@ export const editorialAssets = {
     src: heroHomePhoto,
     alt: 'Tre 3D-printede legetøjsbiler på et træbord',
     status: AssetStatus.Supplied,
-    notes: 'Homepage hero photograph from src/assets/Forside/image00001.png.',
-    width: 2048,
-    height: 768,
+    notes: 'Homepage hero photograph from src/assets/Forside/image00001.webp.',
+    width: 1920,
+    height: 720,
   },
   socksCampaign: {
     id: 'socks-campaign',

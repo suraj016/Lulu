@@ -1,14 +1,16 @@
 .form {
   display: flex;
+  flex-wrap: wrap;
   gap: 0.6rem;
   margin-bottom: 1.25rem;
 }
 
 .input {
   flex: 1;
+  min-width: 12rem;
   min-height: 3rem;
   padding: 0.7rem 1rem;
-  border: 1px solid var(--color-divider);
+  border: 1.5px solid var(--color-divider);
   border-radius: var(--radius-pill);
   background: var(--color-cream);
 }
@@ -16,6 +18,9 @@
 .results {
   display: grid;
   gap: 0.75rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
 }
 
 .item {

@@ -7,7 +7,14 @@ describe('search', () => {
     expect(results.some((item) => item.id === 'bil-klassisk')).toBe(true);
   });
 
-  it('returns an empty list for unknown terms', () => {
+  it('returns an empty list for empty input and unknown terms', () => {
+    expect(searchProducts('')).toEqual([]);
+    expect(searchProducts('   ')).toEqual([]);
     expect(searchProducts('xyz-ukendt-produkt')).toEqual([]);
+  });
+
+  it('finds products by handle/slug', () => {
+    const results = searchProducts('bil-klassisk');
+    expect(results.some((item) => item.id === 'bil-klassisk')).toBe(true);
   });
 });

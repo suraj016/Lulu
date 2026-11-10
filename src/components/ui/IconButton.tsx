@@ -19,7 +19,9 @@ export function IconButton({
     <button
       className={[styles.button, className ?? ''].filter(Boolean).join(' ')}
       type={type}
-      aria-label={label}
+      aria-label={
+        typeof badge === 'number' && badge > 0 ? `${label} (${badge})` : label
+      }
       {...props}
     >
       {children}

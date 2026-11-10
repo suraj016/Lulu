@@ -1,13 +1,21 @@
 import { Button } from '../../components/ui/Button.tsx';
 import { messages } from '../../data/messages.ts';
+import { pageTitle, usePageMeta } from '../../seo/usePageMeta.ts';
+import styles from './NotFoundPage.module.css';
 
 export function NotFoundPage() {
+  usePageMeta({
+    title: pageTitle(messages.notFound.title),
+    description: messages.notFound.body,
+    robots: 'noindex',
+  });
+
   return (
-    <div className="container" style={{ padding: '5rem 0', maxWidth: '32rem' }}>
+    <div className={`container ${styles.page}`}>
       <p className="eyebrow">404</p>
       <h1>{messages.notFound.title}</h1>
-      <p style={{ margin: '0.9rem 0 1.4rem' }}>{messages.notFound.body}</p>
-      <div style={{ display: 'flex', gap: '0.75rem' }}>
+      <p className={styles.body}>{messages.notFound.body}</p>
+      <div className={styles.actions}>
         <Button to="/">{messages.nav.home}</Button>
         <Button to="/shop" variant="secondary">
           {messages.nav.shop}

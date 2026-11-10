@@ -17,4 +17,19 @@ describe('sorting', () => {
     const copy = [...names].sort(new Intl.Collator('da-DK').compare);
     expect(names).toEqual(copy);
   });
+
+  it('sorts newest using Shopify createdAt timestamps', () => {
+    const newest = sortProducts(allProducts, SortKey.Newest);
+    const timestamps = newest.map((item) => Date.parse(item.createdAt));
+    expect(timestamps).toEqual([...timestamps].sort((a, b) => b - a));
+  });
+
+  it('uses featured and bestseller flags for the default popular sort', () => {
+    const popular = sortProducts(allProducts, SortKey.Popular);
+    const firstFeatured = popular.findIndex((item) => item.isFeatured);
+    const firstUnfeatured = popular.findIndex((item) => !item.isFeatured);
+    if (firstFeatured !== -1 && firstUnfeatured !== -1) {
+      expect(firstFeatured).toBeLessThan(firstUnfeatured);
+    }
+  });
 });

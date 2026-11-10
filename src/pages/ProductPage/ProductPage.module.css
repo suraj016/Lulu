@@ -2,6 +2,12 @@
   padding: 1.5rem 0 4.5rem;
 }
 
+.sizeSelect {
+  display: block;
+  margin-top: 0.4rem;
+  width: min(100%, 16rem);
+}
+
 .layout {
   display: grid;
   gap: 2rem;

@@ -1,0 +1,32 @@
+.links {
+  display: grid;
+  gap: 1rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.link {
+  font-size: 1.35rem;
+  font-weight: 650;
+  text-decoration: none;
+  color: var(--color-ink);
+}
+
+.shopEyebrow {
+  margin-top: 2rem;
+}
+
+.shopLinks {
+  display: grid;
+  gap: 0.7rem;
+  margin: 0.75rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.shopLinks a {
+  display: inline-flex;
+  min-height: 2.5rem;
+  align-items: center;
+}

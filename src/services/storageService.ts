@@ -10,7 +10,7 @@ function canUseStorage(): boolean {
   return typeof window !== 'undefined' && typeof window.localStorage !== 'undefined';
 }
 
-export function readStorage<T>(key: string, version: number): T | null {
+export function readStorageEnvelope(key: string): StoredEnvelope<unknown> | null {
   if (!canUseStorage()) {
     return null;
   }
@@ -20,14 +20,22 @@ export function readStorage<T>(key: string, version: number): T | null {
     if (!raw) {
       return null;
     }
-    const parsed = JSON.parse(raw) as StoredEnvelope<T>;
-    if (!parsed || parsed.version !== version || parsed.data === undefined) {
+    const parsed = JSON.parse(raw) as StoredEnvelope<unknown>;
+    if (!parsed || typeof parsed.version !== 'number' || parsed.data === undefined) {
       return null;
     }
-    return parsed.data;
+    return parsed;
   } catch {
     return null;
   }
+}
+
+export function readStorage<T>(key: string, version: number): T | null {
+  const parsed = readStorageEnvelope(key);
+  if (!parsed || parsed.version !== version) {
+    return null;
+  }
+  return parsed.data as T;
 }
 
 export function writeStorage<T>(key: string, version: number, data: T): void {

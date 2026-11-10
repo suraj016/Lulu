@@ -4,8 +4,9 @@ import {
   materialFilterOptions,
 } from '../../data/mockContent.ts';
 import { messages } from '../../data/messages.ts';
-import { ProductType, type CatalogQuery } from '../../types/product.ts';
-import { formatMoney } from '../../utils/currency.ts';
+import { getCatalogProducts } from '../../services/catalogStore.ts';
+import { CurrencyCode, ProductType, type CatalogQuery } from '../../types/product.ts';
+import { formatMoney, kronerFromOre, oreFromKroner } from '../../utils/currency.ts';
 import { clampRange } from '../../utils/validation.ts';
 import { Button } from '../ui/Button.tsx';
 import { ColorSwatch } from '../ui/ColorSwatch.tsx';
@@ -13,7 +14,7 @@ import styles from './ProductFilters.module.css';
 
 type ProductFiltersProps = {
   query: CatalogQuery;
-  bounds: { min: number; max: number };
+  bounds: { min: number; max: number; currency: CurrencyCode };
   onChange: (next: CatalogQuery) => void;
   hideCategory?: boolean;
 };
@@ -24,7 +25,16 @@ export function ProductFilters({
   onChange,
   hideCategory,
 }: ProductFiltersProps) {
+  const catalog = getCatalogProducts();
+  const usedCategoryIds = new Set(catalog.map((product) => product.categoryId));
+  const usedColors = new Set(catalog.flatMap((product) => product.colors));
+  const usedMaterials = new Set(catalog.flatMap((product) => product.materials));
+  const currency = bounds.currency;
+  const majorStep = currency === CurrencyCode.Dkk ? 1 : 0.01;
   const shopCategories = categories.filter((category) => {
+    if (!usedCategoryIds.has(category.id)) {
+      return false;
+    }
     if (query.productType === ProductType.Printed3d) {
       return category.id !== 'sokker';
     }
@@ -33,6 +43,12 @@ export function ProductFilters({
     }
     return true;
   });
+  const visibleColors = colorFilterOptions.filter((color) =>
+    usedColors.has(color.id),
+  );
+  const visibleMaterials = materialFilterOptions.filter((material) =>
+    usedMaterials.has(material.id),
+  );
 
   const toggleColor = (id: string) => {
     const colors = query.colors.includes(id)
@@ -84,13 +100,13 @@ export function ProductFilters({
         <legend className={styles.legend}>{messages.catalog.price}</legend>
         <p>
           {messages.catalog.priceInterval(
-            formatMoney(query.minPriceOre ?? bounds.min),
-            formatMoney(query.maxPriceOre ?? bounds.max),
+            formatMoney(query.minPriceOre ?? bounds.min, currency),
+            formatMoney(query.maxPriceOre ?? bounds.max, currency),
           )}
         </p>
         <div className={styles.range}>
           <label>
-            Min. kr.
+            Min
             <input
               type="range"
               min={bounds.min}
@@ -111,7 +127,7 @@ export function ProductFilters({
             />
           </label>
           <label>
-            Maks. kr.
+            Maks
             <input
               type="range"
               min={bounds.min}
@@ -137,14 +153,15 @@ export function ProductFilters({
             Min
             <input
               type="number"
-              inputMode="numeric"
-              value={Math.round((query.minPriceOre ?? bounds.min) / 100)}
+              inputMode={currency === CurrencyCode.Dkk ? 'numeric' : 'decimal'}
+              value={majorValue(query.minPriceOre ?? bounds.min, currency)}
+              step={majorStep}
               onChange={(event) => {
                 const kroner = Number(event.target.value);
                 if (!Number.isFinite(kroner)) {
                   return;
                 }
-                const next = clampRange(kroner * 100, query.maxPriceOre ?? bounds.max);
+                const next = clampRange(oreFromKroner(kroner), query.maxPriceOre ?? bounds.max);
                 onChange({
                   ...query,
                   minPriceOre: next.min,
@@ -158,14 +175,15 @@ export function ProductFilters({
             Maks
             <input
               type="number"
-              inputMode="numeric"
-              value={Math.round((query.maxPriceOre ?? bounds.max) / 100)}
+              inputMode={currency === CurrencyCode.Dkk ? 'numeric' : 'decimal'}
+              value={majorValue(query.maxPriceOre ?? bounds.max, currency)}
+              step={majorStep}
               onChange={(event) => {
                 const kroner = Number(event.target.value);
                 if (!Number.isFinite(kroner)) {
                   return;
                 }
-                const next = clampRange(query.minPriceOre ?? bounds.min, kroner * 100);
+                const next = clampRange(query.minPriceOre ?? bounds.min, oreFromKroner(kroner));
                 onChange({
                   ...query,
                   minPriceOre: next.min,
@@ -178,34 +196,38 @@ export function ProductFilters({
         </div>
       </fieldset>
 
-      <fieldset className={styles.group}>
-        <legend className={styles.legend}>{messages.catalog.colors}</legend>
-        <div className={styles.swatches}>
-          {colorFilterOptions.map((color) => (
-            <ColorSwatch
-              key={color.id}
-              label={color.label}
-              hex={color.hex}
-              selected={query.colors.includes(color.id)}
-              onSelect={() => toggleColor(color.id)}
-            />
-          ))}
-        </div>
-      </fieldset>
+      {visibleColors.length > 0 ? (
+        <fieldset className={styles.group}>
+          <legend className={styles.legend}>{messages.catalog.colors}</legend>
+          <div className={styles.swatches}>
+            {visibleColors.map((color) => (
+              <ColorSwatch
+                key={color.id}
+                label={color.label}
+                hex={color.hex}
+                selected={query.colors.includes(color.id)}
+                onSelect={() => toggleColor(color.id)}
+              />
+            ))}
+          </div>
+        </fieldset>
+      ) : null}
 
-      <fieldset className={styles.group}>
-        <legend className={styles.legend}>{messages.catalog.material}</legend>
-        {materialFilterOptions.map((material) => (
-          <label className={styles.option} key={material.id}>
-            <input
-              type="checkbox"
-              checked={query.materials.includes(material.id)}
-              onChange={() => toggleMaterial(material.id)}
-            />
-            {material.label}
-          </label>
-        ))}
-      </fieldset>
+      {visibleMaterials.length > 0 ? (
+        <fieldset className={styles.group}>
+          <legend className={styles.legend}>{messages.catalog.material}</legend>
+          {visibleMaterials.map((material) => (
+            <label className={styles.option} key={material.id}>
+              <input
+                type="checkbox"
+                checked={query.materials.includes(material.id)}
+                onChange={() => toggleMaterial(material.id)}
+              />
+              {material.label}
+            </label>
+          ))}
+        </fieldset>
+      ) : null}
 
       <fieldset className={styles.group}>
         <legend className={styles.legend}>{messages.catalog.more}</legend>
@@ -260,4 +282,9 @@ export function ProductFilters({
       </Button>
     </form>
   );
+}
+
+function majorValue(ore: number, currency: CurrencyCode): number {
+  const major = kronerFromOre(ore);
+  return currency === CurrencyCode.Dkk ? Math.round(major) : major;
 }

@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import { prefetchPath } from '../../app/lazyRoutes.ts';
 import { brandAssets } from '../../assets/manifest.ts';
 import { footerNavigation, socialLinks } from '../../data/mockNavigation.ts';
 import { messages } from '../../data/messages.ts';
@@ -25,7 +26,12 @@ export function Footer() {
           </div>
           <nav className={styles.nav} aria-label="Sidefod">
             {footerNavigation.map((item) => (
-              <Link key={item.id} to={item.to}>
+              <Link
+                key={item.id}
+                to={item.to}
+                onPointerEnter={() => prefetchPath(item.to)}
+                onFocus={() => prefetchPath(item.to)}
+              >
                 {item.label}
               </Link>
             ))}

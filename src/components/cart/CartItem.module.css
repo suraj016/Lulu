@@ -31,8 +31,22 @@
   text-decoration: none;
 }
 
+.remove {
+  flex-shrink: 0;
+  min-height: 2.5rem;
+  color: var(--color-muted);
+  font-size: 0.85rem;
+  text-decoration: underline;
+  text-underline-offset: 0.18em;
+}
+
+.remove:hover:not(:disabled) {
+  color: var(--color-ink);
+}
+
 .controls {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
   gap: 0.75rem;

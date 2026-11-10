@@ -30,7 +30,7 @@ export function ProductGallery({ images }: { images: ProductImage[] }) {
   return (
     <>
       <div className={styles.layout}>
-        <div className={styles.thumbs} role="tablist" aria-label="Produktbilleder">
+        <div className={styles.thumbs} aria-label="Produktbilleder">
           {images.map((image, imageIndex) => (
             <button
               className={styles.thumb}
@@ -39,8 +39,15 @@ export function ProductGallery({ images }: { images: ProductImage[] }) {
               data-active={imageIndex === index ? 'true' : 'false'}
               onClick={() => setIndex(imageIndex)}
               aria-label={image.alt}
+              aria-current={imageIndex === index ? 'true' : undefined}
             >
-              <SafeImage src={image.src} alt="" width={90} height={90} />
+              <SafeImage
+                src={image.src}
+                alt=""
+                width={90}
+                height={90}
+                displayWidth={180}
+              />
             </button>
           ))}
         </div>
@@ -58,6 +65,8 @@ export function ProductGallery({ images }: { images: ProductImage[] }) {
               height={current.height}
               loading="eager"
               fetchPriority="high"
+              displayWidth={1200}
+              sizes="(max-width: 960px) 100vw, 50vw"
             />
           </button>
           {images.length > 1 ? (
@@ -96,7 +105,7 @@ export function ProductGallery({ images }: { images: ProductImage[] }) {
           alt={current.alt}
         />
         {images.length > 1 ? (
-          <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '1rem' }}>
+          <div className={styles.lightboxNav}>
             <button type="button" onClick={() => go(index - 1)}>
               {messages.actions.previous}
             </button>

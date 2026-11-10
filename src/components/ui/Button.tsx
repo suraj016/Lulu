@@ -19,6 +19,8 @@ type ButtonAsButton = Common &
 type ButtonAsLink = Common & {
   to: string;
   onClick?: () => void;
+  onPointerEnter?: () => void;
+  onFocus?: () => void;
 };
 
 export function Button({
@@ -38,9 +40,15 @@ export function Button({
     .join(' ');
 
   if ('to' in props && props.to) {
-    const { to, onClick } = props;
+    const { to, onClick, onPointerEnter, onFocus } = props;
     return (
-      <Link className={classes} to={to} onClick={onClick}>
+      <Link
+        className={classes}
+        to={to}
+        onClick={onClick}
+        onPointerEnter={onPointerEnter}
+        onFocus={onFocus}
+      >
         {children}
       </Link>
     );

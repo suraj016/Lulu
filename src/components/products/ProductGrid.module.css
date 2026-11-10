@@ -4,6 +4,33 @@
   gap: 1.4rem 0.9rem;
 }
 
+.skeletonCard {
+  display: grid;
+  align-content: start;
+  gap: 0.7rem;
+}
+
+.skeletonMedia {
+  aspect-ratio: var(--product-image-ratio);
+  border-radius: var(--radius-lg);
+  background: var(--color-sage);
+}
+
+.skeletonLine,
+.skeletonPrice {
+  height: 0.9rem;
+  border-radius: var(--radius-sm);
+  background: var(--color-sage-deep);
+}
+
+.skeletonLine {
+  width: 78%;
+}
+
+.skeletonPrice {
+  width: 42%;
+}
+
 @media (min-width: 700px) {
   .grid {
     grid-template-columns: repeat(3, minmax(0, 1fr));

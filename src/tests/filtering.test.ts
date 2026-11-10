@@ -40,4 +40,42 @@ describe('filtering', () => {
       true,
     );
   });
+
+  it('excludes unavailable products when the in-stock filter is on', () => {
+    const available = allProducts[0]!;
+    const unavailable = {
+      ...available,
+      id: 'oos-product',
+      variants: available.variants.map((variant) => ({
+        ...variant,
+        isAvailable: false,
+        inventory: {
+          trackQuantity: true,
+          availableQuantity: 0,
+          allowBackorder: false,
+        },
+      })),
+      inventory: {
+        trackQuantity: true,
+        availableQuantity: 0,
+        allowBackorder: false,
+      },
+    };
+
+    const result = filterProducts([available, unavailable], {
+      ...base,
+      inStock: true,
+    });
+    expect(result.map((item) => item.id)).toEqual([available.id]);
+  });
+
+  it('matches search terms against name and slug without regard to case', () => {
+    const byName = filterProducts(allProducts, { ...base, query: 'BIL' });
+    const bySlug = filterProducts(allProducts, {
+      ...base,
+      query: 'bil-klassisk',
+    });
+    expect(byName.some((item) => item.id === 'bil-klassisk')).toBe(true);
+    expect(bySlug.some((item) => item.id === 'bil-klassisk')).toBe(true);
+  });
 });

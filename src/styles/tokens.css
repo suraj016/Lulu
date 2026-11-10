@@ -9,7 +9,7 @@
   --color-forest-soft: #3d7358;
   --color-ink: #171717;
   --color-body: #55534f;
-  --color-muted: #7a776f;
+  --color-muted: #5c5a54;
   --color-divider: #e5ded4;
   --color-surface: #fffcf7;
   --color-white: #ffffff;
@@ -54,7 +54,7 @@
   /* Layout */
   --content-max: 72.5rem;
   --content-narrow: 46rem;
-  --gutter: 1.5rem;
+  --gutter: 1.15rem;
   --header-height: 4.5rem;
   --header-height-mobile: 4rem;
 
@@ -84,6 +84,12 @@
   --bp-md: 768px;
   --bp-lg: 1024px;
   --bp-xl: 1440px;
+}
+
+@media (min-width: 480px) {
+  :root {
+    --gutter: 1.5rem;
+  }
 }
 
 @media (min-width: 768px) {

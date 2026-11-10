@@ -1,0 +1,13 @@
+.wrap {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.2rem 0.55rem;
+}
+
+.savings {
+  flex-basis: 100%;
+  margin: 0.15rem 0 0;
+  font-size: var(--fs-caption);
+  color: var(--color-muted);
+}

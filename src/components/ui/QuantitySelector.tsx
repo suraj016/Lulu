@@ -6,6 +6,7 @@ type QuantitySelectorProps = {
   value: number;
   min?: number;
   max?: number;
+  disabled?: boolean;
   onChange: (value: number) => void;
   id?: string;
 };
@@ -14,6 +15,7 @@ export function QuantitySelector({
   value,
   min = 1,
   max = 99,
+  disabled = false,
   onChange,
   id,
 }: QuantitySelectorProps) {
@@ -23,7 +25,7 @@ export function QuantitySelector({
         className={styles.button}
         type="button"
         aria-label={messages.product.decreaseQuantity}
-        disabled={value <= min}
+        disabled={disabled || value <= min}
         onClick={() => onChange(Math.max(min, value - 1))}
       >
         <Minus size={16} />
@@ -36,7 +38,7 @@ export function QuantitySelector({
         className={styles.button}
         type="button"
         aria-label={messages.product.increaseQuantity}
-        disabled={value >= max}
+        disabled={disabled || value >= max}
         onClick={() => onChange(Math.min(max, value + 1))}
       >
         <Plus size={16} />

@@ -1,6 +1,7 @@
-import { useEffect, useId, useRef, type ReactNode } from 'react';
+import { useId, useRef, type ReactNode } from 'react';
 import { X } from 'lucide-react';
 import { messages } from '../../data/messages.ts';
+import { useFocusTrap } from '../../hooks/useFocusTrap.ts';
 import { IconButton } from './IconButton.tsx';
 import styles from './Drawer.module.css';
 
@@ -21,44 +22,25 @@ export function Drawer({
 }: DrawerProps) {
   const titleId = useId();
   const panelRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    if (!open) {
-      return;
-    }
-    const previous = document.activeElement;
-    panelRef.current?.focus();
-    const onKey = (event: KeyboardEvent) => {
-      if (event.key === 'Escape') {
-        onClose();
-      }
-    };
-    document.addEventListener('keydown', onKey);
-    const original = document.body.style.overflow;
-    document.body.style.overflow = 'hidden';
-    return () => {
-      document.removeEventListener('keydown', onKey);
-      document.body.style.overflow = original;
-      if (previous instanceof HTMLElement) {
-        previous.focus();
-      }
-    };
-  }, [open, onClose]);
-
-  if (!open) {
-    return null;
-  }
+  useFocusTrap(panelRef, open, onClose);
 
   return (
     <>
-      <div className={styles.backdrop} onClick={onClose} />
+      <div
+        className={styles.backdrop}
+        data-open={open ? 'true' : 'false'}
+        onClick={onClose}
+      />
       <div
         className={`${styles.panel} ${side === 'left' ? styles.left : ''}`}
+        data-open={open ? 'true' : 'false'}
         role="dialog"
-        aria-modal="true"
+        aria-modal={open}
+        aria-hidden={!open}
         aria-labelledby={titleId}
         ref={panelRef}
         tabIndex={-1}
+        inert={!open}
       >
         <div className={styles.header}>
           <h2 id={titleId} className={styles.title}>

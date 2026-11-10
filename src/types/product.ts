@@ -1,6 +1,7 @@
 export const ProductType = {
   Printed3d: 'printed-3d',
   Socks: 'socks',
+  Unmapped: 'unmapped',
 } as const;
 
 export type ProductType = (typeof ProductType)[keyof typeof ProductType];
@@ -22,6 +23,7 @@ export type MediaType = (typeof MediaType)[keyof typeof MediaType];
 
 export const CurrencyCode = {
   Dkk: 'DKK',
+  Eur: 'EUR',
 } as const;
 
 export type CurrencyCode = (typeof CurrencyCode)[keyof typeof CurrencyCode];
@@ -106,6 +108,8 @@ export type Product = {
   createdAt: string;
   updatedAt: string;
 };
+
+export const UNMAPPED_CATEGORY_ID = 'unmapped';
 
 export type Category = {
   id: string;

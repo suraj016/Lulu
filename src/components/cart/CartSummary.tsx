@@ -1,26 +1,30 @@
 import { messages } from '../../data/messages.ts';
+import { CurrencyCode } from '../../types/product.ts';
 import { formatMoney } from '../../utils/currency.ts';
+import styles from './CartSummary.module.css';
 
 export function CartSummary({
   subtotal,
-  currency = 'DKK',
+  total,
+  currency,
 }: {
   subtotal: number;
-  currency?: 'DKK';
+  total: number;
+  currency: CurrencyCode;
 }) {
   return (
-    <dl style={{ display: 'grid', gap: '0.55rem', margin: 0 }}>
-      <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+    <dl className={styles.list}>
+      <div className={styles.row}>
         <dt>{messages.cart.subtotal}</dt>
-        <dd style={{ margin: 0 }}>{formatMoney(subtotal, currency)}</dd>
+        <dd>{formatMoney(subtotal, currency)}</dd>
       </div>
-      <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+      <div className={styles.row}>
         <dt>{messages.cart.shipping}</dt>
-        <dd style={{ margin: 0 }}>{messages.cart.shippingPlaceholder}</dd>
+        <dd>{messages.cart.shippingPlaceholder}</dd>
       </div>
-      <div style={{ display: 'flex', justifyContent: 'space-between', fontWeight: 700, color: 'var(--color-ink)' }}>
+      <div className={`${styles.row} ${styles.total}`}>
         <dt>{messages.cart.total}</dt>
-        <dd style={{ margin: 0 }}>{formatMoney(subtotal, currency)}</dd>
+        <dd>{formatMoney(total, currency)}</dd>
       </div>
     </dl>
   );

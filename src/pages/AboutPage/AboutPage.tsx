@@ -4,6 +4,7 @@ import { Button } from '../../components/ui/Button.tsx';
 import { SafeImage } from '../../components/ui/SafeImage.tsx';
 import { messages } from '../../data/messages.ts';
 import { aboutValues, processSteps } from '../../data/mockContent.ts';
+import { pageTitle, usePageMeta } from '../../seo/usePageMeta.ts';
 import styles from './AboutPage.module.css';
 
 const icons = {
@@ -14,6 +15,12 @@ const icons = {
 };
 
 export function AboutPage() {
+  usePageMeta({
+    title: pageTitle(messages.nav.about),
+    description: messages.about.intro,
+    path: '/om-os',
+  });
+
   return (
     <div className="container">
       <section className={styles.hero}>
@@ -57,9 +64,7 @@ export function AboutPage() {
                 height={step.image.height}
               />
               <p className="eyebrow">0{index + 1}</p>
-              <h3 style={{ fontSize: '1.25rem', margin: '0.35rem 0' }}>
-                {step.title}
-              </h3>
+              <h3 className={styles.stepTitle}>{step.title}</h3>
               <p>{step.body}</p>
             </article>
           ))}
@@ -75,7 +80,7 @@ export function AboutPage() {
         </div>
         <div>
           <h2>{messages.about.uniquenessTitle}</h2>
-          <p style={{ marginTop: '0.9rem' }}>{messages.about.uniquenessBody}</p>
+          <p className={styles.uniqueBody}>{messages.about.uniquenessBody}</p>
         </div>
       </section>
 
@@ -86,7 +91,7 @@ export function AboutPage() {
         />
         <div>
           <h2>{messages.about.bannerTitle}</h2>
-          <div style={{ marginTop: '1.1rem' }}>
+          <div className="actions-row">
             <Button to="/shop">{messages.actions.shopNow}</Button>
           </div>
         </div>

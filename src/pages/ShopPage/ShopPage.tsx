@@ -25,13 +25,14 @@ import {
   getPriceBounds,
   getProducts,
 } from '../../services/productService.ts';
+import { pageTitle, usePageMeta } from '../../seo/usePageMeta.ts';
 import styles from './ShopPage.module.css';
 
 function collectionFromPath(slug?: string) {
-  if (slug === '3d-produkter' || slug === 'sokker') {
-    return getCollection(slug);
+  if (!slug) {
+    return undefined;
   }
-  return undefined;
+  return getCollection(slug);
 }
 
 export function ShopPage() {
@@ -59,6 +60,13 @@ export function ShopPage() {
         pageSize: 12,
       };
     }
+    if (collectionSlug) {
+      return {
+        collectionId: collectionSlug,
+        sort: SortKey.Popular,
+        pageSize: 12,
+      };
+    }
     return { sort: SortKey.Popular, pageSize: 12 };
   }, [collectionSlug]);
 
@@ -76,9 +84,13 @@ export function ShopPage() {
   };
 
   const title = collection?.name ?? messages.nav.shop;
-  const description =
-    collection?.description ??
-    'Alle 3D-produkter og sokker i denne prototype — et midlertidigt katalog til udvikling.';
+  const description = collection?.description ?? messages.catalog.allProductsBody;
+  usePageMeta({
+    title: pageTitle(title),
+    description,
+    path: location.pathname,
+    robots: collectionSlug && !collection ? 'noindex' : undefined,
+  });
 
   if (collectionSlug && !collection) {
     return <NotFoundPage />;
@@ -95,7 +107,7 @@ export function ShopPage() {
           ]}
         />
         <h1>{title}</h1>
-        <p style={{ maxWidth: '40rem', marginTop: '0.75rem' }}>{description}</p>
+        <p className={styles.lede}>{description}</p>
         <div className={styles.banner}>
           <SafeImage
             src={
@@ -123,7 +135,7 @@ export function ShopPage() {
               {messages.catalog.resultCount(result.total)}
               {active > 0 ? ` · ${active} ${messages.catalog.activeFilters.toLowerCase()}` : ''}
             </p>
-            <div style={{ display: 'flex', gap: '0.6rem', alignItems: 'center' }}>
+            <div className={styles.toolbarActions}>
               <Button
                 className={styles.mobileFilters}
                 variant="secondary"
@@ -181,11 +193,8 @@ export function ShopPage() {
         />
         <div>
           <p className="eyebrow">Materialer</p>
-          <h2>Printet med omtanke — uden store løfter, vi ikke kan dokumentere.</h2>
-          <p style={{ margin: '0.85rem 0 1.2rem' }}>
-            Flere 3D-produkter i kataloget er angivet som PLA. Det er en
-            materialeangivelse i prototypen, ikke en miljøcertificering.
-          </p>
+          <h2>{messages.catalog.materialsTitle}</h2>
+          <p className={styles.materialsBody}>{messages.catalog.materialsBody}</p>
           <Button to="/om-os">{messages.nav.about}</Button>
         </div>
       </section>

@@ -8,13 +8,22 @@
 
 .button,
 .page {
-  min-width: 2.4rem;
-  height: 2.4rem;
+  min-width: 2.75rem;
+  height: 2.75rem;
   padding: 0 0.7rem;
   border-radius: var(--radius-pill);
-  border: 1px solid var(--color-divider);
+  border: 1.5px solid var(--color-divider);
   background: var(--color-surface);
   color: var(--color-ink);
+  transition:
+    background-color var(--duration-fast) var(--ease),
+    border-color var(--duration-fast) var(--ease),
+    color var(--duration-fast) var(--ease);
+}
+
+.button:hover:not(:disabled),
+.page:hover:not([data-current='true']) {
+  border-color: var(--color-ink);
 }
 
 .page[data-current='true'] {

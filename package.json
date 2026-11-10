@@ -9,6 +9,7 @@
     "lint": "oxlint",
     "test": "vitest run",
     "placeholders": "node scripts/generate-placeholders.mjs",
+    "shopify:check": "node scripts/shopify-check.mjs",
     "preview": "vite preview"
   },
   "dependencies": {

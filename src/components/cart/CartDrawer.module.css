@@ -1,0 +1,9 @@
+.stack {
+  display: grid;
+  gap: 1rem;
+}
+
+.note {
+  font-size: 0.85rem;
+  color: var(--color-muted);
+}

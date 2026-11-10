@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { messages } from '../../data/messages.ts';
 import { closeSearch } from '../../features/ui/uiSlice.ts';
@@ -15,7 +15,14 @@ export function SearchDialog() {
   const open = useAppSelector((state) => state.ui.searchOpen);
   const dispatch = useAppDispatch();
   const [query, setQuery] = useState('');
+  const inputRef = useRef<HTMLInputElement>(null);
   const results = useMemo(() => searchProducts(query, 10), [query]);
+
+  useEffect(() => {
+    if (open) {
+      inputRef.current?.focus();
+    }
+  }, [open]);
 
   const close = () => {
     dispatch(closeSearch());
@@ -36,10 +43,12 @@ export function SearchDialog() {
         <input
           id="site-search"
           className={styles.input}
+          type="search"
           value={query}
           onChange={(event) => setQuery(event.target.value)}
           placeholder={messages.header.searchPlaceholder}
           autoComplete="off"
+          ref={inputRef}
         />
         {query ? (
           <Button variant="ghost" onClick={() => setQuery('')}>
@@ -55,13 +64,13 @@ export function SearchDialog() {
       {results.length > 0 ? (
         <p className="eyebrow">{messages.search.results(results.length)}</p>
       ) : null}
-      <div className={styles.results}>
+      <ul className={styles.results}>
         {results.map((product) => {
           const price = resolvePrice(product);
           return (
+            <li key={product.id}>
             <Link
               className={styles.item}
-              key={product.id}
               to={`/product/${product.slug}`}
               onClick={close}
             >
@@ -70,6 +79,7 @@ export function SearchDialog() {
                 alt={product.images[0]?.alt ?? product.name}
                 width={80}
                 height={80}
+                displayWidth={160}
               />
               <span>
                 <span className={styles.name}>{product.name}</span>
@@ -77,9 +87,10 @@ export function SearchDialog() {
                 {formatMoney(price.amount, product.currency)}
               </span>
             </Link>
+            </li>
           );
         })}
-      </div>
+      </ul>
     </Modal>
   );
 }

@@ -14,6 +14,7 @@ export function matchesQuery(product: Product, query?: string): boolean {
 
   const haystack = [
     product.name,
+    product.slug,
     product.shortDescription,
     product.description,
     product.categoryId,
@@ -22,6 +23,7 @@ export function matchesQuery(product: Product, query?: string): boolean {
     ...product.materials,
     ...product.variants.map((variant) => variant.label),
     ...product.variants.map((variant) => variant.colorName ?? ''),
+    ...product.variants.map((variant) => variant.sku),
   ]
     .join(' ')
     .toLocaleLowerCase('da-DK');

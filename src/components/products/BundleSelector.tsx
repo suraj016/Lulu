@@ -2,10 +2,11 @@ import { useState } from 'react';
 import { messages } from '../../data/messages.ts';
 import { addItem } from '../../features/cart/cartSlice.ts';
 import { openCart, showToast } from '../../features/ui/uiSlice.ts';
-import { useAppDispatch } from '../../hooks/store.ts';
+import { useAppDispatch, useAppSelector } from '../../hooks/store.ts';
 import { getDefaultVariant } from '../../services/productService.ts';
 import type { Product } from '../../types/product.ts';
 import { formatMoney } from '../../utils/currency.ts';
+import { isVariantPurchasable } from '../../utils/inventory.ts';
 import { resolvePrice, sumAmounts } from '../../utils/pricing.ts';
 import { Button } from '../ui/Button.tsx';
 import { SafeImage } from '../ui/SafeImage.tsx';
@@ -19,6 +20,7 @@ export function BundleSelector({
   complementary: Product[];
 }) {
   const dispatch = useAppDispatch();
+  const cartBusy = useAppSelector((state) => state.cart.status === 'loading');
   const items = [product, ...complementary];
   const [selected, setSelected] = useState<string[]>(() =>
     [product.id, ...complementary.map((item) => item.id)],
@@ -38,26 +40,40 @@ export function BundleSelector({
   };
 
   const addSelected = () => {
-    selectedProducts.forEach((item) => {
-      const variant = getDefaultVariant(item);
-      if (!variant) {
-        return;
+    if (cartBusy) {
+      return;
+    }
+    void (async () => {
+      try {
+        let added = 0;
+        for (const item of selectedProducts) {
+          const variant = getDefaultVariant(item);
+          if (!variant || !isVariantPurchasable(item, variant)) {
+            continue;
+          }
+          await dispatch(
+            addItem({
+              productId: item.id,
+              variantId: variant.id,
+              quantity: 1,
+            }),
+          ).unwrap();
+          added += 1;
+        }
+        if (added === 0) {
+          throw new Error(messages.cart.updateFailed);
+        }
+        dispatch(
+          showToast({
+            message: messages.product.addedToCart,
+            action: 'open-cart',
+          }),
+        );
+        dispatch(openCart());
+      } catch {
+        dispatch(showToast({ message: messages.cart.updateFailed }));
       }
-      dispatch(
-        addItem({
-          productId: item.id,
-          variantId: variant.id,
-          quantity: 1,
-        }),
-      );
-    });
-    dispatch(
-      showToast({
-        message: messages.product.addedToCart,
-        action: 'open-cart',
-      }),
-    );
-    dispatch(openCart());
+    })();
   };
 
   if (complementary.length === 0) {
@@ -98,7 +114,10 @@ export function BundleSelector({
           {messages.product.combinedPrice}:{' '}
           <strong>{formatMoney(total)}</strong>
         </p>
-        <Button onClick={addSelected} disabled={selectedProducts.length === 0}>
+        <Button
+          onClick={addSelected}
+          disabled={selectedProducts.length === 0 || cartBusy}
+        >
           {messages.actions.addSelected}
         </Button>
       </div>

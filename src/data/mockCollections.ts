@@ -1,6 +1,12 @@
-import { editorialAssets } from '../assets/manifest.ts';
 import type { Collection } from '../types/product.ts';
+import {
+  collectionPresentation,
+  presentedShopRoutes,
+} from './collectionPresentation.ts';
 import { allProducts } from './mockProducts.ts';
+
+export { collectionPresentation, presentedShopRoutes };
+export type { CollectionPresentation } from './collectionPresentation.ts';
 
 function idsByCollection(collectionId: string): string[] {
   return allProducts
@@ -8,58 +14,38 @@ function idsByCollection(collectionId: string): string[] {
     .map((product) => product.id);
 }
 
+function presented(slug: string, productIds: string[]): Collection {
+  const presentation = collectionPresentation[slug];
+  if (!presentation) {
+    throw new Error(`Mangler præsentation for testdatasættet ${slug}.`);
+  }
+  return {
+    id: slug,
+    slug,
+    name: presentation.name,
+    description: presentation.description,
+    productIds,
+    heroImageId: presentation.heroImageId,
+  };
+}
+
 export const collections: Collection[] = [
-  {
-    id: '3d-produkter',
-    slug: '3d-produkter',
-    name: '3D-produkter',
-    description:
-      '3D-printede designs til leg, hjemmet og små gaver. Printet i små serier — hvert stykke kan have sin egen karakter.',
-    productIds: idsByCollection('3d-produkter'),
-    heroImageId: editorialAssets.catalogBanner.id,
-  },
-  {
-    id: 'sokker',
-    slug: 'sokker',
-    name: 'Sokker',
-    description:
-      'Farverige sokker med mønster og personlighed. Et par til skuffen — eller en gave, der er nem at give.',
-    productIds: idsByCollection('sokker'),
-    heroImageId: editorialAssets.socksCampaign.id,
-  },
-  {
-    id: 'popular-3d',
-    slug: 'popular-3d',
-    name: 'Populære 3D-produkter',
-    description: 'Et udvalg af de mest viste 3D-produkter i denne prototype.',
-    productIds: ['bil-klassisk', 'bus-klassisk', 'vase-twist', 'pen-holder'],
-  },
-  {
-    id: 'new-arrivals',
-    slug: 'new-arrivals',
-    name: 'Nyheder',
-    description: 'Nyeste sokker i kataloget.',
-    productIds: [
-      'sokker-citrus',
-      'sokker-bølge',
-      'sokker-have',
-      'sokker-koral',
-    ],
-  },
-  {
-    id: 'featured',
-    slug: 'featured',
-    name: 'Udvalgt',
-    description: 'Produkter vist i hero og kampagner.',
-    productIds: ['bil-klassisk'],
-  },
-  {
-    id: 'gaver',
-    slug: 'gaver',
-    name: 'Personlige gaver',
-    description: 'Små designs, der egner sig som gave.',
-    productIds: idsByCollection('gaver'),
-  },
+  presented('3d-produkter', idsByCollection('3d-produkter')),
+  presented('sokker', idsByCollection('sokker')),
+  presented('popular-3d', [
+    'bil-klassisk',
+    'bus-klassisk',
+    'vase-twist',
+    'pen-holder',
+  ]),
+  presented('new-arrivals', [
+    'sokker-citrus',
+    'sokker-bølge',
+    'sokker-have',
+    'sokker-koral',
+  ]),
+  presented('featured', ['bil-klassisk']),
+  presented('gaver', idsByCollection('gaver')),
 ];
 
 export function getCollectionBySlug(slug: string): Collection | undefined {

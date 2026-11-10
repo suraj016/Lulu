@@ -50,6 +50,11 @@
   margin-top: 1.75rem;
 }
 
+.stepTitle {
+  font-size: 1.25rem;
+  margin: 0.35rem 0;
+}
+
 .step img {
   width: 100%;
   aspect-ratio: 1;
@@ -57,6 +62,10 @@
   border-radius: var(--radius-xl);
   background: var(--color-sage);
   margin-bottom: 0.8rem;
+}
+
+.uniqueBody {
+  margin-top: 0.9rem;
 }
 
 .unique {

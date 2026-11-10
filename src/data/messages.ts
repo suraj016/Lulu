@@ -2,6 +2,12 @@ export const messages = {
   brand: 'Lulu3D',
   brandTagline:
     '3D-printede designs og farverige sokker — skabt med omtanke i Danmark.',
+  seo: {
+    defaultTitle: 'Lulu3D — 3D-printede designs og farverige sokker',
+    defaultDescription:
+      '3D-printede designs og farverige sokker. Skabt med omtanke i Danmark.',
+    cartRobots: 'noindex, nofollow',
+  },
   nav: {
     home: 'Forside',
     shop: 'Shop',
@@ -9,6 +15,9 @@ export const messages = {
     contact: 'Kontakt',
     cart: 'Kurv',
     wishlist: 'Ønskeliste',
+  },
+  app: {
+    loadingPage: 'Indlæser siden…',
   },
   header: {
     search: 'Søg',
@@ -73,6 +82,8 @@ export const messages = {
   },
   catalog: {
     allProducts: 'Alle produkter',
+    allProductsBody:
+      '3D-printede designs og farverige sokker. Priser, lager og varianter kommer fra Shopify.',
     all3d: 'Alle 3D-produkter',
     filters: 'Filtre',
     categories: 'Kategorier',
@@ -95,6 +106,16 @@ export const messages = {
     pageLabel: 'Side',
     priceInterval: (min: string, max: string) => `${min} – ${max}`,
     activeFilters: 'Aktive filtre',
+    loading: 'Indlæser produkter fra butikken…',
+    loadErrorTitle: 'Kataloget kunne ikke indlæses',
+    loadErrorBody:
+      'Shoppen kan ikke vises, før Shopify Storefront API svarer. Der bruges ikke et lokalt erstatningskatalog.',
+    loadErrorRetry: 'Prøv igen',
+    loadErrorUnknown: 'Der opstod en ukendt fejl under indlæsning af kataloget.',
+    unmappedCategory: 'Ukategoriseret',
+    materialsTitle: 'Printet med omtanke — uden store løfter, vi ikke kan dokumentere.',
+    materialsBody:
+      'Flere 3D-produkter er printet i PLA. Det er en materialeangivelse — ikke en miljøcertificering.',
   },
   cart: {
     title: 'Din kurv',
@@ -107,11 +128,16 @@ export const messages = {
     lineTotal: 'Linjetotal',
     unitPrice: 'Stykpris',
     prototypeNote:
-      'Kurven gemmes lokalt i denne browser. Priser og lager skal bekræftes af et rigtigt kassesystem, før en ordre kan gennemføres.',
+      'Priser og lager bekræftes af Shopify. Du betaler via Shopifys kasse.',
     checkoutUnavailable:
-      'Kassen er ikke tilgængelig endnu. Ingen betaling er gennemført.',
+      'Kassen kunne ikke åbnes. Prøv igen om et øjeblik.',
     cannotCheckout:
       'Nogle varer er ikke på lager og kan ikke sendes til kassen.',
+    updateFailed: 'Kurven kunne ikke opdateres. Prøv igen.',
+    checkoutFailed: 'Kassen kunne ikke åbnes. Prøv igen.',
+    legacyCleared:
+      'Din tidligere prototyperkurv kunne ikke overføres, fordi den brugte testdata. Læg varerne i kurven igen.',
+    retry: 'Prøv igen',
   },
   wishlist: {
     title: 'Ønskeliste',
@@ -127,11 +153,11 @@ export const messages = {
   },
   account: {
     title: 'Konto',
-    body: 'Kundekonto er ikke tilgængelig i denne prototyp. Du kan stadig handle i shoppen, gemme produkter på ønskelisten og lægge varer i kurven som gæst.',
+    body: 'Kundekonto er ikke tilgængelig endnu. Du kan stadig handle som gæst, gemme produkter på ønskelisten og lægge varer i kurven.',
   },
   checkout: {
     title: 'Kasse',
-    body: 'Denne side er en pladsholder. Et rigtigt kasse- og betalingssystem skal tilsluttes, før ordrer kan gennemføres. Ingen betaling er blevet behandlet.',
+    body: 'Når du fortsætter, sendes du til Shopifys kasse, hvor betaling, fragt og ordreoprettelse håndteres.',
   },
   contact: {
     eyebrow: 'Kontakt os',
@@ -144,7 +170,7 @@ export const messages = {
     formEmail: 'E-mail',
     formMessage: 'Besked',
     formHint:
-      'Formularen er et lokalt prototypfelt. Beskeden sendes ikke. Brug e-mailen, hvis du vil kontakte os.',
+      'Formularen sender ikke beskeden endnu. Skriv til os på e-mail, hvis du vil i kontakt.',
     formSubmitted:
       'Tak. Beskeden er ikke sendt — der er endnu ikke et kontaktsystem tilkoblet. Skriv til contact@Lulu3D.dk.',
     required: 'Dette felt er påkrævet.',

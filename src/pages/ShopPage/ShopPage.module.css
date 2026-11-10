@@ -2,6 +2,15 @@
   padding: 2rem 0 1.25rem;
 }
 
+.lede {
+  max-width: 40rem;
+  margin-top: 0.75rem;
+}
+
+.materialsBody {
+  margin: 0.85rem 0 1.2rem;
+}
+
 .banner {
   overflow: hidden;
   border-radius: 1.25rem 3rem 1.25rem 2.5rem;
@@ -29,6 +38,13 @@
   align-items: center;
   gap: 1rem;
   margin-bottom: 1.25rem;
+}
+
+.toolbarActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  align-items: center;
 }
 
 .desktopFilters {

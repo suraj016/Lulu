@@ -3,6 +3,14 @@
   inset: 0;
   z-index: 70;
   background: rgb(23 23 23 / 0.4);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity var(--duration) var(--ease);
+}
+
+.backdrop[data-open='true'] {
+  opacity: 1;
+  pointer-events: auto;
 }
 
 .panel {
@@ -16,12 +24,25 @@
   height: 100%;
   background: var(--color-surface);
   box-shadow: var(--shadow-drawer);
+  transform: translateX(100%);
+  pointer-events: none;
+  transition: transform var(--duration) var(--ease);
+}
+
+.panel[data-open='true'] {
+  transform: translateX(0);
+  pointer-events: auto;
 }
 
 .left {
   right: auto;
   left: 0;
   box-shadow: 12px 0 40px rgb(23 23 23 / 0.1);
+  transform: translateX(-100%);
+}
+
+.left[data-open='true'] {
+  transform: translateX(0);
 }
 
 .header {

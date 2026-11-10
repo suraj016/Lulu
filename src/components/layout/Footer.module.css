@@ -25,6 +25,9 @@
 }
 
 .nav a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 2.5rem;
   font-weight: 600;
   color: var(--color-ink);
   text-decoration: none;

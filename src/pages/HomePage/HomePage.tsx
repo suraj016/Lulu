@@ -1,19 +1,40 @@
 import { editorialAssets } from '../../assets/manifest.ts';
 import { TrustStrip } from '../../components/layout/TrustStrip.tsx';
-import { ProductGrid } from '../../components/products/ProductGrid.tsx';
+import {
+  ProductGrid,
+  ProductGridSkeleton,
+} from '../../components/products/ProductGrid.tsx';
 import { Button } from '../../components/ui/Button.tsx';
 import { SafeImage } from '../../components/ui/SafeImage.tsx';
 import { messages } from '../../data/messages.ts';
 import { homeBenefits } from '../../data/mockContent.ts';
+import { prefetchPath } from '../../app/lazyRoutes.ts';
+import { useCatalogStatus } from '../../app/providers/CatalogGate.tsx';
 import {
   getFeaturedProducts,
   getNewArrivals,
 } from '../../services/productService.ts';
+import { pageTitle, usePageMeta } from '../../seo/usePageMeta.ts';
 import styles from './HomePage.module.css';
 
+function shopLink(to: string) {
+  return {
+    to,
+    onPointerEnter: () => prefetchPath(to),
+    onFocus: () => prefetchPath(to),
+  };
+}
+
 export function HomePage() {
-  const featured = getFeaturedProducts();
-  const arrivals = getNewArrivals();
+  const catalog = useCatalogStatus();
+  const featured = catalog.status === 'ready' ? getFeaturedProducts() : [];
+  const arrivals = catalog.status === 'ready' ? getNewArrivals() : [];
+  usePageMeta({
+    title: pageTitle(),
+    description: messages.seo.defaultDescription,
+    path: '/',
+    image: editorialAssets.heroHome.src,
+  });
 
   return (
     <>
@@ -38,11 +59,15 @@ export function HomePage() {
               </h1>
               <p>{messages.home.heroBody}</p>
               <div className={styles.actions}>
-                <Button to="/shop/3d-produkter" variant="ink">
+                <Button {...shopLink('/shop')} variant="ink">
                   {messages.actions.shopNow}
                   <span aria-hidden="true">→</span>
                 </Button>
-                <Button to="/shop" variant="secondary" className={styles.outline}>
+                <Button
+                  {...shopLink('/shop')}
+                  variant="secondary"
+                  className={styles.outline}
+                >
                   {messages.actions.seeAllProducts}
                 </Button>
               </div>
@@ -58,11 +83,15 @@ export function HomePage() {
         <div className="container">
           <div className={styles.sectionHead}>
             <h2>{messages.home.popularTitle}</h2>
-            <Button to="/shop/3d-produkter" variant="ghost">
+            <Button {...shopLink('/shop/popular-3d')} variant="ghost">
               {messages.actions.seeAll3d}
             </Button>
           </div>
-          <ProductGrid products={featured} />
+          {catalog.status === 'ready' ? (
+            <ProductGrid products={featured} />
+          ) : (
+            <ProductGridSkeleton />
+          )}
         </div>
       </section>
 
@@ -71,10 +100,10 @@ export function HomePage() {
           <div>
             <p className="eyebrow">Sokker</p>
             <h2>{messages.home.socksTitle}</h2>
-            <p style={{ margin: '1rem 0 1.4rem' }}>{messages.home.socksBody}</p>
+            <p className={styles.socksBody}>{messages.home.socksBody}</p>
             <div className={styles.actions}>
-              <Button to="/shop/sokker">{messages.actions.shopSocks}</Button>
-              <Button to="/shop/sokker" variant="secondary">
+              <Button {...shopLink('/shop')}>{messages.actions.shopSocks}</Button>
+              <Button {...shopLink('/shop')} variant="secondary">
                 {messages.actions.seeAllSocks}
               </Button>
             </div>
@@ -94,11 +123,15 @@ export function HomePage() {
         <div className="container">
           <div className={styles.sectionHead}>
             <h2>{messages.home.newArrivalsTitle}</h2>
-            <Button to="/shop/sokker" variant="ghost">
+            <Button {...shopLink('/shop/new-arrivals')} variant="ghost">
               {messages.actions.seeAllSocks}
             </Button>
           </div>
-          <ProductGrid products={arrivals} />
+          {catalog.status === 'ready' ? (
+            <ProductGrid products={arrivals} />
+          ) : (
+            <ProductGridSkeleton />
+          )}
         </div>
       </section>
 
@@ -116,9 +149,7 @@ export function HomePage() {
             <h2>{messages.home.benefitsTitle}</h2>
             {homeBenefits.map((item) => (
               <div key={item.id}>
-                <h3 style={{ fontSize: '1.35rem', marginBottom: '0.35rem' }}>
-                  {item.title}
-                </h3>
+                <h3 className={styles.benefitTitle}>{item.title}</h3>
                 <p>{item.body}</p>
               </div>
             ))}

@@ -15,7 +15,7 @@ export function AccountDialog() {
       onClose={() => dispatch(closeAccount())}
     >
       <p>{messages.account.body}</p>
-      <div style={{ marginTop: '1.25rem' }}>
+      <div className="actions-row">
         <Button to="/shop" variant="primary" onClick={() => dispatch(closeAccount())}>
           {messages.actions.continueShopping}
         </Button>

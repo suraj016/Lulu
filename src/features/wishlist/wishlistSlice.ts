@@ -1,4 +1,5 @@
 import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
+import { isShopifyGid } from '../../services/shopifyCartService.ts';
 import { readStorage, writeStorage } from '../../services/storageService.ts';
 
 export type WishlistItem = {
@@ -18,7 +19,9 @@ export function loadWishlistState(): WishlistState {
     return { items: [] };
   }
   const items = stored.items.filter(
-    (item) => typeof item?.productId === 'string' && item.productId.length > 0,
+    (item) =>
+      typeof item?.productId === 'string' &&
+      isShopifyGid(item.productId, 'Product'),
   );
   return { items };
 }

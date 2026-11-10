@@ -3,6 +3,7 @@ import { editorialAssets } from '../../assets/manifest.ts';
 import { Button } from '../../components/ui/Button.tsx';
 import { SafeImage } from '../../components/ui/SafeImage.tsx';
 import { messages } from '../../data/messages.ts';
+import { pageTitle, usePageMeta } from '../../seo/usePageMeta.ts';
 import { validateContactForm, type FieldErrors } from '../../utils/validation.ts';
 import styles from './ContactPage.module.css';
 
@@ -10,6 +11,11 @@ export function ContactPage() {
   const [values, setValues] = useState({ name: '', email: '', message: '' });
   const [errors, setErrors] = useState<FieldErrors>({});
   const [submitted, setSubmitted] = useState(false);
+  usePageMeta({
+    title: pageTitle(messages.nav.contact),
+    description: messages.contact.body,
+    path: '/kontakt',
+  });
 
   return (
     <div className={`container ${styles.page}`}>
@@ -44,8 +50,14 @@ export function ContactPage() {
                 setValues((current) => ({ ...current, name: event.target.value }))
               }
               autoComplete="name"
+              aria-invalid={Boolean(errors.name)}
+              aria-describedby={errors.name ? 'contact-name-error' : undefined}
             />
-            {errors.name ? <span className={styles.error}>{errors.name}</span> : null}
+            {errors.name ? (
+              <span id="contact-name-error" className={styles.error}>
+                {errors.name}
+              </span>
+            ) : null}
           </label>
           <label>
             {messages.contact.formEmail}
@@ -56,8 +68,14 @@ export function ContactPage() {
                 setValues((current) => ({ ...current, email: event.target.value }))
               }
               autoComplete="email"
+              aria-invalid={Boolean(errors.email)}
+              aria-describedby={errors.email ? 'contact-email-error' : undefined}
             />
-            {errors.email ? <span className={styles.error}>{errors.email}</span> : null}
+            {errors.email ? (
+              <span id="contact-email-error" className={styles.error}>
+                {errors.email}
+              </span>
+            ) : null}
           </label>
           <label>
             {messages.contact.formMessage}
@@ -69,9 +87,15 @@ export function ContactPage() {
                   message: event.target.value,
                 }))
               }
+              aria-invalid={Boolean(errors.message)}
+              aria-describedby={
+                errors.message ? 'contact-message-error' : undefined
+              }
             />
             {errors.message ? (
-              <span className={styles.error}>{errors.message}</span>
+              <span id="contact-message-error" className={styles.error}>
+                {errors.message}
+              </span>
             ) : null}
           </label>
           <p>{messages.contact.formHint}</p>

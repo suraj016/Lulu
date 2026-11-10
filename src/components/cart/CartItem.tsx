@@ -2,7 +2,8 @@ import { Link } from 'react-router-dom';
 import { messages } from '../../data/messages.ts';
 import type { CartLineView } from '../../features/cart/cartSelectors.ts';
 import { removeItem, updateQuantity } from '../../features/cart/cartSlice.ts';
-import { useAppDispatch } from '../../hooks/store.ts';
+import { showToast } from '../../features/ui/uiSlice.ts';
+import { useAppDispatch, useAppSelector } from '../../hooks/store.ts';
 import { formatMoney } from '../../utils/currency.ts';
 import { QuantitySelector } from '../ui/QuantitySelector.tsx';
 import { SafeImage } from '../ui/SafeImage.tsx';
@@ -10,16 +11,32 @@ import styles from './CartItem.module.css';
 
 export function CartItem({ view }: { view: CartLineView }) {
   const dispatch = useAppDispatch();
+  const busy = useAppSelector((state) => state.cart.status === 'loading');
   const { line, product, variant, missing, purchasable } = view;
-  const image = product?.images[0];
+
+  const changeQuantity = (quantity: number) => {
+    void dispatch(updateQuantity({ lineId: line.id, quantity }))
+      .unwrap()
+      .catch(() => {
+        dispatch(showToast({ message: messages.cart.updateFailed }));
+      });
+  };
+
+  const remove = () => {
+    void dispatch(removeItem(line.id))
+      .unwrap()
+      .catch(() => {
+        dispatch(showToast({ message: messages.cart.updateFailed }));
+      });
+  };
 
   if (missing || !product) {
     return (
       <article className={styles.item}>
-        <SafeImage src="/placeholders/products/fallback.svg" alt="" />
+        <SafeImage src="/placeholders/products/fallback.svg" alt="" width={80} height={80} />
         <div>
           <p>{messages.imageMissing}</p>
-          <button type="button" onClick={() => dispatch(removeItem(line.id))}>
+          <button type="button" className={styles.remove} onClick={remove} disabled={busy}>
             {messages.actions.remove}
           </button>
         </div>
@@ -30,22 +47,23 @@ export function CartItem({ view }: { view: CartLineView }) {
   return (
     <article className={styles.item}>
       <SafeImage
-        src={image?.src ?? '/placeholders/products/fallback.svg'}
-        alt={image?.alt ?? product.name}
+        src={imageSrc(view)}
+        alt={product.images[0]?.alt ?? product.name}
         width={100}
         height={100}
+        displayWidth={200}
       />
       <div className={styles.meta}>
         <div className={styles.top}>
           <Link className={styles.name} to={`/product/${product.slug}`}>
             {product.name}
           </Link>
-          <button type="button" onClick={() => dispatch(removeItem(line.id))}>
+          <button type="button" className={styles.remove} onClick={remove} disabled={busy}>
             {messages.actions.remove}
           </button>
         </div>
         <p>{variant?.label}</p>
-        <p>{formatMoney(view.unitAmount, product.currency)}</p>
+        <p>{formatMoney(view.unitAmount, line.currency)}</p>
         {!purchasable ? (
           <p className={styles.warning}>{messages.product.outOfStock}</p>
         ) : null}
@@ -53,13 +71,16 @@ export function CartItem({ view }: { view: CartLineView }) {
           <QuantitySelector
             value={line.quantity}
             max={Math.max(1, view.maxQuantity)}
-            onChange={(quantity) =>
-              dispatch(updateQuantity({ lineId: line.id, quantity }))
-            }
+            disabled={busy}
+            onChange={changeQuantity}
           />
-          <strong>{formatMoney(view.lineAmount, product.currency)}</strong>
+          <strong>{formatMoney(view.lineAmount, line.currency)}</strong>
         </div>
       </div>
     </article>
   );
+}
+
+function imageSrc(view: CartLineView): string {
+  return view.product?.images[0]?.src ?? '/placeholders/products/fallback.svg';
 }

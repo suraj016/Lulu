@@ -1,9 +1,11 @@
 import { NavLink } from 'react-router-dom';
+import { prefetchPath } from '../../app/lazyRoutes.ts';
 import { mainNavigation, shopCollections } from '../../data/mockNavigation.ts';
 import { messages } from '../../data/messages.ts';
 import { closeMobileNav } from '../../features/ui/uiSlice.ts';
 import { useAppDispatch, useAppSelector } from '../../hooks/store.ts';
 import { Drawer } from '../ui/Drawer.tsx';
+import styles from './MobileNavigation.module.css';
 
 export function MobileNavigation() {
   const open = useAppSelector((state) => state.ui.mobileNavOpen);
@@ -13,26 +15,33 @@ export function MobileNavigation() {
   return (
     <Drawer open={open} title={messages.header.menu} onClose={close} side="left">
       <nav aria-label="Mobilmenu">
-        <ul style={{ listStyle: 'none', margin: 0, padding: 0, display: 'grid', gap: '1rem' }}>
+        <ul className={styles.links}>
           {mainNavigation.map((item) => (
             <li key={item.id}>
               <NavLink
+                className={styles.link}
                 to={item.to}
                 onClick={close}
-                style={{ fontSize: '1.35rem', fontWeight: 650, textDecoration: 'none', color: 'var(--color-ink)' }}
+                onPointerEnter={() => prefetchPath(item.to)}
+                onFocus={() => prefetchPath(item.to)}
               >
                 {item.label}
               </NavLink>
             </li>
           ))}
         </ul>
-        <p className="eyebrow" style={{ marginTop: '2rem' }}>
+        <p className={`eyebrow ${styles.shopEyebrow}`}>
           {messages.nav.shop}
         </p>
-        <ul style={{ listStyle: 'none', margin: '0.75rem 0 0', padding: 0, display: 'grid', gap: '0.7rem' }}>
+        <ul className={styles.shopLinks}>
           {shopCollections.map((item) => (
             <li key={item.id}>
-              <NavLink to={item.to} onClick={close}>
+              <NavLink
+                to={item.to}
+                onClick={close}
+                onPointerEnter={() => prefetchPath(item.to)}
+                onFocus={() => prefetchPath(item.to)}
+              >
                 {item.label}
               </NavLink>
             </li>
