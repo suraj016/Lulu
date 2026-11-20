@@ -9,6 +9,7 @@ type QuantitySelectorProps = {
   disabled?: boolean;
   onChange: (value: number) => void;
   id?: string;
+  ariaLabelledBy?: string;
 };
 
 export function QuantitySelector({
@@ -18,9 +19,15 @@ export function QuantitySelector({
   disabled = false,
   onChange,
   id,
+  ariaLabelledBy,
 }: QuantitySelectorProps) {
   return (
-    <div className={styles.wrap}>
+    <div
+      className={styles.wrap}
+      role="group"
+      aria-labelledby={ariaLabelledBy}
+      aria-label={ariaLabelledBy ? undefined : messages.product.quantity}
+    >
       <button
         className={styles.button}
         type="button"

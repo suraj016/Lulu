@@ -13,10 +13,10 @@ export const shopCollections = [
   { id: 'socks', label: 'Sokker', to: '/shop/sokker' },
 ] as const;
 
-export const footerNavigation = [
-  ...mainNavigation,
-  { id: 'wishlist', label: messages.nav.wishlist, to: '/wishlist' },
-  { id: 'cart', label: messages.nav.cart, to: '/cart' },
+export const footerPrimaryLinks = [
+  { id: 'shop', label: messages.nav.shop, to: '/shop' },
+  { id: 'about', label: messages.nav.about, to: '/om-os' },
+  { id: 'contact', label: messages.nav.contact, to: '/kontakt' },
 ] as const;
 
 /**

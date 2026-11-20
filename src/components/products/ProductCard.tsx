@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { Plus } from 'lucide-react';
+import { ShoppingBag } from 'lucide-react';
 import { prefetchPath } from '../../app/lazyRoutes.ts';
 import { messages } from '../../data/messages.ts';
 import { addItem } from '../../features/cart/cartSlice.ts';
@@ -86,9 +86,13 @@ export function ProductCard({ product }: { product: Product }) {
           onPointerEnter={() => {
             void import('../cart/CartDrawer.tsx');
           }}
-          onClick={quickAdd}
+          onClick={(event) => {
+            event.preventDefault();
+            event.stopPropagation();
+            quickAdd();
+          }}
         >
-          <Plus size={18} />
+          <ShoppingBag size={17} strokeWidth={2} aria-hidden="true" />
         </button>
       </div>
       <Link

@@ -57,10 +57,7 @@ function shopifyProduct(
 describe('collection handle aliases', () => {
   it('maps Shopify handles onto existing UI collection slugs', () => {
     expect(collectionKeysForHandle('new-in')).toEqual(['new-in', 'new-arrivals']);
-    expect(collectionKeysForHandle('most-popular')).toEqual([
-      'most-popular',
-      'popular-3d',
-    ]);
+    expect(collectionKeysForHandle('most-popular')).toEqual(['most-popular']);
     expect(collectionKeysForHandle('frontpage')).toEqual(['frontpage']);
   });
 });
@@ -74,10 +71,19 @@ describe('live collection membership', () => {
     });
   });
 
-  it('keeps homepage sections tied to Shopify collections, not title heuristics', () => {
+  it('keeps 3D homepage sections on printed products, not socks in most-popular', () => {
+    const socks = shopifyProduct('gid://shopify/Product/1', 'pink-socks', 'Pink socks');
+    socks.options = [{ name: 'Size', values: ['Small'] }];
+    socks.variants.nodes[0]!.selectedOptions = [{ name: 'Size', value: 'Small' }];
+
+    const lys = shopifyProduct('gid://shopify/Product/3', 'lys', 'Lys');
+    lys.options = [{ name: 'Color', values: ['Beige'] }];
+    lys.variants.nodes[0]!.selectedOptions = [{ name: 'Color', value: 'Beige' }];
+
     const products = [
-      shopifyProduct('gid://shopify/Product/1', 'pink-socks', 'Pink socks'),
+      socks,
       shopifyProduct('gid://shopify/Product/2', 'gift-card', 'Shoplulu Gift card'),
+      lys,
     ];
     const collections: ShopifyCollectionRecord[] = [
       {
@@ -99,14 +105,14 @@ describe('live collection membership', () => {
     const mapped = mapShopifyCatalog(products, collections);
     replaceCatalog(mapped);
 
-    expect(getProductsByCollection('popular-3d').map((item) => item.slug)).toEqual([
-      'pink-socks',
-    ]);
+    expect(getProductsByCollection('popular-3d').map((item) => item.slug)).toEqual(['lys']);
     expect(getNewArrivals().map((item) => item.slug)).toEqual(['pink-socks']);
     expect(getCollection('new-arrivals')?.productIds).toEqual([
       'gid://shopify/Product/1',
     ]);
-    expect(getCollection('sokker')?.productIds).toEqual([]);
+    expect(getProductsByCollection('sokker').map((item) => item.slug)).toEqual([
+      'pink-socks',
+    ]);
     expect(
       getProducts({
         collectionId: 'sokker',
@@ -117,19 +123,23 @@ describe('live collection membership', () => {
         page: 1,
         pageSize: 12,
       }).total,
-    ).toBe(0);
+    ).toBe(1);
   });
 
-  it('preserves Shopify collection product order on homepage sections', () => {
+  it('preserves Shopify collection product order for new arrivals', () => {
     const first = shopifyProduct('gid://shopify/Product/1', 'first-socks', 'First socks');
+    first.options = [{ name: 'Size', values: ['Small'] }];
+    first.variants.nodes[0]!.selectedOptions = [{ name: 'Size', value: 'Small' }];
     const second = shopifyProduct('gid://shopify/Product/2', 'second-socks', 'Second socks');
+    second.options = [{ name: 'Size', values: ['Small'] }];
+    second.variants.nodes[0]!.selectedOptions = [{ name: 'Size', value: 'Small' }];
     const mapped = mapShopifyCatalog(
       [first, second],
       [
         {
           id: 'gid://shopify/Collection/1',
-          handle: 'most-popular',
-          title: 'Most Popular',
+          handle: 'new-in',
+          title: 'New In',
           description: '',
           productIds: ['gid://shopify/Product/2', 'gid://shopify/Product/1'],
         },
@@ -137,7 +147,7 @@ describe('live collection membership', () => {
     );
     replaceCatalog(mapped);
 
-    expect(getProductsByCollection('popular-3d').map((item) => item.slug)).toEqual([
+    expect(getProductsByCollection('new-arrivals').map((item) => item.slug)).toEqual([
       'second-socks',
       'first-socks',
     ]);

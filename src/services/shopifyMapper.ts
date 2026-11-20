@@ -42,7 +42,6 @@ const COLOR_PHRASES: Array<{ pattern: RegExp; id: string; hex: string }> = [
  */
 export const COLLECTION_HANDLE_ALIASES: Record<string, readonly string[]> = {
   'new-in': ['new-arrivals'],
-  'most-popular': ['popular-3d'],
   socks: ['sokker'],
   sokker: ['sokker'],
   '3d-products': ['3d-produkter'],
@@ -107,12 +106,55 @@ function haystackOf(
     .toLocaleLowerCase('da-DK');
 }
 
+const PRINTED_3D_COLLECTION_SLUGS = ['3d-produkter', 'popular-3d'] as const;
+const SOCKS_COLLECTION_SLUGS = ['sokker'] as const;
+
+function productIdentityHaystack(parts: string[]): string {
+  return parts.join(' ').toLocaleLowerCase('da-DK');
+}
+
+function isNonMerchandiseProduct(haystack: string): boolean {
+  return /\bgift\s*card\b|\bgavekort\b|\bmystery\s*box\b/.test(haystack);
+}
+
+export function inferProductTypeFromShopifyProduct(
+  product: ShopifyProduct,
+): ProductType | null {
+  const identityHaystack = productIdentityHaystack([
+    product.title,
+    product.handle.replaceAll('-', ' '),
+    product.productType,
+    ...product.tags,
+  ]);
+
+  if (/\bsokker\b|\bsocks\b|\bsock\b/.test(identityHaystack)) {
+    return ProductType.Socks;
+  }
+  if (isNonMerchandiseProduct(identityHaystack)) {
+    return null;
+  }
+
+  const optionNames = product.options.map((option) => optionNameKey(option.name));
+  const hasSize = optionNames.some((name) => SIZE_OPTION_NAMES.has(name));
+  const hasColor = optionNames.some((name) => COLOR_OPTION_NAMES.has(name));
+
+  if (hasSize && !hasColor) {
+    return ProductType.Socks;
+  }
+  if (hasColor && !hasSize) {
+    return ProductType.Printed3d;
+  }
+
+  return null;
+}
+
 export function mapProductType(input: {
   productType: string;
   tags: string[];
   collectionKeys: string[];
+  shopifyProduct?: ShopifyProduct;
 }): ProductType {
-  const typeHaystack = [input.productType, ...input.tags].join(' ').toLocaleLowerCase('da-DK');
+  const typeHaystack = productIdentityHaystack([input.productType, ...input.tags]);
   if (/\bsokker\b|\bsocks\b|\bsock\b/.test(typeHaystack)) {
     return ProductType.Socks;
   }
@@ -125,6 +167,13 @@ export function mapProductType(input: {
   }
   if (input.collectionKeys.includes('3d-produkter')) {
     return ProductType.Printed3d;
+  }
+
+  if (input.shopifyProduct) {
+    const inferred = inferProductTypeFromShopifyProduct(input.shopifyProduct);
+    if (inferred) {
+      return inferred;
+    }
   }
 
   return ProductType.Unmapped;
@@ -301,12 +350,23 @@ export function mapShopifyProduct(
 ): Product {
   const tags = product.tags.map((tag) => tag.trim()).filter(Boolean);
   const collectionIds = collectionHandles.flatMap(collectionKeysForHandle);
-  const uniqueCollectionIds = [...new Set(collectionIds)];
+  let uniqueCollectionIds = [...new Set(collectionIds)];
   const productType = mapProductType({
     productType: product.productType,
     tags,
     collectionKeys: uniqueCollectionIds,
+    shopifyProduct: product,
   });
+  if (productType === ProductType.Printed3d) {
+    uniqueCollectionIds = [
+      ...new Set([...uniqueCollectionIds, ...PRINTED_3D_COLLECTION_SLUGS]),
+    ];
+  }
+  if (productType === ProductType.Socks) {
+    uniqueCollectionIds = [
+      ...new Set([...uniqueCollectionIds, ...SOCKS_COLLECTION_SLUGS]),
+    ];
+  }
   const inferredColors = inferColors(product);
   const images = product.images.nodes.map((image) => mapImage(image, product.title));
   const firstVariant = product.variants.nodes[0];

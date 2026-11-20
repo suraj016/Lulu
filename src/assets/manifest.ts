@@ -1,4 +1,5 @@
 import heroHomePhoto from './Forside/image00001.webp';
+import luluLogo from './luluLogo.jpeg';
 
 /**
  * Central mapping between UI slots and image files.
@@ -26,12 +27,12 @@ export type AssetEntry = {
 export const brandAssets = {
   logo: {
     id: 'logo',
-    src: '/placeholders/brand/logo.svg',
-    alt: 'Lulu3D',
-    status: AssetStatus.Placeholder,
-    notes: 'Awaiting official brand logo. Temporary wordmark is used.',
-    width: 220,
-    height: 56,
+    src: luluLogo,
+    alt: 'Lulu3D — Vi gør idéer fysiske',
+    status: AssetStatus.Supplied,
+    notes: 'Official brand logo from src/assets/luluLogo.jpeg.',
+    width: 640,
+    height: 640,
   },
   favicon: {
     id: 'favicon',

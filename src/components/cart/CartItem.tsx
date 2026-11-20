@@ -68,13 +68,22 @@ export function CartItem({ view }: { view: CartLineView }) {
           <p className={styles.warning}>{messages.product.outOfStock}</p>
         ) : null}
         <div className={styles.controls}>
-          <QuantitySelector
-            value={line.quantity}
-            max={Math.max(1, view.maxQuantity)}
-            disabled={busy}
-            onChange={changeQuantity}
-          />
-          <strong>{formatMoney(view.lineAmount, line.currency)}</strong>
+          <div className={styles.quantityRow}>
+            <span className={styles.quantityLabel} id={`qty-label-${line.id}`}>
+              {messages.product.quantity}
+            </span>
+            <QuantitySelector
+              value={line.quantity}
+              max={Math.max(1, view.maxQuantity)}
+              disabled={busy}
+              onChange={changeQuantity}
+              id={`qty-${line.id}`}
+              ariaLabelledBy={`qty-label-${line.id}`}
+            />
+          </div>
+          <strong className={styles.lineTotal}>
+            {formatMoney(view.lineAmount, line.currency)}
+          </strong>
         </div>
       </div>
     </article>

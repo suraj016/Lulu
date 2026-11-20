@@ -2,8 +2,7 @@
   position: sticky;
   top: 0;
   z-index: 40;
-  background: rgb(247 242 234 / 0.97);
-  backdrop-filter: blur(16px);
+  background-color: var(--color-cream);
   border-bottom: 1px solid var(--color-divider);
 }
 
@@ -20,11 +19,16 @@
   align-items: center;
   justify-self: start;
   text-decoration: none;
+  background-color: var(--color-cream);
 }
 
 .logo img {
-  height: 1.7rem;
+  display: block;
+  height: 2.65rem;
   width: auto;
+  max-width: min(11rem, 42vw);
+  object-fit: contain;
+  background-color: var(--color-cream);
 }
 
 .nav {
@@ -79,6 +83,7 @@
   }
 
   .logo img {
-    height: 1.85rem;
+    height: 3rem;
+    max-width: 12.5rem;
   }
 }

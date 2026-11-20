@@ -2,13 +2,29 @@
   width: var(--swatch-size);
   height: var(--swatch-size);
   border-radius: 50%;
-  border: 1px solid rgb(23 23 23 / 0.12);
-  box-shadow: inset 0 0 0 1px rgb(255 255 255 / 0.35);
+  border: 1.5px solid rgb(23 23 23 / 0.14);
+  box-shadow:
+    inset 0 0 0 1px rgb(255 255 255 / 0.4),
+    0 1px 3px rgb(23 23 23 / 0.06);
+  transition:
+    transform var(--duration-fast) var(--ease),
+    outline-color var(--duration-fast) var(--ease),
+    box-shadow var(--duration-fast) var(--ease);
+}
+
+.swatch:hover:not(:disabled) {
+  transform: scale(1.08);
+  box-shadow:
+    inset 0 0 0 1px rgb(255 255 255 / 0.45),
+    0 3px 10px rgb(23 23 23 / 0.12);
 }
 
 .swatch[data-selected='true'] {
   outline: 2px solid var(--color-forest);
   outline-offset: 3px;
+  box-shadow:
+    inset 0 0 0 1px rgb(255 255 255 / 0.5),
+    0 0 0 3px rgb(45 90 67 / 0.12);
 }
 
 .swatch:disabled {

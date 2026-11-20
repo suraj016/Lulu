@@ -73,13 +73,13 @@ describe('shopifyMapper', () => {
     expect(moneyToMinorUnits({ amount: '14.99', currencyCode: 'EUR' })).toBe(1499);
   });
 
-  it('maps a product without inventing collection membership from its title', () => {
+  it('infers socks from title and options without Shopify collection membership', () => {
     const mapped = mapShopifyProduct(product());
 
     expect(mapped.slug).toBe('original-lulu-pink-socks');
-    expect(mapped.collectionIds).toEqual([]);
-    expect(mapped.productType).toBe(ProductType.Unmapped);
-    expect(mapped.categoryId).toBe(UNMAPPED_CATEGORY_ID);
+    expect(mapped.collectionIds).toEqual(['sokker']);
+    expect(mapped.productType).toBe(ProductType.Socks);
+    expect(mapped.categoryId).toBe('sokker');
     expect(mapped.currency).toBe(CurrencyCode.Eur);
     expect(mapped.priceAmount).toBe(1499);
     expect(mapped.colors).toContain('pink');
@@ -92,7 +92,37 @@ describe('shopifyMapper', () => {
     );
     expect(mapped.productType).toBe(ProductType.Socks);
     expect(mapped.categoryId).toBe('sokker');
-    expect(mapped.collectionIds).toEqual([]);
+    expect(mapped.collectionIds).toEqual(['sokker']);
+  });
+
+  it('maps color-only products like Lys as 3D with UI collection slugs', () => {
+    const mapped = mapShopifyProduct(
+      product({
+        title: 'Lys',
+        handle: 'lys',
+        description: '3D-printet lys.',
+        options: [{ id: 'opt-c', name: 'Color', values: ['Beige', 'Hvid'] }],
+        variants: {
+          nodes: [
+            {
+              id: 'gid://shopify/ProductVariant/lys',
+              title: 'Beige',
+              sku: '',
+              availableForSale: true,
+              quantityAvailable: 0,
+              selectedOptions: [{ name: 'Color', value: 'Beige' }],
+              price: { amount: '9.99', currencyCode: 'EUR' },
+              compareAtPrice: null,
+              image: null,
+            },
+          ],
+        },
+      }),
+    );
+
+    expect(mapped.productType).toBe(ProductType.Printed3d);
+    expect(mapped.collectionIds).toEqual(['3d-produkter', 'popular-3d']);
+    expect(mapped.isFeatured).toBe(true);
   });
 
   it('maps collection membership and aliases from Shopify collections', () => {
@@ -102,7 +132,7 @@ describe('shopifyMapper', () => {
     );
     const mapped = catalog.products[0];
 
-    expect(mapped?.collectionIds).toEqual(['new-in', 'new-arrivals']);
+    expect(mapped?.collectionIds).toEqual(['new-in', 'new-arrivals', 'sokker']);
     expect(mapped?.isNew).toBe(true);
     expect(catalog.collections[0]?.slug).toBe('new-in');
     expect(catalog.collections[0]?.name).toBe('Nyheder');
@@ -155,9 +185,9 @@ describe('shopifyMapper', () => {
       handle: 'original-lulu-pink-socks',
       missingProductType: true,
       missingTags: true,
-      unmappedCategory: true,
-      unmappedProductType: true,
-      withoutCollections: true,
+      unmappedCategory: false,
+      unmappedProductType: false,
+      withoutCollections: false,
     });
   });
 });

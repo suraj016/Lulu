@@ -17,7 +17,8 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
-  object-position: 72% 58%;
+  /* Keep “Designet og printet i Danmark” overlay in frame (top-right of photo). */
+  object-position: 100% 36%;
 }
 
 .heroPanel {
@@ -113,12 +114,41 @@
 
 .benefitsList {
   display: grid;
-  gap: 1.4rem;
+  gap: 1.65rem;
+}
+
+.benefitItem {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 1rem 1.15rem;
+  align-items: start;
+}
+
+.benefitIcon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.85rem;
+  height: 2.85rem;
+  border-radius: 50%;
+  background: var(--color-white);
+  color: var(--color-forest);
+  box-shadow: var(--shadow-card);
+}
+
+.benefitCopy p {
+  margin: 0;
+  color: var(--color-forest);
+  font-size: var(--fs-caption);
+  line-height: var(--lh-body);
 }
 
 .benefitTitle {
-  font-size: 1.35rem;
-  margin-bottom: 0.35rem;
+  margin: 0 0 0.35rem;
+  font-family: var(--font-sans);
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--color-forest);
 }
 
 .benefitsMedia {
@@ -156,6 +186,10 @@
     inset: auto;
     width: 100%;
     height: clamp(16rem, 58vw, 22rem);
+  }
+
+  .heroImage img {
+    object-position: 100% 32%;
   }
 }
 

@@ -1,6 +1,7 @@
 :root {
   /* Color */
-  --color-cream: #f7f2ea;
+  /* Matches luluLogo.jpeg matte background */
+  --color-cream: #f7f0ea;
   --color-cream-deep: #efe6d8;
   --color-sage: #e5e7da;
   --color-sage-deep: #d5d8c6;
@@ -77,7 +78,7 @@
 
   /* Product */
   --product-image-ratio: 1 / 1;
-  --swatch-size: 1.75rem;
+  --swatch-size: 2rem;
 
   /* Breakpoints (documentation only; used in media queries as values) */
   --bp-sm: 375px;

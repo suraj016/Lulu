@@ -78,19 +78,22 @@ export const processSteps = [
 
 export const homeBenefits = [
   {
-    id: 'local',
-    title: 'Lokalt greb',
-    body: 'Designet i Danmark og printet i små serier, når det er faktuelt muligt for det enkelte produkt.',
+    id: 'cute',
+    title: '100% Super Cute & Kawaii',
+    body: 'Vores sokker er ikke kun 100% cute, men også 80% bomuld af højeste kvalitet.',
+    icon: 'leaf',
   },
   {
-    id: 'color',
-    title: 'Farve i hverdagen',
-    body: 'Legetøj, interiør og sokker, der tilføjer et lille, venligt punkt til dagen.',
+    id: 'shipping',
+    title: 'Worldwide Shipping',
+    body: 'Vi sender sikkert til hele verden! Din første pakke sendes hurtigt.',
+    icon: 'globe',
   },
   {
-    id: 'gifts',
-    title: 'Nemme gaver',
-    body: 'Små objekter og par sokker, der er ligetil at give — uden store gestusser.',
+    id: 'smile',
+    title: 'Garanti for smilet',
+    body: 'Disse designs, inspireret af Japan, er garanteret at sprede glæde – hver måned!',
+    icon: 'gift',
   },
 ] as const;
 

@@ -98,16 +98,17 @@ export function ProductFilters({
 
       <fieldset className={styles.group}>
         <legend className={styles.legend}>{messages.catalog.price}</legend>
-        <p>
+        <p className={styles.priceSummary}>
           {messages.catalog.priceInterval(
             formatMoney(query.minPriceOre ?? bounds.min, currency),
             formatMoney(query.maxPriceOre ?? bounds.max, currency),
           )}
         </p>
-        <div className={styles.range}>
-          <label>
-            Min
+        <div className={styles.rangeSliders}>
+          <label className={styles.rangeField}>
+            <span className={styles.fieldLabel}>{messages.catalog.priceFrom}</span>
             <input
+              className={styles.slider}
               type="range"
               min={bounds.min}
               max={bounds.max}
@@ -126,9 +127,10 @@ export function ProductFilters({
               }}
             />
           </label>
-          <label>
-            Maks
+          <label className={styles.rangeField}>
+            <span className={styles.fieldLabel}>{messages.catalog.priceTo}</span>
             <input
+              className={styles.slider}
               type="range"
               min={bounds.min}
               max={bounds.max}
@@ -148,14 +150,17 @@ export function ProductFilters({
             />
           </label>
         </div>
-        <div className={styles.rangeRow}>
-          <label>
-            Min
+        <div className={styles.rangeInputs}>
+          <label className={styles.numberField}>
+            <span className={styles.fieldLabel}>{messages.catalog.priceFrom}</span>
             <input
+              className={styles.numberInput}
               type="number"
               inputMode={currency === CurrencyCode.Dkk ? 'numeric' : 'decimal'}
               value={majorValue(query.minPriceOre ?? bounds.min, currency)}
               step={majorStep}
+              min={majorValue(bounds.min, currency)}
+              max={majorValue(bounds.max, currency)}
               onChange={(event) => {
                 const kroner = Number(event.target.value);
                 if (!Number.isFinite(kroner)) {
@@ -171,13 +176,16 @@ export function ProductFilters({
               }}
             />
           </label>
-          <label>
-            Maks
+          <label className={styles.numberField}>
+            <span className={styles.fieldLabel}>{messages.catalog.priceTo}</span>
             <input
+              className={styles.numberInput}
               type="number"
               inputMode={currency === CurrencyCode.Dkk ? 'numeric' : 'decimal'}
               value={majorValue(query.maxPriceOre ?? bounds.max, currency)}
               step={majorStep}
+              min={majorValue(bounds.min, currency)}
+              max={majorValue(bounds.max, currency)}
               onChange={(event) => {
                 const kroner = Number(event.target.value);
                 if (!Number.isFinite(kroner)) {
@@ -262,6 +270,7 @@ export function ProductFilters({
       </fieldset>
 
       <Button
+        className={styles.reset}
         variant="ghost"
         onClick={() =>
           onChange({

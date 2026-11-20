@@ -88,6 +88,8 @@ export const messages = {
     filters: 'Filtre',
     categories: 'Kategorier',
     price: 'Pris',
+    priceFrom: 'Fra',
+    priceTo: 'Til',
     colors: 'Farver',
     material: 'Materiale',
     more: 'Flere filtre',
@@ -219,9 +221,8 @@ export const messages = {
   },
   footer: {
     blurb:
-      'Lulu3D designer og printer små oplag i Danmark. Legetøj, interiør, gaver og sokker — med farve og omtanke.',
-    copyright: `© ${new Date().getFullYear()} Lulu3D. Alle rettigheder forbeholdes.`,
-    legalNote: 'Juridiske sider tilføjes, når de officielle destinationer er klar.',
+      'Unikke 3D-produkter og farverige sokker – designet med omtanke.',
+    copyright: `© ${new Date().getFullYear()} Lulu3D – Alle rettigheder forbeholdes.`,
   },
   notFound: {
     title: 'Siden findes ikke',

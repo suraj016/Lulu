@@ -1,3 +1,5 @@
+import { Gift, Globe, Leaf } from 'lucide-react';
+import type { LucideIcon } from 'lucide-react';
 import { editorialAssets } from '../../assets/manifest.ts';
 import { TrustStrip } from '../../components/layout/TrustStrip.tsx';
 import {
@@ -16,6 +18,12 @@ import {
 } from '../../services/productService.ts';
 import { pageTitle, usePageMeta } from '../../seo/usePageMeta.ts';
 import styles from './HomePage.module.css';
+
+const homeBenefitIcons: Record<(typeof homeBenefits)[number]['icon'], LucideIcon> = {
+  leaf: Leaf,
+  globe: Globe,
+  gift: Gift,
+};
 
 function shopLink(to: string) {
   return {
@@ -146,13 +154,20 @@ export function HomePage() {
             />
           </div>
           <div className={styles.benefitsList}>
-            <h2>{messages.home.benefitsTitle}</h2>
-            {homeBenefits.map((item) => (
-              <div key={item.id}>
-                <h3 className={styles.benefitTitle}>{item.title}</h3>
-                <p>{item.body}</p>
-              </div>
-            ))}
+            {homeBenefits.map((item) => {
+              const Icon = homeBenefitIcons[item.icon];
+              return (
+                <div key={item.id} className={styles.benefitItem}>
+                  <div className={styles.benefitIcon} aria-hidden="true">
+                    <Icon size={22} strokeWidth={1.75} />
+                  </div>
+                  <div className={styles.benefitCopy}>
+                    <h3 className={styles.benefitTitle}>{item.title}</h3>
+                    <p>{item.body}</p>
+                  </div>
+                </div>
+              );
+            })}
           </div>
         </div>
       </section>

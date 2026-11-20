@@ -36,40 +36,69 @@
 
 .wishlist {
   position: absolute;
-  top: 0.4rem;
-  right: 0.4rem;
+  top: 0.55rem;
+  right: 0.55rem;
+  z-index: 2;
 }
 
 .wishlist :global(button) {
-  background: var(--color-surface);
-  box-shadow: var(--shadow-card);
+  border: 1px solid rgb(45 90 67 / 0.14);
+  background: rgb(255 252 247 / 0.94);
+  box-shadow: 0 2px 10px rgb(23 23 23 / 0.08);
+  backdrop-filter: blur(6px);
 }
 
 .quick {
   position: absolute;
-  right: 0.6rem;
-  bottom: 0.6rem;
-  width: 2.75rem;
-  height: 2.75rem;
+  right: 0.55rem;
+  bottom: 0.55rem;
+  z-index: 2;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.85rem;
+  height: 2.85rem;
+  margin: 0;
+  padding: 0;
+  border: 1px solid rgb(45 90 67 / 0.2);
   border-radius: 50%;
-  background: var(--color-surface);
-  color: var(--color-ink);
-  box-shadow: var(--shadow-card);
+  background: rgb(255 252 247 / 0.96);
+  color: var(--color-forest);
+  box-shadow:
+    0 2px 10px rgb(23 23 23 / 0.1),
+    0 0 0 1px rgb(255 255 255 / 0.65) inset;
+  backdrop-filter: blur(8px);
   transition:
     background-color var(--duration-fast) var(--ease),
+    border-color var(--duration-fast) var(--ease),
     color var(--duration-fast) var(--ease),
-    transform var(--duration-fast) var(--ease);
+    transform var(--duration-fast) var(--ease),
+    box-shadow var(--duration-fast) var(--ease);
 }
 
 .quick:hover:not(:disabled) {
-  background: var(--color-ink);
-  color: var(--color-surface);
-  transform: scale(1.06);
+  background: var(--color-forest);
+  border-color: var(--color-forest);
+  color: var(--color-white);
+  transform: translateY(-1px);
+  box-shadow: 0 6px 18px rgb(45 90 67 / 0.28);
+}
+
+.quick:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.quick:focus-visible {
+  outline: 2px solid var(--color-focus);
+  outline-offset: 2px;
 }
 
 .quick:disabled {
-  opacity: 0.45;
+  opacity: 0.4;
   cursor: not-allowed;
+  border-color: var(--color-divider);
+  color: var(--color-muted);
+  box-shadow: none;
 }
 
 .name {
