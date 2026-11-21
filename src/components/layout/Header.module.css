@@ -64,6 +64,11 @@
   align-items: center;
 }
 
+.headerIconLink {
+  text-decoration: none;
+  color: inherit;
+}
+
 .menuButton {
   display: inline-flex;
 }

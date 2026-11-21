@@ -29,6 +29,17 @@ export function MobileNavigation() {
               </NavLink>
             </li>
           ))}
+          <li>
+            <NavLink
+              className={styles.link}
+              to="/wishlist"
+              onClick={close}
+              onPointerEnter={() => prefetchPath('/wishlist')}
+              onFocus={() => prefetchPath('/wishlist')}
+            >
+              {messages.nav.wishlist}
+            </NavLink>
+          </li>
         </ul>
         <p className={`eyebrow ${styles.shopEyebrow}`}>
           {messages.nav.shop}

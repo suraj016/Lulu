@@ -23,6 +23,7 @@ export const messages = {
     search: 'Søg',
     account: 'Konto',
     cart: 'Kurv',
+    wishlist: 'Ønskeliste',
     menu: 'Menu',
     openMenu: 'Åbn menu',
     closeMenu: 'Luk menu',

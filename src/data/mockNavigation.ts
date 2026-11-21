@@ -15,6 +15,7 @@ export const shopCollections = [
 
 export const footerPrimaryLinks = [
   { id: 'shop', label: messages.nav.shop, to: '/shop' },
+  { id: 'wishlist', label: messages.nav.wishlist, to: '/wishlist' },
   { id: 'about', label: messages.nav.about, to: '/om-os' },
   { id: 'contact', label: messages.nav.contact, to: '/kontakt' },
 ] as const;
