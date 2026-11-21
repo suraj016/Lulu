@@ -201,6 +201,11 @@ h3 {
   background: var(--color-surface);
 }
 
+/* Do not use native <select> — use DropdownSelect for option lists. */
+select:not([multiple]):not([size]) {
+  appearance: none;
+}
+
 .visually-hidden {
   position: absolute;
   width: 1px;

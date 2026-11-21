@@ -8,29 +8,33 @@ export function ProductPrice({
   product,
   variant,
   showSavings = false,
+  className,
 }: {
   product: Product;
   variant?: ProductVariant;
   showSavings?: boolean;
+  className?: string;
 }) {
   const price = resolvePrice(product, variant);
 
   return (
-    <div className={styles.wrap}>
-      <span className={`price ${price.isOnSale ? 'price--sale' : ''}`}>
-        {formatMoney(price.amount, price.currency)}
-      </span>
-      {price.compareAtAmount ? (
-        <span className="price price--compare">
-          {formatMoney(price.compareAtAmount, price.currency)}
+    <div className={[styles.wrap, className].filter(Boolean).join(' ')}>
+      <div className={styles.priceRow}>
+        <span className={`price ${price.isOnSale ? 'price--sale' : ''}`}>
+          {formatMoney(price.amount, price.currency)}
         </span>
-      ) : null}
-      {showSavings && price.savingsAmount > 0 ? (
-        <p className={styles.savings}>
-          {messages.product.youSave}{' '}
-          {formatMoney(price.savingsAmount, price.currency)}
-        </p>
-      ) : null}
+        {price.compareAtAmount ? (
+          <span className="price price--compare">
+            {formatMoney(price.compareAtAmount, price.currency)}
+          </span>
+        ) : null}
+        {showSavings && price.savingsAmount > 0 ? (
+          <span className={styles.savingsPill}>
+            {messages.product.youSave}{' '}
+            {formatMoney(price.savingsAmount, price.currency)}
+          </span>
+        ) : null}
+      </div>
     </div>
   );
 }

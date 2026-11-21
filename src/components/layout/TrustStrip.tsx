@@ -1,44 +1,13 @@
-import { Heart, Leaf, MapPin, Sparkles, Truck } from 'lucide-react';
-import type { LucideIcon } from 'lucide-react';
 import {
   homeTrustItems,
   productBenefitItems,
   trustItems,
 } from '../../data/mockContent.ts';
+import {
+  resolveTrustArtId,
+  TrustStripArt,
+} from './TrustStripArt.tsx';
 import styles from './TrustStrip.module.css';
-
-const icons: Record<string, LucideIcon> = {
-  leaf: Leaf,
-  spark: Sparkles,
-  truck: Truck,
-  pin: MapPin,
-  heart: Heart,
-  dot: Sparkles,
-};
-
-function DenmarkFlag() {
-  return (
-    <svg
-      className={styles.flag}
-      viewBox="0 0 16 12"
-      width="20"
-      height="15"
-      aria-hidden="true"
-    >
-      <rect width="16" height="12" rx="1" fill="#c8102e" />
-      <rect x="5" width="2.3" height="12" fill="#fff" />
-      <rect y="4.85" width="16" height="2.3" fill="#fff" />
-    </svg>
-  );
-}
-
-function TrustIcon({ name }: { name: string }) {
-  if (name === 'flag') {
-    return <DenmarkFlag />;
-  }
-  const Icon = icons[name] ?? Sparkles;
-  return <Icon className={styles.icon} size={18} aria-hidden="true" />;
-}
 
 type TrustStripProps = {
   variant?: 'store' | 'product' | 'home';
@@ -47,14 +16,16 @@ type TrustStripProps = {
 export function TrustStrip({ variant = 'store' }: TrustStripProps) {
   if (variant === 'home') {
     return (
-      <ul className={`${styles.strip} ${styles.detailed}`}>
+      <ul className={`${styles.strip} ${styles.homeStrip}`}>
         {homeTrustItems.map((item) => (
-          <li className={styles.detailedItem} key={item.id}>
-            <TrustIcon name={item.icon} />
-            <span>
-              <strong>{item.label}</strong>
-              <span className={styles.detail}>{item.detail}</span>
-            </span>
+          <li className={styles.homeItem} key={item.id}>
+            <div className={styles.stripIconWell}>
+              <TrustStripArt id={resolveTrustArtId(item.id)} />
+            </div>
+            <div className={styles.homeCopy}>
+              <strong className={styles.homeTitle}>{item.label}</strong>
+              <span className={styles.homeDetail}>{item.detail}</span>
+            </div>
           </li>
         ))}
       </ul>
@@ -62,13 +33,19 @@ export function TrustStrip({ variant = 'store' }: TrustStripProps) {
   }
 
   const items = variant === 'product' ? productBenefitItems : trustItems;
+  const compactClass =
+    variant === 'product'
+      ? `${styles.compactStrip} ${styles.productStrip}`
+      : styles.compactStrip;
 
   return (
-    <ul className={styles.strip}>
+    <ul className={`${styles.strip} ${compactClass}`}>
       {items.map((item) => (
-        <li className={styles.item} key={item.id}>
-          <TrustIcon name={item.icon} />
-          <span>{item.label}</span>
+        <li className={styles.compactItem} key={item.id}>
+          <div className={styles.stripIconWell}>
+            <TrustStripArt id={resolveTrustArtId(item.id)} />
+          </div>
+          <span className={styles.compactLabel}>{item.label}</span>
         </li>
       ))}
     </ul>

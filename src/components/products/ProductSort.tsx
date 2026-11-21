@@ -1,14 +1,14 @@
+import { DropdownSelect } from '../ui/DropdownSelect.tsx';
 import { messages } from '../../data/messages.ts';
 import { SortKey } from '../../types/product.ts';
-import styles from './ProductSort.module.css';
 
-const options: Array<{ value: SortKey; label: string }> = [
+const options = [
   { value: SortKey.Popular, label: messages.catalog.sortPopular },
   { value: SortKey.PriceAsc, label: messages.catalog.sortPriceAsc },
   { value: SortKey.PriceDesc, label: messages.catalog.sortPriceDesc },
   { value: SortKey.Newest, label: messages.catalog.sortNewest },
   { value: SortKey.NameAsc, label: messages.catalog.sortName },
-];
+] as const;
 
 export function ProductSort({
   value,
@@ -18,19 +18,13 @@ export function ProductSort({
   onChange: (value: SortKey) => void;
 }) {
   return (
-    <label className={styles.label}>
-      <span className="visually-hidden">{messages.catalog.sort}</span>
-      <select
-        value={value}
-        onChange={(event) => onChange(event.target.value as SortKey)}
-        className="control"
-      >
-        {options.map((option) => (
-          <option key={option.value} value={option.value}>
-            {option.label}
-          </option>
-        ))}
-      </select>
-    </label>
+    <DropdownSelect
+      value={value}
+      options={options}
+      onChange={onChange}
+      ariaLabel={messages.catalog.sort}
+      menuAlign="end"
+      minTriggerWidth="12.5rem"
+    />
   );
 }

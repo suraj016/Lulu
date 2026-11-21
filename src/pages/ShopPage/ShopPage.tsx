@@ -35,6 +35,24 @@ function collectionFromPath(slug?: string) {
   return getCollection(slug);
 }
 
+function ShopHeroTitle({ title }: { title: string }) {
+  if (title === '3D-produkter') {
+    return (
+      <h1 className={styles.shopHeroTitle}>
+        3D-<span className="accent">produkter</span>
+      </h1>
+    );
+  }
+  if (title === messages.nav.shop) {
+    return (
+      <h1 className={styles.shopHeroTitle}>
+        <span className="accent">Shop</span>
+      </h1>
+    );
+  }
+  return <h1 className={styles.shopHeroTitle}>{title}</h1>;
+}
+
 export function ShopPage() {
   const { collectionSlug } = useParams();
   const location = useLocation();
@@ -85,6 +103,14 @@ export function ShopPage() {
 
   const title = collection?.name ?? messages.nav.shop;
   const description = collection?.description ?? messages.catalog.allProductsBody;
+  const heroBannerSrc =
+    collectionSlug === 'sokker'
+      ? editorialAssets.socksCampaign.src
+      : editorialAssets.catalogBanner.src;
+  const heroBannerAlt =
+    collectionSlug === 'sokker'
+      ? editorialAssets.socksCampaign.alt
+      : editorialAssets.catalogBanner.alt;
   usePageMeta({
     title: pageTitle(title),
     description,
@@ -99,29 +125,28 @@ export function ShopPage() {
   return (
     <div className="container">
       <div className={styles.intro}>
-        <Breadcrumbs
-          items={[
-            { label: messages.nav.home, to: '/' },
-            { label: messages.nav.shop, to: '/shop' },
-            ...(collection ? [{ label: collection.name }] : []),
-          ]}
-        />
-        <h1>{title}</h1>
-        <p className={styles.lede}>{description}</p>
-        <div className={styles.banner}>
+        <section className={styles.shopHero}>
           <SafeImage
-            src={
-              collectionSlug === 'sokker'
-                ? editorialAssets.socksCampaign.src
-                : editorialAssets.catalogBanner.src
-            }
-            alt={
-              collectionSlug === 'sokker'
-                ? editorialAssets.socksCampaign.alt
-                : editorialAssets.catalogBanner.alt
-            }
+            className={styles.shopHeroImage}
+            src={heroBannerSrc}
+            alt={heroBannerAlt}
+            width={editorialAssets.catalogBanner.width}
+            height={editorialAssets.catalogBanner.height}
+            loading="eager"
+            sizes="100vw"
           />
-        </div>
+          <div className={styles.shopHeroPanel}>
+            <Breadcrumbs
+              items={[
+                { label: messages.nav.home, to: '/' },
+                { label: messages.nav.shop, to: '/shop' },
+                ...(collection ? [{ label: collection.name }] : []),
+              ]}
+            />
+            <ShopHeroTitle title={title} />
+            <p className={styles.shopHeroDa}>{description}</p>
+          </div>
+        </section>
         <TrustStrip />
       </div>
 
@@ -186,16 +211,19 @@ export function ShopPage() {
         </div>
       </div>
 
-      <section className={styles.lowerBanner}>
+      <section className={styles.shopLower}>
         <SafeImage
+          className={styles.shopLowerImage}
           src={editorialAssets.sustainabilityBanner.src}
           alt={editorialAssets.sustainabilityBanner.alt}
+          width={editorialAssets.sustainabilityBanner.width}
+          height={editorialAssets.sustainabilityBanner.height}
+          loading="lazy"
+          sizes="(min-width: 960px) 90vw, 100vw"
         />
-        <div>
-          <p className="eyebrow">Materialer</p>
-          <h2>{messages.catalog.materialsTitle}</h2>
-          <p className={styles.materialsBody}>{messages.catalog.materialsBody}</p>
-          <Button to="/om-os">{messages.nav.about}</Button>
+        <div className={styles.shopLowerPanel}>
+          <h2 className={styles.shopLowerTitle}>{messages.catalog.materialsTitle}</h2>
+          <p className={styles.shopLowerBody}>{messages.catalog.materialsBody}</p>
         </div>
       </section>
 

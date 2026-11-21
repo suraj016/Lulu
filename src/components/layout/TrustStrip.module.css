@@ -3,73 +3,271 @@
   gap: 1rem;
   padding: 1.25rem 0;
   border-block: 1px solid var(--color-divider);
+  list-style: none;
+  margin: 0;
 }
 
-.item {
+/* Shared PNG icon wells (home + shop/catalog) */
+.stripIconWell {
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  width: 3.15rem;
+  height: 3.15rem;
+  border-radius: 50%;
+  background: radial-gradient(
+    130% 130% at 28% 20%,
+    var(--color-white) 0%,
+    color-mix(in srgb, var(--color-cream) 72%, var(--color-sage)) 100%
+  );
+  border: 1px solid color-mix(in srgb, var(--color-forest) 10%, var(--color-divider));
+  box-shadow:
+    var(--shadow-card),
+    0 0 0 1px color-mix(in srgb, white 80%, transparent) inset,
+    0 8px 18px -14px color-mix(in srgb, var(--color-forest) 40%, transparent);
+}
+
+.stripArt {
+  width: 2.4rem;
+  height: 2.4rem;
+  display: block;
+  flex-shrink: 0;
+  object-fit: contain;
+  object-position: center;
+  filter: drop-shadow(0 2px 5px rgb(23 23 23 / 0.12));
+  user-select: none;
+  -webkit-user-drag: none;
+}
+
+/* Homepage trust band */
+.homeStrip {
+  gap: 1.15rem 1.25rem;
+  padding: clamp(1.15rem, 2.5vw, 1.5rem) clamp(1rem, 3vw, 1.65rem);
+  margin-top: 0.25rem;
+  border: 1px solid color-mix(in srgb, var(--color-forest) 8%, var(--color-divider));
+  border-block: 1px solid color-mix(in srgb, var(--color-forest) 8%, var(--color-divider));
+  border-radius: var(--radius-xl);
+  background: linear-gradient(
+    165deg,
+    color-mix(in srgb, var(--color-surface) 88%, white) 0%,
+    color-mix(in srgb, var(--color-cream) 92%, var(--color-sage)) 100%
+  );
+  box-shadow:
+    var(--shadow-card),
+    0 20px 44px -36px color-mix(in srgb, var(--color-forest) 55%, transparent);
+}
+
+.homeItem {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: center;
+  gap: 0.85rem 1rem;
+  min-width: 0;
+}
+
+.homeCopy {
+  display: grid;
+  gap: 0.2rem;
+  min-width: 0;
+  text-align: left;
+}
+
+.homeTitle {
+  display: block;
+  font-family: var(--font-sans);
+  font-size: clamp(0.9rem, 1.6vw, 0.98rem);
+  font-weight: 700;
+  line-height: 1.25;
+  color: var(--color-forest);
+  letter-spacing: -0.01em;
+}
+
+.homeDetail {
+  display: block;
+  font-size: var(--fs-caption);
+  font-weight: 500;
+  line-height: 1.45;
+  color: var(--color-body);
+  text-wrap: pretty;
+}
+
+/* Shop / catalog — same art, compact single-line row */
+.compactStrip {
+  gap: 0.85rem 1rem;
+  padding: clamp(1rem, 2vw, 1.25rem) clamp(0.75rem, 2vw, 1.25rem);
+  border-block: 1px solid color-mix(in srgb, var(--color-forest) 8%, var(--color-divider));
+  border-radius: var(--radius-lg);
+  background: linear-gradient(
+    180deg,
+    color-mix(in srgb, var(--color-surface) 94%, white) 0%,
+    color-mix(in srgb, var(--color-cream) 90%, var(--color-sage)) 100%
+  );
+  box-shadow: 0 14px 32px -28px color-mix(in srgb, var(--color-forest) 35%, transparent);
+}
+
+.compactItem {
   display: flex;
   align-items: center;
-  justify-content: center;
-  gap: 0.65rem;
+  justify-content: flex-start;
+  gap: 0.7rem;
+  min-width: 0;
   color: var(--color-ink);
-  font-size: 0.92rem;
-  font-weight: 600;
+  text-align: left;
+}
+
+.compactItem .stripIconWell {
+  width: 2.85rem;
+  height: 2.85rem;
+}
+
+.compactItem .stripArt {
+  width: 2.1rem;
+  height: 2.1rem;
+}
+
+.compactLabel {
+  font-size: clamp(0.82rem, 1.5vw, 0.92rem);
+  font-weight: 650;
+  line-height: 1.3;
+  color: var(--color-forest);
+  text-wrap: pretty;
+}
+
+/* PDP — 2×2 grid so icons do not crush labels in the narrow column */
+.productStrip {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.7rem 0.85rem;
+  padding: 0.9rem 0.85rem;
+}
+
+.productStrip .compactItem {
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 0.35rem;
+  min-height: 0;
+  padding: 0.25rem 0.15rem;
   text-align: center;
 }
 
-.icon {
-  color: var(--color-ink);
-  flex-shrink: 0;
+.productStrip .compactItem::after {
+  display: none;
 }
 
-.flag {
-  flex-shrink: 0;
-  display: block;
+.productStrip .stripIconWell {
+  width: 2.5rem;
+  height: 2.5rem;
 }
 
-.detailed {
-  border-block: 1px solid var(--color-divider);
+.productStrip .stripArt {
+  width: 1.8rem;
+  height: 1.8rem;
 }
 
-.detailedItem {
-  display: flex;
-  align-items: center;
-  gap: 0.7rem;
-  color: var(--color-ink);
-}
-
-.detailedItem strong {
-  display: block;
-  font-size: 0.92rem;
-  font-weight: 700;
-}
-
-.detail {
-  display: block;
-  margin-top: 0.15rem;
-  font-size: 0.8rem;
-  font-weight: 500;
-  color: var(--color-muted);
+.productStrip .compactLabel {
+  font-size: 0.7rem;
+  font-weight: 600;
+  line-height: 1.25;
+  color: var(--color-body);
+  hyphens: auto;
 }
 
 @media (max-width: 767px) {
-  .strip {
-    grid-template-columns: 1fr 1fr;
+  .compactStrip:not(.productStrip) {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .productStrip {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .homeStrip {
+    grid-template-columns: 1fr;
+    gap: 1.1rem;
+  }
+
+  .homeItem {
+    padding: 0.15rem 0.1rem;
   }
 }
 
 @media (min-width: 768px) {
-  .strip {
-    grid-template-columns: repeat(4, 1fr);
-    padding: 1.4rem 0;
+  .compactStrip:not(.productStrip) {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    align-items: center;
   }
 
-  .item,
-  .detailedItem {
-    border-right: 1px solid var(--color-divider);
+  .compactStrip:not(.productStrip) .compactItem {
+    position: relative;
+    padding-inline-end: 0.65rem;
+    justify-content: center;
   }
 
-  .item:last-child,
-  .detailedItem:last-child {
-    border-right: 0;
+  .compactStrip:not(.productStrip) .compactItem:not(:last-child)::after {
+    content: '';
+    position: absolute;
+    top: 10%;
+    right: 0;
+    width: 1px;
+    height: 80%;
+    background: linear-gradient(
+      to bottom,
+      transparent,
+      color-mix(in srgb, var(--color-forest) 14%, var(--color-divider)),
+      transparent
+    );
+  }
+
+  .homeStrip {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    align-items: start;
+    gap: 1rem 1.35rem;
+  }
+
+  .homeItem {
+    position: relative;
+    padding-inline-end: 0.85rem;
+  }
+
+  .homeItem:not(:last-child)::after {
+    content: '';
+    position: absolute;
+    top: 12%;
+    right: 0;
+    width: 1px;
+    height: 76%;
+    background: linear-gradient(
+      to bottom,
+      transparent,
+      color-mix(in srgb, var(--color-forest) 14%, var(--color-divider)),
+      transparent
+    );
+  }
+}
+
+@media (min-width: 960px) {
+  .homeStrip {
+    padding-inline: 1.85rem;
+  }
+
+  .stripIconWell {
+    width: 3.35rem;
+    height: 3.35rem;
+  }
+
+  .stripArt {
+    width: 2.55rem;
+    height: 2.55rem;
+  }
+
+  .compactItem .stripIconWell {
+    width: 3rem;
+    height: 3rem;
+  }
+
+  .compactItem .stripArt {
+    width: 2.25rem;
+    height: 2.25rem;
   }
 }

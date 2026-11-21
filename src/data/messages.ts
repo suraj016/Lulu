@@ -79,6 +79,10 @@ export const messages = {
     unavailableVariant: 'Denne variant er ikke tilgængelig.',
     quantityLimit: 'Du har nået det tilgængelige antal.',
     addedToCart: 'Lagt i kurven.',
+    highlightsTitle: 'Highlights',
+    highlightEco: 'Bæredygtig emballage',
+    highlightShipping: 'Hurtig afsendelse',
+    highlightCare: 'Nem pleje',
   },
   catalog: {
     allProducts: 'Alle produkter',
@@ -115,9 +119,9 @@ export const messages = {
     loadErrorRetry: 'Prøv igen',
     loadErrorUnknown: 'Der opstod en ukendt fejl under indlæsning af kataloget.',
     unmappedCategory: 'Ukategoriseret',
-    materialsTitle: 'Printet med omtanke — uden store løfter, vi ikke kan dokumentere.',
+    materialsTitle: 'Printet med omtanke',
     materialsBody:
-      'Flere 3D-produkter er printet i PLA. Det er en materialeangivelse — ikke en miljøcertificering.',
+      'Alle vores 3D-produkter er printet i plantebaseret PLA af majs og sukkerrør.\nDet giver en flot kvalitet, mindre miljøpåvirkning og produkter du kan have med god samvittighed.',
   },
   cart: {
     title: 'Din kurv',
@@ -180,9 +184,11 @@ export const messages = {
   },
   about: {
     eyebrow: 'Vores historie',
-    heading: 'Små idéer. Stor glæde.',
+    headingLead: 'Små idéer.',
+    headingAccent: 'Stor glæde.',
     intro:
-      'Lulu3D laver 3D-printede designs og farverige sokker til hjemmet, gaver og leg. Vi designer lokalt og printer i små serier, så hvert produkt kan have sin egen karakter.',
+      'Lulu3D blev skabt ud fra en passion for design, kvalitet og værdifulde hverdagsprodukter. Vi designer og 3D-printer unikke produkter i Danmark – med omtanke for mennesker, dyr og natur.',
+    valuesSection: 'Vores værdier',
     values: {
       production: 'Dansk produktion',
       designs: 'Unikke designs',
@@ -190,10 +196,14 @@ export const messages = {
       details: 'Små detaljer',
     },
     processTitle: 'Fra idé til din dør',
-    uniquenessTitle: 'Hvert print er en smule unikt',
+    uniquenessEyebrow: 'Hver ting er unik',
+    uniquenessTitleLead: 'Små forskelle gør hvert produkt',
+    uniquenessTitleAccent: 'unikt',
     uniquenessBody:
-      '3D-printede overflader kan have små variationer i tekstur og farve. Det er en del af håndværket — ikke en fejl. Ingen to stykker er helt ens.',
-    bannerTitle: 'Find det lille, der gør dagen lidt sjovere.',
+      'Alle vores produkter er 3D-printet, og derfor kan der være små variationer i farve, tekstur og finish. Det er en naturlig del af processen – og det gør hvert produkt unikt.',
+    bannerEyebrow: 'Gør hverdagen lidt sjovere',
+    bannerTitleLead: 'Unikke produkter',
+    bannerTitleAccent: 'med omtanke',
   },
   home: {
     heroEyebrow: 'Unikke produkter til hverdagen',
@@ -202,21 +212,23 @@ export const messages = {
     heroBody:
       'Personlige gaver, unikke designs og praktiske produkter til børn og voksne – printet i plantebaseret PLA og bløde bomuldssokker af høj kvalitet.',
     popularTitle: 'Populære 3D-produkter',
-    socksTitle: 'Sokker med farve og personlighed',
+    socksEyebrow: 'Farverige og behagelige hverdagssokker',
+    socksTitleLead: 'Sokker',
+    socksTitleRest: 'med personlighed',
     socksBody:
-      'Mønstre, striber og farver, der løfter en almindelig dag. Et enkelt par — eller en skuffe fuld.',
+      'Bløde bomuldsokker med sjove motiver – for dig der elsker farver, komfort og unikke detaljer.',
     newArrivalsTitle: 'Nyheder',
     benefitsTitle: 'Små ting, der føles gennemtænkte',
   },
   trust: {
-    materials: 'Bæredygtige materialer',
-    materialsDetail: 'PLA og bomuld af høj kvalitet',
+    materials: 'Materialer med omtanke',
+    materialsDetail: 'Plantebaseret PLA · blød bomuld',
     designs: 'Unikke designs',
-    designsDetail: 'Til hverdag og gaver',
-    delivery: 'Hurtig levering',
-    deliveryDetail: '1–3 hverdage',
-    danish: 'Dansk webshop',
-    danishDetail: 'Lokal produktion',
+    designsDetail: 'Til hjemmet, gaver og leg',
+    delivery: 'Hurtig afsendelse',
+    deliveryDetail: 'Typisk 1–3 hverdage',
+    danish: 'Dansk design',
+    danishDetail: 'Printet og pakket herhjemme',
     pla: 'Plantebaseret PLA',
   },
   footer: {

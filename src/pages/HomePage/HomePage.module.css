@@ -65,7 +65,7 @@
 }
 
 .trust {
-  padding: 0.35rem 0 0.5rem;
+  padding: 0.85rem 0 1.35rem;
 }
 
 .section {
@@ -81,40 +81,167 @@
   margin-bottom: 1.75rem;
 }
 
-.socks {
-  display: grid;
-  gap: 2rem;
-  align-items: center;
-  padding: 3.5rem 0;
+.socksSection {
+  padding: 2.5rem 0 3.5rem;
 }
 
-.socksBody {
-  margin: 1rem 0 1.4rem;
-}
-
-.socksMedia {
+.socksBanner {
+  position: relative;
   overflow: hidden;
-  border-radius: 58% 42% 52% 48% / 42% 58% 42% 58%;
-  background: var(--color-sage);
-  aspect-ratio: 1;
+  min-height: clamp(13.5rem, 34vw, 20.5rem);
+  border-radius: 1.35rem 2.25rem 1.5rem 2rem;
+  border: 1px solid color-mix(in srgb, var(--color-forest) 8%, var(--color-divider));
+  background: var(--color-surface);
+  box-shadow:
+    var(--shadow-card),
+    0 22px 48px -40px color-mix(in srgb, var(--color-forest) 42%, transparent);
 }
 
-.socksMedia img {
+.socksBannerImage {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
   width: 100%;
   height: 100%;
   object-fit: cover;
+  object-position: 82% center;
 }
 
-.benefits {
+.socksBannerPanel {
+  position: relative;
+  z-index: 1;
   display: grid;
-  gap: 2rem;
-  padding: 1rem 0 4.5rem;
+  gap: 0.85rem;
+  justify-items: start;
+  align-content: center;
+  width: min(100%, 26rem);
+  min-height: inherit;
+  padding: clamp(1.45rem, 3.5vw, 2.65rem) clamp(1.35rem, 4vw, 2.75rem);
+}
+
+.socksEyebrow {
+  margin: 0;
+  font-family: var(--font-sans);
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-ink);
+}
+
+.socksTitle {
+  margin: 0;
+  font-family: var(--font-sans);
+  font-size: clamp(1.85rem, 4.2vw, 2.65rem);
+  font-weight: 700;
+  line-height: 1.08;
+  letter-spacing: -0.03em;
+  text-wrap: pretty;
+}
+
+.socksTitleLead {
+  color: var(--color-forest);
+}
+
+.socksTitleRest {
+  color: var(--color-ink);
+}
+
+.socksBody {
+  margin: 0.1rem 0 0;
+  max-width: 24rem;
+  font-size: clamp(0.96rem, 1.7vw, 1.06rem);
+  line-height: 1.58;
+  color: var(--color-body);
+  text-wrap: pretty;
+}
+
+.socksActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.7rem;
+  margin-top: 0.35rem;
+}
+
+.socksOutline {
+  background: var(--color-white);
+}
+
+@media (min-width: 768px) {
+  .socksBannerPanel {
+    width: min(52%, 28rem);
+    padding-right: 1rem;
+  }
+}
+
+@media (max-width: 767px) {
+  .socksBanner {
+    min-height: auto;
+    border-radius: var(--radius-xl);
+  }
+
+  .socksBannerImage {
+    position: relative;
+    aspect-ratio: 16 / 10;
+    object-position: 75% center;
+  }
+
+  .socksBannerPanel {
+    width: 100%;
+    padding-block: 1.35rem 1.65rem;
+    background: linear-gradient(
+      180deg,
+      color-mix(in srgb, var(--color-surface) 92%, white) 0%,
+      var(--color-surface) 40%
+    );
+  }
+}
+
+.benefitsSection {
+  padding: 0.5rem 0 4.5rem;
+}
+
+.benefitsBanner {
+  position: relative;
+  overflow: hidden;
+  min-height: clamp(14rem, 34vw, 21.5rem);
+  border-radius: 1.35rem 2.25rem 1.5rem 2rem;
+  border: 1px solid color-mix(in srgb, var(--color-forest) 8%, var(--color-divider));
+  background: var(--color-surface);
+  box-shadow:
+    var(--shadow-card),
+    0 22px 48px -40px color-mix(in srgb, var(--color-forest) 42%, transparent);
+}
+
+.benefitsBannerImage {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 18% center;
+}
+
+.benefitsBannerPanel {
+  position: relative;
+  z-index: 1;
+  display: flex;
   align-items: center;
+  justify-content: flex-end;
+  min-height: inherit;
+  margin-left: auto;
+  width: min(100%, 100%);
+  padding: clamp(1.35rem, 3vw, 2.5rem) clamp(1.25rem, 4vw, 3rem);
 }
 
 .benefitsList {
   display: grid;
-  gap: 1.65rem;
+  gap: 1.45rem;
+  width: min(100%, 23.5rem);
+  margin: 0;
+  padding: 0;
+  list-style: none;
 }
 
 .benefitItem {
@@ -138,9 +265,10 @@
 
 .benefitCopy p {
   margin: 0;
-  color: var(--color-forest);
+  color: var(--color-body);
   font-size: var(--fs-caption);
   line-height: var(--lh-body);
+  text-wrap: pretty;
 }
 
 .benefitTitle {
@@ -151,17 +279,52 @@
   color: var(--color-forest);
 }
 
-.benefitsMedia {
-  overflow: hidden;
-  border-radius: 1.5rem 4rem 1.5rem 4rem;
-  background: var(--color-sage);
-  aspect-ratio: 4 / 5;
+@media (min-width: 768px) {
+  .benefitsBannerPanel {
+    width: min(52%, 30rem);
+    padding-right: clamp(1.5rem, 4.5vw, 3.25rem);
+    padding-left: 1rem;
+  }
+
+  .benefitsList {
+    width: 100%;
+    max-width: 23.5rem;
+  }
 }
 
-.benefitsMedia img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
+@media (min-width: 1024px) {
+  .benefitsBannerPanel {
+    width: min(46%, 28rem);
+    padding-right: clamp(2rem, 5vw, 4rem);
+  }
+}
+
+@media (max-width: 767px) {
+  .benefitsBanner {
+    min-height: auto;
+    border-radius: var(--radius-xl);
+  }
+
+  .benefitsBannerImage {
+    position: relative;
+    aspect-ratio: 16 / 10;
+    object-position: 22% center;
+  }
+
+  .benefitsBannerPanel {
+    justify-content: flex-start;
+    width: 100%;
+    padding-block: 1.35rem 1.75rem;
+    background: linear-gradient(
+      180deg,
+      color-mix(in srgb, var(--color-surface) 92%, white) 0%,
+      var(--color-surface) 40%
+    );
+  }
+
+  .benefitsList {
+    max-width: none;
+  }
 }
 
 @media (max-width: 899px) {
@@ -194,12 +357,6 @@
 }
 
 @media (min-width: 900px) {
-  .socks,
-  .benefits {
-    grid-template-columns: 1fr 1fr;
-    gap: 4rem;
-  }
-
   .section {
     padding: 4.5rem 0;
   }

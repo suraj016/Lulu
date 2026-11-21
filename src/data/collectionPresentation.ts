@@ -12,7 +12,7 @@ export const collectionPresentation: Record<string, CollectionPresentation> = {
   '3d-produkter': {
     name: '3D-produkter',
     description:
-      '3D-printede designs til leg, hjemmet og små gaver. Printet i små serier — hvert stykke kan have sin egen karakter.',
+      'Unikke 3D-printede produkter med omtanke.\nPraktiske løsninger, dekorative detaljer og\npersonlige gaver – designet i Danmark.',
     heroImageId: editorialAssets.catalogBanner.id,
   },
   sokker: {

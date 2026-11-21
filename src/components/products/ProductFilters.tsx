@@ -7,6 +7,7 @@ import { messages } from '../../data/messages.ts';
 import { getCatalogProducts } from '../../services/catalogStore.ts';
 import { CurrencyCode, ProductType, type CatalogQuery } from '../../types/product.ts';
 import { formatMoney, kronerFromOre, oreFromKroner } from '../../utils/currency.ts';
+import { countActiveFilters } from '../../utils/catalogUrl.ts';
 import { clampRange } from '../../utils/validation.ts';
 import { Button } from '../ui/Button.tsx';
 import { ColorSwatch } from '../ui/ColorSwatch.tsx';
@@ -64,8 +65,22 @@ export function ProductFilters({
     onChange({ ...query, materials, page: 1 });
   };
 
+  const minPrice = query.minPriceOre ?? bounds.min;
+  const maxPrice = query.maxPriceOre ?? bounds.max;
+  const priceSpan = Math.max(bounds.max - bounds.min, 1);
+  const rangeLeft = ((minPrice - bounds.min) / priceSpan) * 100;
+  const rangeWidth = ((maxPrice - minPrice) / priceSpan) * 100;
+  const activeFilters = countActiveFilters(query);
+
   return (
     <form className={styles.panel} onSubmit={(event) => event.preventDefault()}>
+      <header className={styles.panelHeader}>
+        <h2 className={styles.panelTitle}>{messages.catalog.filters}</h2>
+        {activeFilters > 0 ? (
+          <span className={styles.activeBadge}>{activeFilters}</span>
+        ) : null}
+      </header>
+
       {hideCategory ? null : (
         <fieldset className={styles.group}>
           <legend className={styles.legend}>{messages.catalog.categories}</legend>
@@ -100,55 +115,56 @@ export function ProductFilters({
         <legend className={styles.legend}>{messages.catalog.price}</legend>
         <p className={styles.priceSummary}>
           {messages.catalog.priceInterval(
-            formatMoney(query.minPriceOre ?? bounds.min, currency),
-            formatMoney(query.maxPriceOre ?? bounds.max, currency),
+            formatMoney(minPrice, currency),
+            formatMoney(maxPrice, currency),
           )}
         </p>
+        <div className={styles.priceTrack} aria-hidden="true">
+          <span className={styles.priceTrackBase} />
+          <span
+            className={styles.priceTrackFill}
+            style={{ left: `${rangeLeft}%`, width: `${rangeWidth}%` }}
+          />
+        </div>
         <div className={styles.rangeSliders}>
-          <label className={styles.rangeField}>
-            <span className={styles.fieldLabel}>{messages.catalog.priceFrom}</span>
-            <input
-              className={styles.slider}
-              type="range"
-              min={bounds.min}
-              max={bounds.max}
-              step={100}
-              value={query.minPriceOre ?? bounds.min}
-              onChange={(event) => {
-                const rawMin = Number(event.target.value);
-                const max = query.maxPriceOre ?? bounds.max;
-                const next = clampRange(rawMin, max);
-                onChange({
-                  ...query,
-                  minPriceOre: next.min,
-                  maxPriceOre: next.max,
-                  page: 1,
-                });
-              }}
-            />
-          </label>
-          <label className={styles.rangeField}>
-            <span className={styles.fieldLabel}>{messages.catalog.priceTo}</span>
-            <input
-              className={styles.slider}
-              type="range"
-              min={bounds.min}
-              max={bounds.max}
-              step={100}
-              value={query.maxPriceOre ?? bounds.max}
-              onChange={(event) => {
-                const rawMax = Number(event.target.value);
-                const min = query.minPriceOre ?? bounds.min;
-                const next = clampRange(min, rawMax);
-                onChange({
-                  ...query,
-                  minPriceOre: next.min,
-                  maxPriceOre: next.max,
-                  page: 1,
-                });
-              }}
-            />
-          </label>
+          <input
+            className={styles.slider}
+            type="range"
+            aria-label={messages.catalog.priceFrom}
+            min={bounds.min}
+            max={bounds.max}
+            step={100}
+            value={minPrice}
+            onChange={(event) => {
+              const rawMin = Number(event.target.value);
+              const next = clampRange(rawMin, maxPrice);
+              onChange({
+                ...query,
+                minPriceOre: next.min,
+                maxPriceOre: next.max,
+                page: 1,
+              });
+            }}
+          />
+          <input
+            className={styles.slider}
+            type="range"
+            aria-label={messages.catalog.priceTo}
+            min={bounds.min}
+            max={bounds.max}
+            step={100}
+            value={maxPrice}
+            onChange={(event) => {
+              const rawMax = Number(event.target.value);
+              const next = clampRange(minPrice, rawMax);
+              onChange({
+                ...query,
+                minPriceOre: next.min,
+                maxPriceOre: next.max,
+                page: 1,
+              });
+            }}
+          />
         </div>
         <div className={styles.rangeInputs}>
           <label className={styles.numberField}>
@@ -211,6 +227,7 @@ export function ProductFilters({
             {visibleColors.map((color) => (
               <ColorSwatch
                 key={color.id}
+                className={styles.filterSwatch}
                 label={color.label}
                 hex={color.hex}
                 selected={query.colors.includes(color.id)}
@@ -269,26 +286,29 @@ export function ProductFilters({
         </label>
       </fieldset>
 
-      <Button
-        className={styles.reset}
-        variant="ghost"
-        onClick={() =>
-          onChange({
-            ...query,
-            categoryId: undefined,
-            minPriceOre: undefined,
-            maxPriceOre: undefined,
-            colors: [],
-            materials: [],
-            isNew: undefined,
-            inStock: undefined,
-            query: undefined,
-            page: 1,
-          })
-        }
-      >
-        {messages.actions.resetFilters}
-      </Button>
+      <footer className={styles.panelFooter}>
+        <Button
+          className={styles.reset}
+          variant="ghost"
+          type="button"
+          onClick={() =>
+            onChange({
+              ...query,
+              categoryId: undefined,
+              minPriceOre: undefined,
+              maxPriceOre: undefined,
+              colors: [],
+              materials: [],
+              isNew: undefined,
+              inStock: undefined,
+              query: undefined,
+              page: 1,
+            })
+          }
+        >
+          {messages.actions.resetFilters}
+        </Button>
+      </footer>
     </form>
   );
 }

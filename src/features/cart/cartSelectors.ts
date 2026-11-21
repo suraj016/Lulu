@@ -1,6 +1,10 @@
 import { createSelector } from '@reduxjs/toolkit';
 import { getProductById } from '../../services/productService.ts';
 import type { Product, ProductVariant } from '../../types/product.ts';
+import {
+  getVariantInventory,
+  maxPurchasableQuantity,
+} from '../../utils/inventory.ts';
 import type { RootState } from '../../app/store.ts';
 import type { CartLine, CartState } from './cartSlice.ts';
 
@@ -42,10 +46,8 @@ export function resolveCartLine(line: CartLine): CartLineView {
   const maxQuantity =
     product && variant
       ? Math.max(
-          1,
-          variant.inventory.trackQuantity
-            ? Math.max(variant.inventory.availableQuantity, line.quantity)
-            : 99,
+          line.quantity,
+          maxPurchasableQuantity(getVariantInventory(product, variant)),
         )
       : Math.max(1, line.quantity);
 

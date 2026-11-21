@@ -2,27 +2,73 @@
   padding: 2rem 0 1.25rem;
 }
 
-.lede {
-  max-width: 40rem;
-  margin-top: 0.75rem;
-}
 
-.materialsBody {
-  margin: 0.85rem 0 1.2rem;
-}
 
-.banner {
+.shopHero {
+  position: relative;
   overflow: hidden;
-  border-radius: 1.25rem 3rem 1.25rem 2.5rem;
-  background: var(--color-sage);
-  aspect-ratio: 16 / 6;
-  margin: 1.25rem 0 1.5rem;
+  min-height: clamp(13.5rem, 34vw, 19.5rem);
+  margin: 0.35rem 0 1.5rem;
+  border-radius: 1.15rem 2.75rem 1.15rem 2.25rem;
+  border: 1px solid color-mix(in srgb, var(--color-forest) 8%, var(--color-divider));
+  background: var(--color-surface);
+  box-shadow:
+    var(--shadow-card),
+    0 22px 48px -40px color-mix(in srgb, var(--color-forest) 50%, transparent);
 }
 
-.banner img {
+.shopHero::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(
+    95deg,
+    color-mix(in srgb, var(--color-surface) 96%, white) 0%,
+    color-mix(in srgb, var(--color-surface) 88%, white) 36%,
+    color-mix(in srgb, var(--color-cream) 55%, transparent) 50%,
+    transparent 62%
+  );
+}
+
+.shopHeroImage {
+  position: absolute;
+  inset: 0;
   width: 100%;
   height: 100%;
   object-fit: cover;
+  object-position: 78% center;
+}
+
+.shopHeroPanel {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  gap: 0.55rem;
+  align-content: center;
+  width: min(100%, 34rem);
+  min-height: inherit;
+  padding: clamp(1.35rem, 3.5vw, 2.35rem) clamp(1.25rem, 4vw, 2.5rem);
+}
+
+.shopHeroTitle {
+  margin: 0.15rem 0 0;
+  font-family: var(--font-sans);
+  font-size: clamp(2rem, 5vw, 3rem);
+  font-weight: 700;
+  line-height: 1.06;
+  letter-spacing: -0.03em;
+  color: var(--color-ink);
+}
+
+.shopHeroDa {
+  margin: 0.35rem 0 0;
+  max-width: 31rem;
+  font-size: clamp(0.98rem, 1.8vw, 1.08rem);
+  line-height: 1.58;
+  color: var(--color-ink);
+  text-wrap: pretty;
+  white-space: pre-line;
 }
 
 .layout {
@@ -51,39 +97,154 @@
   display: none;
 }
 
-.lowerBanner {
-  display: grid;
-  gap: 1.25rem;
-  align-items: center;
-  padding: 1.5rem 0 4rem;
+.shopLower {
+  position: relative;
+  overflow: hidden;
+  min-height: clamp(12.5rem, 30vw, 18rem);
+  margin: 0.5rem 0 4.5rem;
+  border-radius: 2.25rem 1.15rem 2.5rem 1.15rem;
+  border: 1px solid color-mix(in srgb, var(--color-forest) 8%, var(--color-divider));
+  background: var(--color-surface);
+  box-shadow:
+    var(--shadow-card),
+    0 22px 48px -40px color-mix(in srgb, var(--color-forest) 45%, transparent);
 }
 
-.lowerBanner img {
+.shopLower::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(
+    95deg,
+    color-mix(in srgb, var(--color-surface) 97%, white) 0%,
+    color-mix(in srgb, var(--color-surface) 90%, white) 40%,
+    color-mix(in srgb, var(--color-cream) 50%, transparent) 52%,
+    transparent 64%
+  );
+}
+
+.shopLowerImage {
+  position: absolute;
+  inset: 0;
   width: 100%;
   height: 100%;
   object-fit: cover;
-  border-radius: var(--radius-xl);
-  background: var(--color-sage);
-  aspect-ratio: 16 / 6;
+  object-position: 72% center;
+}
+
+.shopLowerPanel {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  gap: 0.65rem;
+  align-content: center;
+  width: min(100%, 36rem);
+  min-height: inherit;
+  padding: clamp(1.5rem, 3.5vw, 2.5rem) clamp(1.25rem, 4vw, 2.5rem);
+}
+
+.shopLowerTitle {
+  margin: 0;
+  font-family: var(--font-sans);
+  font-size: clamp(1.75rem, 4vw, 2.5rem);
+  font-weight: 700;
+  line-height: 1.12;
+  letter-spacing: -0.025em;
+  color: var(--color-ink);
+}
+
+.shopLowerBody {
+  margin: 0;
+  max-width: 30rem;
+  font-size: clamp(0.95rem, 1.7vw, 1.05rem);
+  line-height: 1.62;
+  color: var(--color-body);
+  text-wrap: pretty;
+  white-space: pre-line;
+}
+
+@media (max-width: 767px) {
+  .shopHero {
+    min-height: auto;
+    border-radius: var(--radius-xl);
+  }
+
+  .shopHeroImage {
+    position: relative;
+    aspect-ratio: 16 / 10;
+    object-position: 72% center;
+  }
+
+  .shopHero::after {
+    background: linear-gradient(
+      180deg,
+      color-mix(in srgb, var(--color-surface) 97%, white) 0%,
+      color-mix(in srgb, var(--color-surface) 92%, white) 42%,
+      transparent 58%
+    );
+  }
+
+  .shopHeroPanel {
+    margin-top: -2.5rem;
+    padding-top: 0;
+  }
+
+  .shopLower {
+    min-height: auto;
+    border-radius: var(--radius-xl);
+  }
+
+  .shopLowerImage {
+    position: relative;
+    aspect-ratio: 16 / 10;
+    object-position: 68% center;
+  }
+
+  .shopLower::after {
+    background: linear-gradient(
+      180deg,
+      color-mix(in srgb, var(--color-surface) 97%, white) 0%,
+      color-mix(in srgb, var(--color-surface) 92%, white) 44%,
+      transparent 58%
+    );
+  }
+
+  .shopLowerPanel {
+    margin-top: -2rem;
+    padding-top: 0;
+  }
 }
 
 @media (min-width: 960px) {
   .layout {
-    grid-template-columns: 17.5rem 1fr;
+    grid-template-columns: 19.25rem 1fr;
     gap: 2.25rem;
     padding-top: 2.5rem;
   }
 
   .desktopFilters {
     display: block;
+    position: sticky;
+    top: calc(var(--header-height) + 1rem);
+    align-self: start;
   }
 
   .mobileFilters {
     display: none;
   }
 
-  .lowerBanner {
-    grid-template-columns: 1.2fr 1fr;
-    padding-bottom: 5rem;
+  .shopHeroPanel {
+    width: min(48%, 38rem);
+    padding-right: 1rem;
+  }
+
+  .shopLowerPanel {
+    width: min(50%, 26rem);
+    padding-right: 1rem;
+  }
+
+  .shopLower {
+    margin-bottom: 5rem;
   }
 }

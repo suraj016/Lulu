@@ -1,4 +1,4 @@
-import { Gift, Globe, Leaf } from 'lucide-react';
+import { ArrowRight, Gift, Globe, Leaf } from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
 import { editorialAssets } from '../../assets/manifest.ts';
 import { TrustStrip } from '../../components/layout/TrustStrip.tsx';
@@ -103,26 +103,33 @@ export function HomePage() {
         </div>
       </section>
 
-      <section className="container">
-        <div className={styles.socks}>
-          <div>
-            <p className="eyebrow">Sokker</p>
-            <h2>{messages.home.socksTitle}</h2>
+      <section className={`container ${styles.socksSection}`}>
+        <div className={styles.socksBanner} aria-labelledby="home-socks-heading">
+          <SafeImage
+            className={styles.socksBannerImage}
+            src={editorialAssets.socksCampaign.src}
+            alt={editorialAssets.socksCampaign.alt}
+            width={editorialAssets.socksCampaign.width}
+            height={editorialAssets.socksCampaign.height}
+            loading="lazy"
+            sizes="(min-width: 960px) 90vw, 100vw"
+          />
+          <div className={styles.socksBannerPanel}>
+            <p className={styles.socksEyebrow}>{messages.home.socksEyebrow}</p>
+            <h2 className={styles.socksTitle} id="home-socks-heading">
+              <span className={styles.socksTitleLead}>{messages.home.socksTitleLead}</span>{' '}
+              <span className={styles.socksTitleRest}>{messages.home.socksTitleRest}</span>
+            </h2>
             <p className={styles.socksBody}>{messages.home.socksBody}</p>
-            <div className={styles.actions}>
-              <Button {...shopLink('/shop')}>{messages.actions.shopSocks}</Button>
-              <Button {...shopLink('/shop')} variant="secondary">
+            <div className={styles.socksActions}>
+              <Button {...shopLink('/shop/sokker')}>
+                {messages.actions.shopSocks}
+                <ArrowRight size={18} strokeWidth={2.1} aria-hidden="true" />
+              </Button>
+              <Button {...shopLink('/shop/sokker')} variant="secondary" className={styles.socksOutline}>
                 {messages.actions.seeAllSocks}
               </Button>
             </div>
-          </div>
-          <div className={styles.socksMedia}>
-            <SafeImage
-              src={editorialAssets.socksCampaign.src}
-              alt={editorialAssets.socksCampaign.alt}
-              width={editorialAssets.socksCampaign.width}
-              height={editorialAssets.socksCampaign.height}
-            />
           </div>
         </div>
       </section>
@@ -143,31 +150,34 @@ export function HomePage() {
         </div>
       </section>
 
-      <section className="container">
-        <div className={styles.benefits}>
-          <div className={styles.benefitsMedia}>
-            <SafeImage
-              src={editorialAssets.brandBenefits.src}
-              alt={editorialAssets.brandBenefits.alt}
-              width={editorialAssets.brandBenefits.width}
-              height={editorialAssets.brandBenefits.height}
-            />
-          </div>
-          <div className={styles.benefitsList}>
-            {homeBenefits.map((item) => {
-              const Icon = homeBenefitIcons[item.icon];
-              return (
-                <div key={item.id} className={styles.benefitItem}>
-                  <div className={styles.benefitIcon} aria-hidden="true">
-                    <Icon size={22} strokeWidth={1.75} />
-                  </div>
-                  <div className={styles.benefitCopy}>
-                    <h3 className={styles.benefitTitle}>{item.title}</h3>
-                    <p>{item.body}</p>
-                  </div>
-                </div>
-              );
-            })}
+      <section className={`container ${styles.benefitsSection}`}>
+        <div className={styles.benefitsBanner} aria-label={messages.home.benefitsTitle}>
+          <SafeImage
+            className={styles.benefitsBannerImage}
+            src={editorialAssets.brandBenefits.src}
+            alt={editorialAssets.brandBenefits.alt}
+            width={editorialAssets.brandBenefits.width}
+            height={editorialAssets.brandBenefits.height}
+            loading="lazy"
+            sizes="(min-width: 960px) 90vw, 100vw"
+          />
+          <div className={styles.benefitsBannerPanel}>
+            <ul className={styles.benefitsList}>
+              {homeBenefits.map((item) => {
+                const Icon = homeBenefitIcons[item.icon];
+                return (
+                  <li key={item.id} className={styles.benefitItem}>
+                    <div className={styles.benefitIcon} aria-hidden="true">
+                      <Icon size={22} strokeWidth={1.75} />
+                    </div>
+                    <div className={styles.benefitCopy}>
+                      <h3 className={styles.benefitTitle}>{item.title}</h3>
+                      <p>{item.body}</p>
+                    </div>
+                  </li>
+                );
+              })}
+            </ul>
           </div>
         </div>
       </section>

@@ -1,10 +1,11 @@
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { Breadcrumbs } from '../../components/layout/Breadcrumbs.tsx';
-import { TrustStrip } from '../../components/layout/TrustStrip.tsx';
+import { ProductHighlights } from '../../components/products/ProductHighlights.tsx';
 import { BundleSelector } from '../../components/products/BundleSelector.tsx';
 import { ProductGallery } from '../../components/products/ProductGallery.tsx';
 import { ProductPrice } from '../../components/products/ProductPrice.tsx';
+import priceStyles from '../../components/products/ProductPrice.module.css';
 import { Accordion } from '../../components/ui/Accordion.tsx';
 import { Badge } from '../../components/ui/Badge.tsx';
 import { Button } from '../../components/ui/Button.tsx';
@@ -25,10 +26,12 @@ import {
 import { UNMAPPED_CATEGORY_ID } from '../../types/product.ts';
 import {
   clampQuantity,
+  getVariantInventory,
   isVariantPurchasable,
   maxPurchasableQuantity,
 } from '../../utils/inventory.ts';
 import { pageTitle, usePageMeta } from '../../seo/usePageMeta.ts';
+import { formatVariantSize } from '../../utils/sizeLabel.ts';
 import styles from './ProductPage.module.css';
 
 export function ProductPage() {
@@ -37,13 +40,37 @@ export function ProductPage() {
   const dispatch = useAppDispatch();
   const cartBusy = useAppSelector((state) => state.cart.status === 'loading');
   const defaultVariant = product ? getDefaultVariant(product) : undefined;
-  const [variantId, setVariantId] = useState(defaultVariant?.id);
+  const [variantId, setVariantId] = useState(() => defaultVariant?.id);
   const [quantity, setQuantity] = useState(1);
 
   const variant = useMemo(
     () => product?.variants.find((item) => item.id === variantId) ?? defaultVariant,
     [product, variantId, defaultVariant],
   );
+
+  useEffect(() => {
+    if (!defaultVariant?.id) {
+      return;
+    }
+    setVariantId((current) => current ?? defaultVariant.id);
+  }, [defaultVariant?.id]);
+
+  const quantityMax = useMemo(() => {
+    if (!product) {
+      return 1;
+    }
+    const inventory = getVariantInventory(product, variant);
+    return Math.max(1, maxPurchasableQuantity(inventory));
+  }, [product, variant]);
+
+  useEffect(() => {
+    if (!product) {
+      return;
+    }
+    setQuantity((current) =>
+      clampQuantity(current, getVariantInventory(product, variant)),
+    );
+  }, [product, variant, quantityMax]);
 
   usePageMeta({
     title: pageTitle(product?.name ?? messages.notFound.title),
@@ -70,12 +97,15 @@ export function ProductPage() {
     : product.images;
   const images = gallery.length > 0 ? gallery : product.images;
   const purchasable = isVariantPurchasable(product, variant);
-  const max = variant
-    ? maxPurchasableQuantity(variant.inventory)
-    : maxPurchasableQuantity(product.inventory);
-  const quantityMax = Math.max(1, max);
-  const quantityValue = Math.min(Math.max(1, quantity), quantityMax);
   const complementary = getComplementaryProducts(product);
+  const selectedSizeLabel = variant?.size
+    ? formatVariantSize(variant.size, variant.label)
+    : '';
+
+  const changeQuantity = (next: number) => {
+    const inventory = getVariantInventory(product, variant);
+    setQuantity(clampQuantity(next, inventory));
+  };
   const colorVariants = product.variants.filter(
     (item) => item.colorHex && !item.size,
   );
@@ -102,7 +132,10 @@ export function ProductPage() {
     if (!variant || !purchasable || cartBusy) {
       return;
     }
-    const safeQuantity = clampQuantity(quantity, variant.inventory);
+    const safeQuantity = clampQuantity(
+      quantity,
+      getVariantInventory(product, variant),
+    );
     if (safeQuantity < 1) {
       return;
     }
@@ -150,35 +183,53 @@ export function ProductPage() {
         ]}
       />
       <div className={styles.layout}>
-        <ProductGallery key={variant?.id ?? product.id} images={images} />
+        <div className={styles.galleryCol}>
+          <ProductGallery key={variant?.id ?? product.id} images={images} />
+        </div>
         <div className={styles.summary}>
-          <div className={styles.badges}>
-            {product.isBestSeller ? (
-              <Badge>{messages.product.bestsellerBadge}</Badge>
+          <header className={styles.summaryHead}>
+            {product.isNew ? (
+              <div className={styles.badges}>
+                <Badge tone="soft">{messages.product.newBadge}</Badge>
+              </div>
             ) : null}
-            {product.isNew ? <Badge tone="soft">{messages.product.newBadge}</Badge> : null}
-          </div>
-          {product.ratingSummary ? (
-            <p className={styles.fixture}>
-              {product.ratingSummary.average.toLocaleString('da-DK')} / 5 ·{' '}
-              {product.ratingSummary.count} · {messages.product.fixtureRating}
-            </p>
+            {product.ratingSummary ? (
+              <p className={styles.fixture}>
+                {product.ratingSummary.average.toLocaleString('da-DK')} / 5 ·{' '}
+                {product.ratingSummary.count} · {messages.product.fixtureRating}
+              </p>
+            ) : null}
+            <h1>{product.name}</h1>
+            <ProductPrice
+              product={product}
+              variant={variant}
+              showSavings
+              className={priceStyles.pdp}
+            />
+          </header>
+          {product.shortDescription ? (
+            <p className={styles.lede}>{product.shortDescription}</p>
           ) : null}
-          <h1>{product.name}</h1>
-          <ProductPrice product={product} variant={variant} showSavings />
-          <p>{product.shortDescription}</p>
-          <p>
+          <p
+            className={
+              purchasable ? `${styles.stockMeta} ${styles.inStock}` : styles.stockMeta
+            }
+          >
             {purchasable ? messages.product.inStock : messages.product.outOfStock}
-            {variant?.sku ? ` · ${messages.product.sku} ${variant.sku}` : ''}
           </p>
 
+          <div className={styles.buyBox}>
           {colorVariants.length > 0 ? (
-            <div>
-              <p>
+            <div className={styles.optionGroup}>
+              <p className={styles.optionLabel} id={`${product.id}-color-label`}>
                 {messages.product.chooseColor}
                 {variant?.colorName ? `: ${variant.colorName}` : ''}
               </p>
-              <div className={styles.swatches}>
+              <div
+                className={styles.swatches}
+                role="radiogroup"
+                aria-labelledby={`${product.id}-color-label`}
+              >
                 {colorVariants.map((item) => (
                   <ColorSwatch
                     key={item.id}
@@ -197,55 +248,84 @@ export function ProductPage() {
           ) : null}
 
           {sizeVariants.length > 0 ? (
-            <label>
-              {messages.product.chooseSize}
-              <select
-                value={variant?.id}
-                onChange={(event) => {
-                  setVariantId(event.target.value);
-                  setQuantity(1);
-                }}
-                className={`control ${styles.sizeSelect}`}
+            <div className={styles.optionGroup}>
+              <p className={styles.optionLabel} id={`${product.id}-size-label`}>
+                {messages.product.chooseSize}
+                {selectedSizeLabel ? `: ${selectedSizeLabel}` : ''}
+              </p>
+              <div
+                className={styles.optionList}
+                role="radiogroup"
+                aria-labelledby={`${product.id}-size-label`}
               >
-                {sizeVariants.map((item) => (
-                  <option
-                    key={item.id}
-                    value={item.id}
-                    disabled={!item.isAvailable}
-                  >
-                    {item.size}
-                  </option>
-                ))}
-              </select>
-            </label>
+                {sizeVariants.map((item) => {
+                  const selected = item.id === variant?.id;
+                  return (
+                    <button
+                      key={item.id}
+                      type="button"
+                      role="radio"
+                      className={`${styles.optionButton} ${styles.sizeOption}`}
+                      aria-checked={selected}
+                      aria-label={
+                        item.isAvailable
+                          ? (item.size ?? item.label)
+                          : `${item.size ?? item.label}, ${messages.product.outOfStock}`
+                      }
+                      data-selected={selected ? 'true' : 'false'}
+                      disabled={!item.isAvailable}
+                      onClick={() => {
+                        setVariantId(item.id);
+                        setQuantity(1);
+                      }}
+                    >
+                      {formatVariantSize(item.size, item.label)}
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
           ) : null}
 
-          <div>
-            <p>{messages.product.quantity}</p>
-            <QuantitySelector
-              value={quantityValue}
-              max={quantityMax}
-              onChange={setQuantity}
-            />
-            {quantityValue >= max && max > 0 ? (
+            <div className={styles.quantityRow}>
+              <div className={styles.optionGroup}>
+                <p className={styles.optionLabel}>{messages.product.quantity}</p>
+                <QuantitySelector
+                  value={quantity}
+                  max={quantityMax}
+                  onChange={changeQuantity}
+                  className={styles.quantityWide}
+                />
+              </div>
+            </div>
+            {quantity >= quantityMax && quantityMax > 1 ? (
               <p className={styles.fixture}>{messages.product.quantityLimit}</p>
             ) : null}
-          </div>
 
-          <div className={styles.actions}>
-            <Button onClick={addToCart} disabled={!purchasable || cartBusy} fullWidth>
-              {messages.actions.addToCart}
-            </Button>
-            <div className={styles.wishlistRow}>
-              <WishlistButton productId={product.id} />
-              <span>{messages.nav.wishlist}</span>
+            <div className={styles.actions}>
+              <Button
+                className={styles.cartButton}
+                onClick={addToCart}
+                disabled={!purchasable || cartBusy}
+                fullWidth
+              >
+                {messages.actions.addToCart}
+              </Button>
+              <div className={styles.wishlistRow}>
+                <WishlistButton
+                  productId={product.id}
+                  className={styles.wishlistInline}
+                />
+                <span>{messages.nav.wishlist}</span>
+              </div>
             </div>
           </div>
-          <div className={styles.benefits}>
-            <TrustStrip variant="product" />
-          </div>
+
+          <ProductHighlights />
           {accordionItems.length > 0 ? (
-            <Accordion items={accordionItems} />
+            <div className={styles.details}>
+              <Accordion items={accordionItems} />
+            </div>
           ) : null}
         </div>
       </div>

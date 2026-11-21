@@ -10,6 +10,7 @@ type QuantitySelectorProps = {
   onChange: (value: number) => void;
   id?: string;
   ariaLabelledBy?: string;
+  className?: string;
 };
 
 export function QuantitySelector({
@@ -20,10 +21,14 @@ export function QuantitySelector({
   onChange,
   id,
   ariaLabelledBy,
+  className,
 }: QuantitySelectorProps) {
+  const current = normalizeQuantity(value, min);
+  const limit = normalizeQuantity(max, min);
+
   return (
     <div
-      className={styles.wrap}
+      className={[styles.wrap, className].filter(Boolean).join(' ')}
       role="group"
       aria-labelledby={ariaLabelledBy}
       aria-label={ariaLabelledBy ? undefined : messages.product.quantity}
@@ -32,24 +37,38 @@ export function QuantitySelector({
         className={styles.button}
         type="button"
         aria-label={messages.product.decreaseQuantity}
-        disabled={disabled || value <= min}
-        onClick={() => onChange(Math.max(min, value - 1))}
+        disabled={disabled || current <= min}
+        onClick={(event) => {
+          event.stopPropagation();
+          onChange(Math.max(min, current - 1));
+        }}
       >
         <Minus size={16} />
       </button>
       <span className={styles.value} id={id} aria-live="polite">
         <span className="visually-hidden">{messages.product.quantity}: </span>
-        {value}
+        {current}
       </span>
       <button
         className={styles.button}
         type="button"
         aria-label={messages.product.increaseQuantity}
-        disabled={disabled || value >= max}
-        onClick={() => onChange(Math.min(max, value + 1))}
+        disabled={disabled || current >= limit}
+        onClick={(event) => {
+          event.stopPropagation();
+          onChange(Math.min(limit, current + 1));
+        }}
       >
         <Plus size={16} />
       </button>
     </div>
   );
+}
+
+function normalizeQuantity(value: number, min: number): number {
+  const parsed = Number(value);
+  if (!Number.isFinite(parsed)) {
+    return min;
+  }
+  return Math.max(min, Math.floor(parsed));
 }

@@ -111,8 +111,11 @@ export function ContactPage() {
         <SafeImage
           src={editorialAssets.contactHero.src}
           alt={editorialAssets.contactHero.alt}
+          width={editorialAssets.contactHero.width}
+          height={editorialAssets.contactHero.height}
           loading="eager"
           fetchPriority="high"
+          sizes="(min-width: 960px) 44vw, 100vw"
         />
       </div>
     </div>

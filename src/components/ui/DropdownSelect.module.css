@@ -1,0 +1,129 @@
+.root {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  max-width: 100%;
+}
+
+.alignEnd .menu {
+  right: 0;
+  left: auto;
+}
+
+.alignStart .menu {
+  left: 0;
+  right: auto;
+}
+
+.trigger {
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.65rem;
+  min-height: 2.75rem;
+  width: 100%;
+  max-width: 100%;
+  padding: 0.5rem 0.95rem 0.5rem 1.1rem;
+  border-radius: var(--radius-pill);
+  border: 1.5px solid color-mix(in srgb, var(--color-forest) 18%, var(--color-divider));
+  background: var(--color-surface);
+  color: var(--color-ink);
+  font-size: 0.92rem;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: var(--shadow-card);
+  transition:
+    border-color var(--duration-fast) var(--ease),
+    box-shadow var(--duration-fast) var(--ease),
+    background-color var(--duration-fast) var(--ease);
+}
+
+.trigger:hover {
+  border-color: color-mix(in srgb, var(--color-forest) 32%, var(--color-divider));
+  background: color-mix(in srgb, var(--color-surface) 92%, var(--color-cream));
+}
+
+.trigger:focus-visible {
+  outline: 2px solid var(--color-focus);
+  outline-offset: 2px;
+}
+
+.triggerLabel {
+  text-align: left;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.chevron {
+  flex-shrink: 0;
+  color: var(--color-forest);
+  transition: transform 280ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.chevronOpen {
+  transform: rotate(180deg);
+}
+
+.menu {
+  position: absolute;
+  top: calc(100% + 0.45rem);
+  z-index: 30;
+  min-width: 100%;
+  width: max(100%, 13.5rem);
+  max-width: min(20rem, 92vw);
+  margin: 0;
+  padding: 0.35rem;
+  list-style: none;
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--color-divider);
+  background: var(--color-white);
+  box-shadow:
+    var(--shadow-card),
+    0 16px 36px -24px color-mix(in srgb, var(--color-forest) 55%, transparent);
+}
+
+.option,
+.optionActive {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  min-height: 2.5rem;
+  padding: 0.45rem 0.75rem;
+  border: 0;
+  border-radius: var(--radius-md);
+  background: transparent;
+  color: var(--color-ink);
+  font-size: 0.9rem;
+  font-weight: 500;
+  text-align: left;
+  cursor: pointer;
+  transition: background-color var(--duration-fast) var(--ease);
+}
+
+.option:hover:not(:disabled) {
+  background: color-mix(in srgb, var(--color-sage) 55%, var(--color-cream));
+}
+
+.optionActive {
+  font-weight: 650;
+  color: var(--color-forest);
+  background: color-mix(in srgb, var(--color-sage) 70%, var(--color-cream));
+}
+
+.option:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.option:focus-visible,
+.optionActive:focus-visible {
+  outline: 2px solid var(--color-focus);
+  outline-offset: -2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .chevron {
+    transition: none;
+  }
+}

@@ -67,21 +67,16 @@ export function Footer() {
           </div>
 
           <nav className={styles.nav} aria-label="Sidefod">
-            {footerPrimaryLinks.map((item, index) => (
-              <Fragment key={item.id}>
-                {index > 0 ? (
-                  <span className={styles.sep} aria-hidden="true">
-                    |
-                  </span>
-                ) : null}
-                <Link
-                  to={item.to}
-                  onPointerEnter={() => prefetchPath(item.to)}
-                  onFocus={() => prefetchPath(item.to)}
-                >
-                  {item.label}
-                </Link>
-              </Fragment>
+            {footerPrimaryLinks.map((item) => (
+              <Link
+                key={item.id}
+                className={styles.navLink}
+                to={item.to}
+                onPointerEnter={() => prefetchPath(item.to)}
+                onFocus={() => prefetchPath(item.to)}
+              >
+                {item.label}
+              </Link>
             ))}
           </nav>
 

@@ -13,19 +13,19 @@ export const homeTrustItems = [
     id: 'materials',
     label: messages.trust.materials,
     detail: messages.trust.materialsDetail,
-    icon: 'leaf',
+    icon: 'sprout',
   },
   {
     id: 'designs',
     label: messages.trust.designs,
     detail: messages.trust.designsDetail,
-    icon: 'heart',
+    icon: 'palette',
   },
   {
     id: 'delivery',
     label: messages.trust.delivery,
     detail: messages.trust.deliveryDetail,
-    icon: 'truck',
+    icon: 'package',
   },
   {
     id: 'danish',
@@ -43,10 +43,10 @@ export const productBenefitItems = [
 ] as const;
 
 export const aboutValues = [
-  { id: 'production', label: messages.about.values.production, icon: 'pin' },
-  { id: 'designs', label: messages.about.values.designs, icon: 'spark' },
-  { id: 'care', label: messages.about.values.care, icon: 'leaf' },
-  { id: 'details', label: messages.about.values.details, icon: 'dot' },
+  { id: 'production', label: messages.about.values.production, icon: 'flag' },
+  { id: 'designs', label: messages.about.values.designs, icon: 'graphicDesign' },
+  { id: 'care', label: messages.about.values.care, icon: 'flowers' },
+  { id: 'details', label: messages.about.values.details, icon: 'tracking' },
 ] as const;
 
 export const processSteps = [

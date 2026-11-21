@@ -263,7 +263,7 @@ export function mapShopifyCart(payload: ShopifyCartPayload): MappedCart {
         id: node.id,
         productId: node.merchandise.product.id,
         variantId: node.merchandise.id,
-        quantity: node.quantity,
+        quantity: Number(node.quantity),
         unitAmount: moneyToMinorUnits(node.cost.amountPerQuantity) ?? 0,
         lineAmount: moneyToMinorUnits(node.cost.totalAmount) ?? 0,
         currency: toCurrencyCode(node.cost.totalAmount.currencyCode),

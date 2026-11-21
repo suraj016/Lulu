@@ -1,135 +1,244 @@
 .panel {
   display: grid;
-  gap: 1.35rem;
-  padding: 1.35rem 1.25rem;
-  background: var(--color-white);
-  border: 1px solid var(--color-divider);
-  border-radius: var(--radius-xl);
-  box-shadow: var(--shadow-soft);
+  gap: 0;
+  padding: 0;
+  background: linear-gradient(
+    165deg,
+    color-mix(in srgb, var(--color-white) 92%, var(--color-cream)) 0%,
+    color-mix(in srgb, var(--color-surface) 96%, white) 100%
+  );
+  border: 1px solid color-mix(in srgb, var(--color-forest) 10%, var(--color-divider));
+  border-radius: 1.1rem;
+  box-shadow:
+    var(--shadow-card),
+    0 14px 32px -30px color-mix(in srgb, var(--color-forest) 40%, transparent);
+  overflow: hidden;
+}
+
+.panelHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  padding: 0.75rem 1rem 0.7rem;
+  border-bottom: 1px solid color-mix(in srgb, var(--color-divider) 92%, transparent);
+  background: color-mix(in srgb, var(--color-white) 80%, var(--color-cream));
+}
+
+.panelTitle {
+  margin: 0;
+  font-family: var(--font-sans);
+  font-size: 1.05rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--color-ink);
+}
+
+.activeBadge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 1.45rem;
+  height: 1.45rem;
+  padding: 0 0.35rem;
+  border-radius: var(--radius-pill);
+  background: var(--color-forest);
+  color: var(--color-white);
+  font-size: 0.68rem;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
 }
 
 .group {
   display: grid;
-  gap: 0.55rem;
+  gap: 0.35rem;
   margin: 0;
-  padding: 0 0 1.1rem;
+  padding: 0.75rem 1rem 0.8rem;
   border: 0;
-  border-bottom: 1px solid rgb(229 222 212 / 0.9);
+  border-bottom: 1px solid color-mix(in srgb, var(--color-divider) 90%, transparent);
 }
 
 .group:last-of-type {
-  padding-bottom: 0;
   border-bottom: 0;
+  padding-bottom: 0.65rem;
 }
 
 .legend {
-  margin: 0 0 0.25rem;
+  margin: 0 0 0.1rem;
   padding: 0;
-  font-size: 0.78rem;
+  font-size: 0.625rem;
   font-weight: 700;
-  letter-spacing: 0.06em;
+  letter-spacing: 0.11em;
   text-transform: uppercase;
-  color: var(--color-forest);
+  color: color-mix(in srgb, var(--color-forest) 90%, var(--color-ink));
 }
 
 .option {
   display: flex;
   align-items: center;
-  gap: 0.65rem;
-  min-height: 2.65rem;
-  padding: 0.4rem 0.7rem;
+  gap: 0.55rem;
+  min-height: 2.15rem;
+  padding: 0.2rem 0.55rem;
   border-radius: var(--radius-md);
-  font-size: 0.9375rem;
+  font-size: 0.875rem;
+  line-height: 1.25;
   color: var(--color-ink);
   cursor: pointer;
-  transition: background-color var(--duration-fast) var(--ease);
+  border: 1px solid transparent;
+  transition:
+    background-color var(--duration-fast) var(--ease),
+    border-color var(--duration-fast) var(--ease);
 }
 
 .option:hover {
-  background: rgb(229 231 218 / 0.45);
+  background: color-mix(in srgb, var(--color-sage) 55%, var(--color-white));
+  border-color: color-mix(in srgb, var(--color-forest) 8%, transparent);
 }
 
 .option:has(:checked) {
-  background: var(--color-sage);
-  font-weight: 600;
+  background: color-mix(in srgb, var(--color-sage) 75%, var(--color-white));
+  border-color: color-mix(in srgb, var(--color-forest) 18%, var(--color-divider));
+  font-weight: 650;
 }
 
 .option input {
-  width: 1.05rem;
-  height: 1.05rem;
+  appearance: none;
+  width: 1rem;
+  height: 1rem;
   margin: 0;
   flex-shrink: 0;
-  accent-color: var(--color-forest);
+  border: 1.5px solid color-mix(in srgb, var(--color-forest) 35%, var(--color-divider));
+  background: var(--color-white);
   cursor: pointer;
+  transition:
+    background-color var(--duration-fast) var(--ease),
+    border-color var(--duration-fast) var(--ease);
+}
+
+.option input[type='radio'] {
+  border-radius: 50%;
+}
+
+.option input[type='checkbox'] {
+  border-radius: 0.25rem;
+}
+
+.option input:checked {
+  border-color: var(--color-forest);
+  background: var(--color-forest);
+  box-shadow: inset 0 0 0 2px var(--color-white);
+}
+
+.option input:focus-visible {
+  outline: 2px solid var(--color-focus);
+  outline-offset: 2px;
 }
 
 .priceSummary {
   margin: 0;
   display: inline-flex;
   width: fit-content;
-  padding: 0.4rem 0.85rem;
+  padding: 0.28rem 0.65rem;
   border-radius: var(--radius-pill);
-  background: var(--color-cream);
-  border: 1px solid rgb(229 222 212 / 0.85);
-  font-size: 0.875rem;
-  font-weight: 650;
+  background: var(--color-white);
+  border: 1px solid color-mix(in srgb, var(--color-forest) 12%, var(--color-divider));
+  font-size: 0.8125rem;
+  font-weight: 700;
   color: var(--color-ink);
   font-variant-numeric: tabular-nums;
 }
 
+.priceTrack {
+  position: relative;
+  height: 0.35rem;
+  margin-top: 0.25rem;
+  border-radius: var(--radius-pill);
+}
+
+.priceTrackBase {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: color-mix(in srgb, var(--color-divider) 85%, var(--color-cream));
+}
+
+.priceTrackFill {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  border-radius: inherit;
+  background: var(--color-forest);
+}
+
 .rangeSliders {
+  position: relative;
   display: grid;
-  gap: 0.85rem;
-  margin-top: 0.15rem;
-}
-
-.rangeField {
-  display: grid;
-  gap: 0.4rem;
-}
-
-.fieldLabel {
-  font-size: 0.8125rem;
-  font-weight: 600;
-  color: var(--color-body);
+  gap: 0;
+  height: 1.35rem;
+  margin-top: 0.05rem;
 }
 
 .slider {
+  position: absolute;
+  left: 0;
+  right: 0;
   width: 100%;
-  height: 0.4rem;
-  margin: 0.35rem 0 0.15rem;
-  border-radius: var(--radius-pill);
+  height: 1.35rem;
+  margin: 0;
+  background: transparent;
   accent-color: var(--color-forest);
   cursor: pointer;
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+.slider:first-of-type {
+  z-index: 2;
+}
+
+.slider:last-of-type {
+  z-index: 3;
 }
 
 .slider:focus-visible {
+  outline: none;
+}
+
+.slider:focus-visible::-webkit-slider-thumb {
   outline: 2px solid var(--color-focus);
-  outline-offset: 4px;
+  outline-offset: 2px;
 }
 
 .rangeInputs {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 0.65rem;
-  margin-top: 0.15rem;
+  gap: 0.45rem;
+  margin-top: 0.2rem;
 }
 
 .numberField {
   display: grid;
-  gap: 0.35rem;
+  gap: 0.2rem;
   min-width: 0;
+}
+
+.fieldLabel {
+  font-size: 0.625rem;
+  font-weight: 650;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--color-muted);
 }
 
 .numberInput {
   width: 100%;
-  min-height: 2.65rem;
-  padding: 0.5rem 0.75rem;
-  border: 1px solid var(--color-divider);
+  min-height: 2.25rem;
+  padding: 0.35rem 0.65rem;
+  border: 1.5px solid var(--color-divider);
   border-radius: var(--radius-md);
-  background: var(--color-surface);
-  font-size: 0.9375rem;
-  font-weight: 600;
+  background: var(--color-white);
+  font-size: 0.875rem;
+  font-weight: 700;
   font-variant-numeric: tabular-nums;
   color: var(--color-ink);
   transition:
@@ -138,27 +247,51 @@
 }
 
 .numberInput:hover {
-  border-color: rgb(45 90 67 / 0.28);
+  border-color: rgb(45 90 67 / 0.35);
 }
 
 .numberInput:focus-visible {
   outline: none;
   border-color: var(--color-forest);
-  box-shadow: 0 0 0 3px rgb(45 90 67 / 0.14);
+  box-shadow: 0 0 0 2px rgb(45 90 67 / 0.12);
 }
 
 .swatches {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.65rem;
-  padding-top: 0.15rem;
+  gap: 0.45rem;
+  padding: 0.05rem 0;
+}
+
+.filterSwatch {
+  width: 1.65rem;
+  height: 1.65rem;
+}
+
+.filterSwatch[data-selected='true'] {
+  outline-offset: 2px;
+}
+
+.panelFooter {
+  padding: 0.45rem 1rem 0.75rem;
+  border-top: 1px solid color-mix(in srgb, var(--color-divider) 88%, transparent);
+  background: color-mix(in srgb, var(--color-cream) 22%, var(--color-white));
 }
 
 .reset {
   width: 100%;
   justify-content: center;
-  margin-top: 0.15rem;
-  min-height: 2.75rem;
-  border: 1px dashed var(--color-divider);
+  min-height: 2.35rem;
+  padding-block: 0.45rem;
+  border: 1.5px dashed color-mix(in srgb, var(--color-forest) 22%, var(--color-divider));
   border-radius: var(--radius-md);
+  font-size: 0.875rem;
+  font-weight: 650;
+  color: var(--color-forest);
+  background: var(--color-white);
+}
+
+.reset:hover {
+  background: color-mix(in srgb, var(--color-sage) 50%, var(--color-white));
+  border-style: solid;
 }

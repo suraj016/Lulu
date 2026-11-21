@@ -6,6 +6,7 @@ type ColorSwatchProps = {
   selected?: boolean;
   disabled?: boolean;
   onSelect: () => void;
+  className?: string;
 };
 
 export function ColorSwatch({
@@ -14,10 +15,11 @@ export function ColorSwatch({
   selected,
   disabled,
   onSelect,
+  className,
 }: ColorSwatchProps) {
   return (
     <button
-      className={styles.swatch}
+      className={[styles.swatch, className].filter(Boolean).join(' ')}
       type="button"
       aria-label={label}
       aria-pressed={selected}

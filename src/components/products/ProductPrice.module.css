@@ -1,13 +1,39 @@
 .wrap {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: baseline;
-  gap: 0.2rem 0.55rem;
+  display: block;
 }
 
-.savings {
-  flex-basis: 100%;
-  margin: 0.15rem 0 0;
-  font-size: var(--fs-caption);
-  color: var(--color-muted);
+.priceRow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.45rem 0.65rem;
+}
+
+.savingsPill {
+  display: inline-flex;
+  align-items: center;
+  min-height: 1.65rem;
+  padding: 0.15rem 0.65rem;
+  border-radius: var(--radius-pill);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  color: var(--color-sale);
+  background: #f3e0d6;
+}
+
+.pdp .priceRow :global(.price) {
+  font-size: clamp(1.35rem, 2.4vw, 1.55rem);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+.pdp .priceRow :global(.price--compare) {
+  font-size: 1.05rem;
+  font-weight: 500;
+}
+
+.pdp .priceRow {
+  gap: 0.5rem 0.75rem;
+  align-items: baseline;
 }
