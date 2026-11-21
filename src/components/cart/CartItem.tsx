@@ -1,3 +1,4 @@
+import { Trash2 } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { messages } from '../../data/messages.ts';
 import type { CartLineView } from '../../features/cart/cartSelectors.ts';
@@ -36,8 +37,15 @@ export function CartItem({ view }: { view: CartLineView }) {
         <SafeImage src="/placeholders/products/fallback.svg" alt="" width={80} height={80} />
         <div>
           <p>{messages.imageMissing}</p>
-          <button type="button" className={styles.remove} onClick={remove} disabled={busy}>
-            {messages.actions.remove}
+          <button
+            type="button"
+            className={styles.removeBtn}
+            onClick={remove}
+            disabled={busy}
+            aria-label={messages.cart.removeLine}
+          >
+            <Trash2 size={15} strokeWidth={1.85} aria-hidden="true" />
+            <span className={styles.removeLabel}>{messages.actions.removeFromCart}</span>
           </button>
         </div>
       </article>
@@ -58,8 +66,15 @@ export function CartItem({ view }: { view: CartLineView }) {
           <Link className={styles.name} to={`/product/${product.slug}`}>
             {product.name}
           </Link>
-          <button type="button" className={styles.remove} onClick={remove} disabled={busy}>
-            {messages.actions.remove}
+          <button
+            type="button"
+            className={styles.removeBtn}
+            onClick={remove}
+            disabled={busy}
+            aria-label={messages.cart.removeLine}
+          >
+            <Trash2 size={15} strokeWidth={1.85} aria-hidden="true" />
+            <span className={styles.removeLabel}>{messages.actions.removeFromCart}</span>
           </button>
         </div>
         <p>{variant?.label}</p>

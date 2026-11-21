@@ -41,6 +41,7 @@ export const messages = {
     continueShopping: 'Fortsæt med at handle',
     checkout: 'Gå til kasse',
     remove: 'Fjern',
+    removeFromCart: 'Fjern vare',
     resetFilters: 'Nulstil filtre',
     openFilters: 'Filtre',
     closeFilters: 'Luk filtre',
@@ -132,6 +133,7 @@ export const messages = {
     shippingPlaceholder: 'Beregnes ved kassen',
     total: 'I alt',
     lineTotal: 'Linjetotal',
+    removeLine: 'Fjern vare fra kurven',
     unitPrice: 'Stykpris',
     prototypeNote:
       'Priser og lager bekræftes af Shopify. Du betaler via Shopifys kasse.',

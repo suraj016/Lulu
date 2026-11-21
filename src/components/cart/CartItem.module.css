@@ -38,26 +38,37 @@
   color: var(--color-forest);
 }
 
-.remove {
+.removeBtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.3rem;
   flex-shrink: 0;
-  min-height: 2.25rem;
-  padding: 0.15rem 0.35rem;
+  min-width: max-content;
+  min-height: 2rem;
+  margin: 0;
+  padding: 0.2rem 0.15rem 0.2rem 0.35rem;
   border: 0;
   background: transparent;
   color: var(--color-muted);
   font-size: 0.8125rem;
   font-weight: 600;
-  text-decoration: underline;
-  text-underline-offset: 0.2em;
+  line-height: 1.2;
   white-space: nowrap;
   cursor: pointer;
+  overflow: visible;
 }
 
-.remove:hover:not(:disabled) {
+.removeLabel {
+  text-decoration: underline;
+  text-underline-offset: 0.18em;
+}
+
+.removeBtn:hover:not(:disabled) {
   color: var(--color-error);
 }
 
-.remove:disabled {
+.removeBtn:disabled {
   cursor: not-allowed;
   opacity: 0.6;
 }
